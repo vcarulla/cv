@@ -329,15 +329,15 @@ export function htmlContact(host) {
   <div class="box">
     <div class="box-title">contact</div>
     <div class="box-body">
-      <div class="row">
+      <div class="row" style="padding-left:0">
         <span class="cyan left">Email</span>
         <span class="right">${esc(ct.email || "-")}</span>
       </div>
-      <div class="row">
+      <div class="row" style="padding-left:0">
         <span class="cyan left">LinkedIn</span>
         <a class="purple right" href="${esc(ct.linkedin)}" target="_blank">${esc(compactUrl(ct.linkedin))}</a>
       </div>
-      <div class="row">
+      <div class="row" style="padding-left:0">
         <span class="cyan left">GitHub</span>
         <a class="purple right" href="${esc(ct.github)}" target="_blank">${esc(compactUrl(ct.github))}</a>
       </div>
