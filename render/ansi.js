@@ -175,3 +175,27 @@ export function renderContact() {
     cols(c.cyan("GitHub"), ct.github || "-"),
   ], W) + "\n";
 }
+
+export function renderYsap() {
+  return box(c.pink("thanks"), [
+    "",
+    c.bold("This project was inspired by Dave Eddy's ysap.sh"),
+    "",
+    "Dave is a YouTube and Twitch streamer who created",
+    "\"You Suck at Programming\" - a brilliant series that teaches",
+    "programming through humor and real-world examples.",
+    "",
+    "His idea of delivering content via curl was the spark",
+    "that made this terminal-friendly CV possible.",
+    "",
+    c.cyan("Check out his work:"),
+    cols(`  ${c.green("$")} ${c.bold("curl ysap.sh")}`, c.dim("The original inspiration")),
+    cols(`  ${c.purple("twitch.tv/dave_eddy")}`, c.dim("Twitch channel")),
+    cols(`  ${c.purple("ysap.sh/youtube")}`, c.dim("YouTube channel")),
+    cols(`  ${c.purple("course.ysap.sh")}`, c.dim("Complete Bash Course")),
+    cols(`  ${c.purple("daveeddy.com")}`, c.dim("His personal site")),
+    "",
+    c.dim("Thanks Dave for showing us a better way to share our work!"),
+    ""
+  ], W) + "\n";
+}

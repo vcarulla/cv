@@ -55,6 +55,9 @@ export default {
       case "/healthz":
         return text("ok\n");
 
+      case "/ysap":
+        return text(render.renderYsap());
+
       default:
         return text("Not found\n", { status: 404 });
     }
