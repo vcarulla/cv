@@ -1,16 +1,13 @@
 {
-  "name": "curl-cv",
+  "name": "vcarulla-cv",
   "version": "1.0.0",
-  "description": "",
+  "description": "Curl-first CV powered by Cloudflare Workers",
   "type": "module",
   "scripts": {
-    "dev": "nodemon server.js",
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "express": "^5.2.1"
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "wrangler": "^4.62.0"
   }
 }

@@ -20,10 +20,12 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+.claude/
 
 # Build output
 dist/
 build/
+.wrangler/
 
 # Temp files
 temp-certs.txt
