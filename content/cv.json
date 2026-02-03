@@ -1,0 +1,124 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "lastUpdated": "2026-02-02"
+  },
+  "identity": {
+    "name": "Victor Carulla",
+    "title": "DevOps / SRE",
+    "location": "Buenos Aires, AR",
+    "tagline": "curl-first CV"
+  },
+  "contact": {
+    "email": "carulla.victor@gmail.com",
+    ***REMOVED***
+    "linkedin": "https://linkedin.com/in/vcarulla/",
+    "github": "https://github.com/vcarulla"
+  },
+  "summary": [
+    "DevOps / Site Reliability Engineer",
+    "Production systems · Kubernetes · CI/CD · Observability",
+    "",
+    "Focused on improving system reliability, deployment workflows and operational visibility.",
+    "Strong hands-on experience with CI/CD, containerized environments and production operations."
+  ],
+  "skills": {
+    "areas": [
+      "Containerized Systems",
+      "CI/CD Pipelines",
+      "Infrastructure",
+      "Automation",
+      "Monitoring & Observability",
+      "Messaging Systems",
+      "Secrets Management"
+    ]
+  },
+  "experience": [
+    {
+      "company": "BiBank",
+      "role": "DevOps Engineer | SRE",
+      "period": "Mar 2024 – Present",
+      "highlights": [
+        "Improved CI/CD pipelines, increasing traceability and operational safety.",
+        "Implemented monitoring and observability standards for production systems.",
+        "Strengthened Kubernetes operations and secrets management practices.",
+        "Enabled self-service access to deployment workflows and system insights, reducing operational dependency."
+      ],
+      "tech": ["Kubernetes", "Docker", "Jenkins", "GitLab", "Azure"]
+    },
+    {
+      "company": "Fpay",
+      "role": "DevOps | SRE",
+      "period": "Jan 2021 – Mar 2024",
+      "highlights": [
+        "Operated and supported production infrastructure and deployment pipelines.",
+        "Worked on CI/CD, monitoring, logging, and security practices.",
+        "Improved reliability and visibility across environments to support development teams."
+      ],
+      "tech": ["CI/CD", "Monitoring", "Logging", "Security"]
+    },
+    {
+      "company": "Technisys",
+      "role": "Backend Developer (Fpay)",
+      "period": "Sep 2019 – Jan 2021",
+      "highlights": [
+        "Backend development for a multi-country payment platform.",
+        "Integrated external services and messaging systems."
+      ],
+      "tech": ["Backend", "Integrations", "Messaging"]
+    },
+    {
+      "company": "Technisys",
+      "role": "Frontend Developer (Banco Itaú)",
+      "period": "Jul 2016 – Aug 2019",
+      "highlights": [
+        "Developed and maintained mobile banking applications.",
+        "Integrated with backend APIs in regulated environments."
+      ],
+      "tech": ["Mobile", "APIs", "Regulated envs"]
+    }
+  ],
+"education": [
+    {
+      "institution": "Educación IT",
+      "program": "Information Security Career",
+      "period": "2013 – 2014",
+      "details": "Career in system security, vulnerability mitigation and infrastructure protection."
+    }
+  ],
+  "certifications": [
+    {
+      "issuer": "UDEMY",
+      "title": "HELM – Package Manager for Kubernetes Complete Master Course",
+      "date": "Aug 2023",
+      "url": "http://ude.my/UC-f0e620a4-386c-4590-ac97-363ffeb8aa45"
+    },
+    {
+      "issuer": "UDEMY",
+      "title": "Pipelines, CI/CD and DevOps",
+      "date": "Aug 2022",
+      "url": "http://ude.my/UC-6b450b02-cd62-4f99-be7a-a124ee3af4a8"
+    },
+    {
+      "issuer": "UDEMY",
+      "title": "Kubernetes Certified Application Developer (CKAD)",
+      "date": "Oct 2020",
+      "url": "http://ude.my/UC-539fdf14-c751-4282-9679-34f9e012f26e"
+    },
+    {
+      "issuer": "IT College",
+      "title": "AWS Discovery Day",
+      "date": "Sep 2020",
+      "url": "https://tinyurl.com/awsdicovery"
+    },
+    {
+      "issuer": "CLA",
+      "title": "Introducción a Python",
+      "date": "Sep 2014"
+    }
+  ],
+  "languages": [
+    { "name": "Spanish", "level": "Native" },
+    { "name": "English", "level": "Basic Professional Proficiency" }
+  ]
+}

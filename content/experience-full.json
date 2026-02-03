@@ -1,0 +1,94 @@
+{
+  "experience": [
+    {
+      "company": "BiBank",
+      "role": "DevOps Engineer | SRE",
+      "period": "Mar 2024 – Present",
+      "highlights": [
+        "Improved CI/CD pipelines, increasing traceability and operational safety.",
+        "Implemented monitoring and observability standards for production systems.",
+        "Strengthened Kubernetes operations and secrets management practices.",
+        "Reduced operational dependency by enabling self-service access to deployment workflows and system insights."
+      ],
+      "environment": "Containerized workloads, CI/CD pipelines, observability tooling, secrets management and production Kubernetes operations."
+    },
+    {
+      "company": "Fpay",
+      "role": "DevOps | SRE",
+      "period": "Jan 2021 – Mar 2024",
+      "highlights": [
+        "Operated and supported production infrastructure and deployment pipelines.",
+        "Worked on CI/CD, monitoring, logging and security practices.",
+        "Supported development teams by improving reliability and visibility across environments."
+      ],
+      "environment": "Cloud infrastructure, container platforms, CI/CD automation, monitoring and logging systems, messaging services."
+    },
+    {
+      "company": "Technisys",
+      "role": "Backend Developer at Fpay",
+      "period": "Sep 2019 – Jan 2021",
+      "highlights": [
+        "Backend development for a multi-country payment platform.",
+        "Integration with external services and messaging systems.",
+        "Collaboration with infrastructure and operations teams on deployment and reliability aspects."
+      ],
+      "technologies": "Node.js, message brokers, relational and non-relational databases."
+    },
+    {
+      "company": "Technisys",
+      "role": "Frontend Developer at Banco Itaú",
+      "period": "Jul 2016 – Aug 2019",
+      "highlights": [
+        "Development and maintenance of mobile banking applications.",
+        "Integration with backend services and REST APIs.",
+        "Experience working in regulated and high-availability environments."
+      ],
+      "technologies": "Angular, Ionic, mobile development frameworks, RESTful APIs."
+    },
+    {
+      "company": "DoWhale",
+      "role": "Frontend Developer",
+      "period": "Oct 2014 – Jul 2016",
+      "highlights": [
+        "Development of responsive, public-facing web applications.",
+        "Integration with APIs and focus on performance and usability."
+      ],
+      "technologies": "JavaScript, HTML, CSS, responsive design, API integration."
+    },
+    {
+      "company": "Freelance",
+      "role": "System Consultant",
+      "period": "Aug 2007 – Oct 2014",
+      "highlights": [
+        "System administration and infrastructure support for small and medium companies.",
+        "Experience with servers, networking, virtualization and backups."
+      ],
+      "technologies": "Linux servers, Windows servers, networking equipment, virtualization platforms."
+    },
+    {
+      "company": "Sirius IT Solutions",
+      "role": "IT Store Owner",
+      "period": "Jul 2011 - Oct 2013",
+      "highlights": [
+        "Hardware sales and system configuration.",
+        "Technical support, network setup and ongoing monitoring."
+      ]
+    },
+    {
+      "company": "BullNet",
+      "role": "IT Employee",
+      "period": "Feb 2010 - Sep 2012",
+      "highlights": [
+        "Responsibilities included sales, customer support and systems configuration."
+      ]
+    },
+        {
+      "company": "Cybercafé Maniac",
+      "role": "General Employee",
+      "period": "Mar 2004 - Dec 2005",
+      "highlights": [
+        "Responsibilities included Customer support and network maintenance."
+      ]
+    }
+  ]
+}
