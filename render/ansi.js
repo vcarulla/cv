@@ -24,7 +24,7 @@ const entryHeader = (main, sub, date) =>
 // --- section renderers ---
 function renderHeader(cv) {
   const { identity: id = {}, contact: ct = {} } = cv;
-  const LEFT = 40, RIGHT = W - LEFT - 6;
+  const LEFT = 24, RIGHT = W - LEFT - 3;
 
   const rawBanner = banner().split("\n");
   const bannerW = Math.max(...rawBanner.map(l => stripAnsi(l).length));
@@ -40,7 +40,7 @@ function renderHeader(cv) {
     `${c.cyan("Email:")}    ${c.purple(ct.email || "-")}`,
   ];
 
-  return "\n" + sideBySide(bannerLines, LEFT, infoLines, RIGHT) + "\n\n";
+  return "\n" + sideBySide(bannerLines, LEFT, infoLines, RIGHT, 3) + "\n\n";
 }
 
 function renderJobs(jobs) {
@@ -167,8 +167,9 @@ export function renderExperience() {
 }
 
 export function renderContact() {
-  const ct = data.cv().contact || {};
-  return box(c.pink("contact"), [
+  const cv = data.cv();
+  const ct = cv.contact || {};
+  return renderHeader(cv) + box(c.pink("contact"), [
     cols(c.cyan("Email"), ct.email || "-"),
     cols(c.cyan("Phone"), ct.phone || "-"),
     cols(c.cyan("LinkedIn"), ct.linkedin || "-"),
@@ -177,7 +178,8 @@ export function renderContact() {
 }
 
 export function renderYsap() {
-  return box(c.pink("YOU SUCK AT PROGRAMMING"), [
+  const cv = data.cv();
+  return renderHeader(cv) + box(c.pink("YOU SUCK AT PROGRAMMING"), [
     "",
     `This project was inspired by Dave Eddy's ${c.yellow("ysap.sh")}`,
     "",

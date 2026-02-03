@@ -1,6 +1,6 @@
 import * as render from "../render/ansi.js";
 import * as data from "../render/data.js";
-import { htmlHome } from "../render/html.js";
+import { htmlHome, htmlSkills, htmlExperience, htmlContact, htmlYsap } from "../render/html.js";
 
 const isCli = (request) => {
   const ua = (request.headers.get("user-agent") || "").toLowerCase();
@@ -41,13 +41,19 @@ export default {
         return text(render.renderHelp({ host }));
 
       case "/skills":
-        return text(render.renderSkillsFull());
+        return isCli(request)
+          ? text(render.renderSkillsFull())
+          : html(htmlSkills(host));
 
       case "/experience":
-        return text(render.renderExperience());
+        return isCli(request)
+          ? text(render.renderExperience())
+          : html(htmlExperience(host));
 
       case "/contact":
-        return text(render.renderContact());
+        return isCli(request)
+          ? text(render.renderContact())
+          : html(htmlContact(host));
 
       case "/json":
         return json(data.cv(), isCli(request));
@@ -56,7 +62,9 @@ export default {
         return text("ok\n");
 
       case "/ysap":
-        return text(render.renderYsap());
+        return isCli(request)
+          ? text(render.renderYsap())
+          : html(htmlYsap(host));
 
       default:
         return text("Not found\n", { status: 404 });
