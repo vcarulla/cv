@@ -33,13 +33,46 @@ const BANNER = `██╗   ██╗  █████╗
  ╚████╔╝   █████╗
   ╚═══╝    ╚════╝`;
 
-function shell(title, body) {
+function personJsonLd(cv) {
+  const { identity: id = {}, contact: ct = {} } = cv;
+  return JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: id.name,
+    jobTitle: id.title,
+    url: "https://vcarulla.com",
+    address: { "@type": "PostalAddress", addressLocality: "Buenos Aires", addressCountry: "AR" },
+    sameAs: [ct.linkedin, ct.github].filter(Boolean),
+  });
+}
+
+function shell({ title, description, host, path = "/" }, body) {
+  const cv = data.cv();
+  const canonical = `https://${host}${path === "/" ? "" : path}`;
+  const desc = description || `${cv.identity.name} — ${cv.identity.title}. ${cv.identity.location}. curl-first CV.`;
+
   return `<!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>${esc(title)}</title>
+  <meta name="description" content="${esc(desc)}"/>
+  <link rel="canonical" href="${esc(canonical)}"/>
+  <meta name="theme-color" content="${D.bg}"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23282a36'/><text x='50' y='68' font-family='monospace' font-size='48' font-weight='bold' fill='%23bd93f9' text-anchor='middle'>VC</text></svg>"/>
+
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="${esc(title)}"/>
+  <meta property="og:description" content="${esc(desc)}"/>
+  <meta property="og:url" content="${esc(canonical)}"/>
+  <meta property="og:site_name" content="${esc(host)}"/>
+
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:title" content="${esc(title)}"/>
+  <meta name="twitter:description" content="${esc(desc)}"/>
+
+  <script type="application/ld+json">${personJsonLd(cv)}</script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -158,19 +191,22 @@ function renderJobsHtml(jobs) {
 }
 
 function legendHtml(host) {
+  const cv = data.cv();
+  const lg = cv.labels?.legend || {};
+  const s = cv.labels?.sections || {};
   const items = [
-    ["/", "Get main CV (ANSI)"],
-    ["/skills", "Full skills breakdown"],
-    ["/experience", "Work history"],
-    ["/contact", "Contact info"],
-    ["/json", "Machine-readable CV"],
+    ["/", lg["/"] || "Full CV"],
+    ["/skills", lg["/skills"] || "Tech stack"],
+    ["/experience", lg["/experience"] || "Career history"],
+    ["/contact", lg["/contact"] || "Get in touch"],
+    ["/json", lg["/json"] || "JSON output"],
   ];
   return `
   <div class="box">
-    <div class="box-title">legend</div>
+    <div class="box-title">${esc(s.legend || "$help")}</div>
     <div class="box-body">
       ${items.map(([path, desc]) => `
-      <div class="row">
+      <div class="row" style="padding-left:0">
         <a class="left" href="${path}" style="color:inherit">
           <span class="green">$</span> <span class="bold">curl ${esc(host)}${path === "/" ? "" : path}</span>
         </a>
@@ -182,20 +218,21 @@ function legendHtml(host) {
 
 export function htmlHome(host) {
   const cv = data.cv();
+  const s = cv.labels?.sections || {};
   const { experience = [] } = cv;
 
-  return shell(host, `
+  return shell({ title: `${cv.identity.name} — ${cv.identity.title}`, host, path: "/", description: "DevOps / SRE. Production systems, Kubernetes, CI/CD, Observability. curl-first CV." }, `
   ${renderHeaderHtml(cv)}
 
   <div class="box">
-    <div class="box-title">whoami</div>
+    <div class="box-title">${esc(s.whoami || "$whoami")}</div>
     <div class="box-body">
       ${(cv.summary || []).map(s => s === "" ? '<div class="spacer"></div>' : `<p>${esc(s)}</p>`).join("\n      ")}
     </div>
   </div>
 
   <div class="box">
-    <div class="box-title">skills</div>
+    <div class="box-title">${esc(s.skills || "$./skills")}</div>
     <div class="box-body">
       <p class="purple bold">AREAS</p>
       <p class="skills-list">${(cv.skills?.areas || []).map(esc).join(" · ")}</p>
@@ -208,14 +245,14 @@ export function htmlHome(host) {
   </div>
 
   <div class="box">
-    <div class="box-title">experience --latest</div>
+    <div class="box-title">${esc(s.experience || "$jobs")}</div>
     <div class="box-body">
       ${renderJobsHtml(experience)}
     </div>
   </div>
 
   <div class="box">
-    <div class="box-title">education</div>
+    <div class="box-title">${esc(s.education || "$cv | grep education")}</div>
     <div class="box-body">
       <p class="bold">EDUCATION</p>
       <div class="spacer"></div>
@@ -241,13 +278,14 @@ export function htmlHome(host) {
 
 export function htmlSkills(host) {
   const cv = data.cv();
+  const s = cv.labels?.sections || {};
   const skills = data.skillsFull();
 
-  return shell(`${host}/skills`, `
+  return shell({ title: `Skills — ${host}`, host, path: "/skills", description: "Full skills breakdown: containers, CI/CD, observability, infrastructure and more." }, `
   ${renderHeaderHtml(cv)}
 
   <div class="box">
-    <div class="box-title">skills</div>
+    <div class="box-title">${esc(s.skills || "$./skills")}</div>
     <div class="box-body">
       ${Object.entries(skills || {}).map(([section, items]) => `
       <p class="bold">${esc(section)}</p>
@@ -264,13 +302,14 @@ export function htmlSkills(host) {
 
 export function htmlExperience(host) {
   const cv = data.cv();
+  const s = cv.labels?.sections || {};
   const { experience = [] } = data.experienceFull();
 
-  return shell(`${host}/experience`, `
+  return shell({ title: `Experience — ${host}`, host, path: "/experience", description: "Full work history: DevOps, SRE, backend and frontend engineering." }, `
   ${renderHeaderHtml(cv)}
 
   <div class="box">
-    <div class="box-title">experience</div>
+    <div class="box-title">${esc(s.experience || "$jobs")}</div>
     <div class="box-body">
       ${renderJobsHtml(experience)}
     </div>
@@ -284,7 +323,7 @@ export function htmlContact(host) {
   const cv = data.cv();
   const ct = cv.contact || {};
 
-  return shell(`${host}/contact`, `
+  return shell({ title: `Contact — ${host}`, host, path: "/contact", description: "Get in touch: email, LinkedIn and GitHub." }, `
   ${renderHeaderHtml(cv)}
 
   <div class="box">
@@ -310,7 +349,7 @@ export function htmlContact(host) {
 }
 
 export function htmlYsap(host) {
-  return shell(`${host}/ysap`, `
+  return shell({ title: `You Suck at Programming — ${host}`, host, path: "/ysap", description: "Thanks to Dave Eddy and ysap.sh for inspiring this curl-first CV." }, `
   <div class="box">
     <div class="box-title">YOU SUCK AT PROGRAMMING</div>
     <div class="box-body">

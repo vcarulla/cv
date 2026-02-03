@@ -105,12 +105,14 @@ function renderSkillsCompact(cv) {
   ];
 }
 
-function legend(host) {
+function legend(host, labels) {
+  const lg = labels?.legend || {};
   const endpoints = [
-    ["", "Get main CV (ANSI)"],
-    ["/skills", "Full skills breakdown"],
-    ["/experience", "Work history"],
-    ["/json", "Machine-readable CV"],
+    ["", lg["/"] || "Full CV"],
+    ["/skills", lg["/skills"] || "Tech stack"],
+    ["/experience", lg["/experience"] || "Career history"],
+    ["/contact", lg["/contact"] || "Get in touch"],
+    ["/json", lg["/json"] || "JSON output"],
   ];
   return endpoints.map(([path, desc]) =>
     cols(`${c.green("$")} ${c.bold(`curl ${host}${path}`)}`, c.cyan(desc))
@@ -120,50 +122,55 @@ function legend(host) {
 // --- public renderers ---
 export function renderHome({ host }) {
   const cv = data.cv();
+  const s = cv.labels?.sections || {};
   const header = renderHeader(cv);
   const whoami = (cv.summary || []).flatMap(s => wrap(s, 80));
 
   return header + [
-    box(c.pink("whoami"), whoami, W),
-    box(c.pink("skills"), renderSkillsCompact(cv), W),
-    box(c.pink("experience --lasts"), renderJobs(cv.experience || []), W),
-    box(c.pink("education"), renderEducation(cv), W),
-    box(c.pink("legend"), legend(host), W),
+    box(c.pink(s.whoami || "$whoami"), whoami, W),
+    box(c.pink(s.skills || "$./skills"), renderSkillsCompact(cv), W),
+    box(c.pink(s.experience || "$jobs"), renderJobs(cv.experience || []), W),
+    box(c.pink(s.education || "$cv | grep education"), renderEducation(cv), W),
+    box(c.pink(s.legend || "$help"), legend(host, cv.labels), W),
   ].join("\n\n") + "\n";
 }
 
 export function renderHelp({ host }) {
+  const cv = data.cv();
+  const lg = cv.labels?.legend || {};
   const cmd = path => `${c.green("$")} ${c.bold(`curl ${host}${path}`)}`;
-  return box(c.pink("help"), [
+  return box(c.pink(cv.labels?.sections?.legend || "$help"), [
     c.bold("Available commands:"), "",
     cols("help", "Show this help"),
-    cols("skills", "Full skills breakdown"),
-    cols("experience", "Work history"),
-    cols("contact", "Contact info"),
-    cols("json", "Machine-readable CV"), "",
+    cols("skills", lg["/skills"] || "Tech stack"),
+    cols("experience", lg["/experience"] || "Career history"),
+    cols("contact", lg["/contact"] || "Get in touch"),
+    cols("json", lg["/json"] || "JSON output"), "",
     c.dim("Usage:"),
-    cols(cmd(""), "main output"),
-    cols(cmd("/skills"), "full skills"),
-    cols(cmd("/experience"), "full experience"),
-    cols(cmd("/json"), "JSON (pretty)"),
+    cols(cmd(""), lg["/"] || "Full CV"),
+    cols(cmd("/skills"), lg["/skills"] || "Tech stack"),
+    cols(cmd("/experience"), lg["/experience"] || "Career history"),
+    cols(cmd("/json"), lg["/json"] || "JSON output"),
   ], W) + "\n";
 }
 
 export function renderSkillsFull() {
   const cv = data.cv();
+  const s = cv.labels?.sections || {};
   const skills = data.skillsFull();
   const lines = Object.entries(skills || {}).flatMap(([section, items]) => [
     c.bold(section),
     ...items.map(it => c.dim(`  • ${it}`)),
     c.dim(" ")
   ]);
-  return renderHeader(cv) + box(c.pink("skills"), lines, W) + "\n";
+  return renderHeader(cv) + box(c.pink(s.skills || "$./skills"), lines, W) + "\n";
 }
 
 export function renderExperience() {
   const cv = data.cv();
+  const s = cv.labels?.sections || {};
   const { experience = [] } = data.experienceFull();
-  return renderHeader(cv) + box(c.pink("experience"), renderJobs(experience), W) + "\n";
+  return renderHeader(cv) + box(c.pink(s.experience || "$jobs"), renderJobs(experience), W) + "\n";
 }
 
 export function renderContact() {

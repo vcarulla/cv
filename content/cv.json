@@ -119,5 +119,21 @@
   "languages": [
     { "name": "Spanish", "level": "Native" },
     { "name": "English", "level": "Basic Professional Proficiency" }
-  ]
+  ],
+  "labels": {
+    "sections": {
+      "whoami": "$whoami",
+      "skills": "$./skills",
+      "experience": "$jobs",
+      "education": "$cv | grep education",
+      "legend": "$help"
+    },
+    "legend": {
+      "/": "Full CV",
+      "/skills": "Tech stack",
+      "/experience": "Career history",
+      "/contact": "Get in touch",
+      "/json": "JSON output"
+    }
+  }
 }
