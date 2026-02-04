@@ -134,6 +134,44 @@
       "/experience": "Career history",
       "/contact": "Get in touch",
       "/json": "JSON output"
+    },
+    "fields": {
+      "email": "Email",
+      "phone": "Phone",
+      "linkedin": "LinkedIn",
+      "github": "GitHub"
+    },
+    "ui": {
+      "education": "EDUCATION",
+      "certifications": "LICENSES & CERTIFICATIONS",
+      "areas": "AREAS",
+      "languages": "LANGUAGES",
+      "availableCommands": "Available commands:",
+      "usage": "Usage:",
+      "skipToContent": "Skip to content",
+      "siteNavigation": "Site navigation",
+      "contact": "contact"
+    },
+    "descriptions": {
+      "home": "DevOps / SRE. Production systems, Kubernetes, CI/CD, Observability. curl-first CV.",
+      "skills": "Full skills breakdown: containers, CI/CD, observability, infrastructure and more.",
+      "experience": "Full work history: DevOps, SRE, backend and frontend engineering.",
+      "contact": "Get in touch: email, LinkedIn and GitHub.",
+      "ysap": "Thanks to Dave Eddy and ysap.sh for inspiring this curl-first CV."
+    },
+    "ysap": {
+      "title": "YOU SUCK AT PROGRAMMING",
+      "inspired": "This project was inspired by Dave Eddy's",
+      "daveIntro": "Dave is a YouTube and Twitch streamer who created",
+      "daveDesc": "a brilliant series that teaches programming through humor and real-world examples.",
+      "spark": "His idea of delivering content via curl was the spark that made this terminal-friendly CV possible.",
+      "checkOut": "Check out his work:",
+      "originalInspiration": "The original inspiration",
+      "twitchChannel": "Twitch channel",
+      "youtubeChannel": "YouTube channel",
+      "bashCourse": "Complete Bash Course",
+      "personalSite": "His personal site",
+      "thanks": "Thanks Dave for showing us a better way to share our work!"
     }
   }
 }

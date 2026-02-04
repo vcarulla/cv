@@ -1,0 +1,177 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "lastUpdated": "2026-02-02"
+  },
+  "identity": {
+    "name": "Victor Carulla",
+    "title": "DevOps / SRE",
+    "location": "Buenos Aires, AR",
+    "tagline": "CV curl-first"
+  },
+  "contact": {
+    "email": "carulla.victor[at]gmail.com",
+    "linkedin": "https://linkedin.com/in/vcarulla/",
+    "github": "https://github.com/vcarulla"
+  },
+  "summary": [
+    "DevOps / Site Reliability Engineer",
+    "Sistemas productivos · Kubernetes · CI/CD · Observabilidad",
+    "",
+    "Enfocado en mejorar la confiabilidad de sistemas, flujos de despliegue y visibilidad operativa.",
+    "Experiencia hands-on con CI/CD, entornos containerizados y operaciones en produccion."
+  ],
+  "skills": {
+    "areas": [
+      "Sistemas Containerizados",
+      "Pipelines CI/CD",
+      "Infraestructura",
+      "Automatizacion",
+      "Monitoreo y Observabilidad",
+      "Sistemas de Mensajeria",
+      "Gestion de Secretos"
+    ]
+  },
+  "experience": [
+    {
+      "company": "BiBank",
+      "role": "DevOps Engineer | SRE",
+      "period": "Mar 2024 – Presente",
+      "highlights": [
+        "Mejore pipelines de CI/CD, aumentando la trazabilidad y seguridad operativa.",
+        "Implemente estandares de monitoreo y observabilidad para sistemas productivos.",
+        "Fortaleci las operaciones de Kubernetes y las practicas de gestion de secretos.",
+        "Habilite acceso self-service a flujos de despliegue e insights de sistemas, reduciendo la dependencia operativa."
+      ],
+      "tech": ["Kubernetes", "Docker", "Jenkins", "GitLab", "Azure"]
+    },
+    {
+      "company": "Fpay",
+      "role": "DevOps | SRE",
+      "period": "Ene 2021 – Mar 2024",
+      "highlights": [
+        "Opere y di soporte a infraestructura productiva y pipelines de despliegue.",
+        "Trabaje en CI/CD, monitoreo, logging y practicas de seguridad.",
+        "Mejore la confiabilidad y visibilidad entre entornos para dar soporte a equipos de desarrollo."
+      ],
+      "tech": ["CI/CD", "Monitoreo", "Logging", "Seguridad"]
+    },
+    {
+      "company": "Technisys",
+      "role": "Backend Developer (Fpay)",
+      "period": "Sep 2019 – Ene 2021",
+      "highlights": [
+        "Desarrollo backend para una plataforma de pagos multi-pais.",
+        "Integracion con servicios externos y sistemas de mensajeria."
+      ],
+      "tech": ["Backend", "Integraciones", "Mensajeria"]
+    },
+    {
+      "company": "Technisys",
+      "role": "Frontend Developer (Banco Itau)",
+      "period": "Jul 2016 – Ago 2019",
+      "highlights": [
+        "Desarrollo y mantenimiento de aplicaciones de banca movil.",
+        "Integracion con APIs backend en entornos regulados."
+      ],
+      "tech": ["Mobile", "APIs", "Entornos regulados"]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Educacion IT",
+      "program": "Carrera en Seguridad Informatica",
+      "period": "2013 – 2014",
+      "details": "Carrera en seguridad de sistemas, mitigacion de vulnerabilidades y proteccion de infraestructura."
+    }
+  ],
+  "certifications": [
+    {
+      "issuer": "UDEMY",
+      "title": "HELM – Package Manager for Kubernetes Complete Master Course",
+      "date": "Ago 2023",
+      "url": "http://ude.my/UC-f0e620a4-386c-4590-ac97-363ffeb8aa45"
+    },
+    {
+      "issuer": "UDEMY",
+      "title": "Pipelines, CI/CD and DevOps",
+      "date": "Ago 2022",
+      "url": "http://ude.my/UC-6b450b02-cd62-4f99-be7a-a124ee3af4a8"
+    },
+    {
+      "issuer": "UDEMY",
+      "title": "Kubernetes Certified Application Developer (CKAD)",
+      "date": "Oct 2020",
+      "url": "http://ude.my/UC-539fdf14-c751-4282-9679-34f9e012f26e"
+    },
+    {
+      "issuer": "IT College",
+      "title": "AWS Discovery Day",
+      "date": "Sep 2020",
+      "url": "https://tinyurl.com/awsdicovery"
+    },
+    {
+      "issuer": "CLA",
+      "title": "Introduccion a Python",
+      "date": "Sep 2014"
+    }
+  ],
+  "languages": [
+    { "name": "Espanol", "level": "Nativo" },
+    { "name": "Ingles", "level": "Competencia Profesional Basica" }
+  ],
+  "labels": {
+    "sections": {
+      "whoami": "$whoami",
+      "skills": "$./skills",
+      "experience": "$jobs",
+      "education": "$cv | grep education",
+      "legend": "$help"
+    },
+    "legend": {
+      "/": "CV completo",
+      "/skills": "Stack tecnologico",
+      "/experience": "Historial laboral",
+      "/contact": "Contacto",
+      "/json": "Salida JSON"
+    },
+    "fields": {
+      "email": "Email",
+      "phone": "Telefono",
+      "linkedin": "LinkedIn",
+      "github": "GitHub"
+    },
+    "ui": {
+      "education": "EDUCACION",
+      "certifications": "LICENCIAS Y CERTIFICACIONES",
+      "areas": "AREAS",
+      "languages": "IDIOMAS",
+      "availableCommands": "Comandos disponibles:",
+      "usage": "Uso:",
+      "skipToContent": "Ir al contenido",
+      "siteNavigation": "Navegacion del sitio",
+      "contact": "contacto"
+    },
+    "descriptions": {
+      "home": "DevOps / SRE. Sistemas productivos, Kubernetes, CI/CD, Observabilidad. CV curl-first.",
+      "skills": "Desglose completo de skills: containers, CI/CD, observabilidad, infraestructura y mas.",
+      "experience": "Historial laboral completo: DevOps, SRE, ingenieria backend y frontend.",
+      "contact": "Contacto: email, LinkedIn y GitHub.",
+      "ysap": "Gracias a Dave Eddy y ysap.sh por inspirar este CV curl-first."
+    },
+    "ysap": {
+      "title": "YOU SUCK AT PROGRAMMING",
+      "inspired": "Este proyecto fue inspirado por",
+      "daveIntro": "Dave es un streamer de YouTube y Twitch que creo",
+      "daveDesc": "una serie brillante que ensena programacion con humor y ejemplos del mundo real.",
+      "spark": "Su idea de entregar contenido via curl fue la chispa que hizo posible este CV amigable con la terminal.",
+      "checkOut": "Mira su trabajo:",
+      "originalInspiration": "La inspiracion original",
+      "twitchChannel": "Canal de Twitch",
+      "youtubeChannel": "Canal de YouTube",
+      "bashCourse": "Curso completo de Bash",
+      "personalSite": "Su sitio personal",
+      "thanks": "Gracias Dave por mostrarnos una mejor forma de compartir nuestro trabajo!"
+    }
+  }
+}

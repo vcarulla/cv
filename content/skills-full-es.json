@@ -1,0 +1,21 @@
+{
+  "Containers y Plataformas": [
+    "Docker",
+    "Kubernetes"
+  ],
+  "CI/CD y Automatizacion": [
+    "Conceptos de CI/CD (Jenkins, GitLab CI/CD)"
+  ],
+  "Observabilidad y Monitoreo": [
+    "Metricas, logs, dashboards (Prometheus, Grafana)",
+    "Elastic Stack (ELK, Elasticsearch, Logstash, Kibana)",
+    "Datadog"
+  ],
+  "Infraestructura y Seguridad": [
+    "Conceptos de Infrastructure as Code (Terraform)",
+    "Gestion de secretos (Vault)"
+  ],
+  "Mensajeria e Integracion": [
+    "Message brokers (RabbitMQ, Kafka)"
+  ]
+}

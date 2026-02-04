@@ -33,19 +33,29 @@ const BANNER = `██╗   ██╗  █████╗
  ╚████╔╝   █████╗
   ╚═══╝    ╚════╝`;
 
-function shell({ title, description, host, path = "/" }, body) {
-  const cv = data.cv();
-  const canonical = `https://${host}${path === "/" ? "" : path}`;
+function hreflangTags(host, pagePath) {
+  const clean = pagePath === "/" ? "" : pagePath;
+  return `<link rel="alternate" hreflang="en" href="https://${esc(host)}${clean || "/"}"/>
+  <link rel="alternate" hreflang="es" href="https://${esc(host)}/es${clean}"/>
+  <link rel="alternate" hreflang="x-default" href="https://${esc(host)}${clean || "/"}"/>`;
+}
+
+function shell({ title, description, host, path = "/", lang = "en", pagePath = "/" }, body) {
+  const cv = data.cv(lang);
+  const prefix = lang === "en" ? "" : `/${lang}`;
+  const canonical = `https://${host}${prefix}${pagePath === "/" ? "" : pagePath}`;
   const desc = description || `${cv.identity.name} — ${cv.identity.title}. ${cv.identity.location}. curl-first CV.`;
+  const ui = cv.labels?.ui || {};
 
   return `<!doctype html>
-<html lang="en">
+<html lang="${lang}">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(desc)}"/>
   <link rel="canonical" href="${esc(canonical)}"/>
+  ${hreflangTags(host, pagePath)}
   <meta name="theme-color" content="${D.bg}"/>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23282a36'/><text x='50' y='68' font-family='monospace' font-size='48' font-weight='bold' fill='%23bd93f9' text-anchor='middle'>VC</text></svg>"/>
 
@@ -150,7 +160,7 @@ function shell({ title, description, host, path = "/" }, body) {
   </style>
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip-link" href="#main">${esc(ui.skipToContent || "Skip to content")}</a>
 <main id="main" class="wrap" role="main">
 ${body}
 </main>
@@ -160,6 +170,7 @@ ${body}
 
 function renderHeaderHtml(cv) {
   const { identity: id = {}, contact: ct = {} } = cv;
+  const fields = cv.labels?.fields || {};
   return `
   <header class="header" role="banner">
     <div class="banner" aria-hidden="true">${esc(BANNER)}</div>
@@ -167,9 +178,9 @@ function renderHeaderHtml(cv) {
       <h1 class="bold" style="font-size:inherit">${esc(id.name)} — ${esc(id.title)}</h1>
       <p>${esc(id.location)} | ${esc(id.tagline)}</p>
       <div class="spacer"></div>
-      <p><span class="cyan">LinkedIn:</span> <a class="purple" href="${esc(ct.linkedin)}" target="_blank" rel="noopener">${esc(compactUrl(ct.linkedin))}</a></p>
-      <p><span class="cyan">GitHub:</span>   <a class="purple" href="${esc(ct.github)}" target="_blank" rel="noopener">${esc(compactUrl(ct.github))}</a></p>
-      <p><span class="cyan">Email:</span>    <span class="purple">${esc(ct.email || "-")}</span></p>
+      <p><span class="cyan">${esc(fields.linkedin || "LinkedIn")}:</span> <a class="purple" href="${esc(ct.linkedin)}" target="_blank" rel="noopener">${esc(compactUrl(ct.linkedin))}</a></p>
+      <p><span class="cyan">${esc(fields.github || "GitHub")}:</span>   <a class="purple" href="${esc(ct.github)}" target="_blank" rel="noopener">${esc(compactUrl(ct.github))}</a></p>
+      <p><span class="cyan">${esc(fields.email || "Email")}:</span>    <span class="purple">${esc(ct.email || "-")}</span></p>
     </div>
   </header>`;
 }
@@ -189,10 +200,12 @@ function renderJobsHtml(jobs) {
     </div>`).join("\n");
 }
 
-function legendHtml(host) {
-  const cv = data.cv();
+function legendHtml(host, lang) {
+  const cv = data.cv(lang);
   const lg = cv.labels?.legend || {};
   const s = cv.labels?.sections || {};
+  const ui = cv.labels?.ui || {};
+  const prefix = lang === "en" ? "" : `/${lang}`;
   const items = [
     ["/", lg["/"] || "Full CV"],
     ["/skills", lg["/skills"] || "Tech stack"],
@@ -201,26 +214,28 @@ function legendHtml(host) {
     ["/json", lg["/json"] || "JSON output"],
   ];
   return `
-  <nav class="box" role="navigation" aria-label="Site navigation">
+  <nav class="box" role="navigation" aria-label="${esc(ui.siteNavigation || "Site navigation")}">
     <div class="box-title">${esc(s.legend || "$help")}</div>
     <div class="box-body">
       ${items.map(([path, desc]) => `
       <div class="row" style="padding-left:0">
-        <a class="left" href="${path}" style="color:inherit">
-          <span class="green">$</span> <span class="bold">curl ${esc(host)}${path === "/" ? "" : path}</span>
+        <a class="left" href="${prefix}${path}" style="color:inherit">
+          <span class="green">$</span> <span class="bold">curl ${esc(host)}${prefix}${path === "/" ? "" : path}</span>
         </a>
-        <a class="cyan right" href="${path}">${esc(desc)}</a>
+        <a class="cyan right" href="${prefix}${path}">${esc(desc)}</a>
       </div>`).join("\n")}
     </div>
   </nav>`;
 }
 
-export function htmlHome(host) {
-  const cv = data.cv();
+export function htmlHome(host, lang = "en") {
+  const cv = data.cv(lang);
   const s = cv.labels?.sections || {};
+  const ui = cv.labels?.ui || {};
+  const descs = cv.labels?.descriptions || {};
   const { experience = [] } = cv;
 
-  return shell({ title: `${cv.identity.name} — ${cv.identity.title}`, host, path: "/", description: "DevOps / SRE. Production systems, Kubernetes, CI/CD, Observability. curl-first CV." }, `
+  return shell({ title: `${cv.identity.name} — ${cv.identity.title}`, host, pagePath: "/", lang, description: descs.home }, `
   ${renderHeaderHtml(cv)}
 
   <div class="box">
@@ -233,10 +248,10 @@ export function htmlHome(host) {
   <div class="box">
     <div class="box-title">${esc(s.skills || "$./skills")}</div>
     <div class="box-body">
-      <p class="purple bold">AREAS</p>
+      <p class="purple bold">${esc(ui.areas || "AREAS")}</p>
       <p class="skills-list">${(cv.skills?.areas || []).map(esc).join(" · ")}</p>
       <div class="spacer"></div>
-      <p class="purple bold">LANGUAGES</p>
+      <p class="purple bold">${esc(ui.languages || "LANGUAGES")}</p>
       ${(cv.languages || []).map(l =>
         `<p class="lang"><span class="bold">${esc(l.name.toUpperCase())}</span>  ${esc(l.level)}</p>`
       ).join("\n      ")}
@@ -253,7 +268,7 @@ export function htmlHome(host) {
   <div class="box">
     <div class="box-title">${esc(s.education || "$cv | grep education")}</div>
     <div class="box-body">
-      <p class="bold">EDUCATION</p>
+      <p class="bold">${esc(ui.education || "EDUCATION")}</p>
       <div class="spacer"></div>
       ${(cv.education || []).map(e => `
       <div class="cert">
@@ -261,7 +276,7 @@ export function htmlHome(host) {
         ${e.details ? `<p style="padding-left:8px">${esc(e.details)}</p>` : ""}
       </div>`).join("\n")}
 
-      <p class="bold">LICENSES &amp; CERTIFICATIONS</p>
+      <p class="bold">${esc(ui.certifications || "LICENSES & CERTIFICATIONS")}</p>
       <div class="spacer"></div>
       ${(cv.certifications || []).map(c => `
       <div class="cert">
@@ -271,16 +286,17 @@ export function htmlHome(host) {
     </div>
   </div>
 
-  ${legendHtml(host)}
+  ${legendHtml(host, lang)}
   `);
 }
 
-export function htmlSkills(host) {
-  const cv = data.cv();
+export function htmlSkills(host, lang = "en") {
+  const cv = data.cv(lang);
   const s = cv.labels?.sections || {};
-  const skills = data.skillsFull();
+  const descs = cv.labels?.descriptions || {};
+  const skills = data.skillsFull(lang);
 
-  return shell({ title: `Skills — ${host}`, host, path: "/skills", description: "Full skills breakdown: containers, CI/CD, observability, infrastructure and more." }, `
+  return shell({ title: `Skills — ${host}`, host, pagePath: "/skills", lang, description: descs.skills }, `
   ${renderHeaderHtml(cv)}
 
   <div class="box">
@@ -295,16 +311,17 @@ export function htmlSkills(host) {
     </div>
   </div>
 
-  ${legendHtml(host)}
+  ${legendHtml(host, lang)}
   `);
 }
 
-export function htmlExperience(host) {
-  const cv = data.cv();
+export function htmlExperience(host, lang = "en") {
+  const cv = data.cv(lang);
   const s = cv.labels?.sections || {};
-  const { experience = [] } = data.experienceFull();
+  const descs = cv.labels?.descriptions || {};
+  const { experience = [] } = data.experienceFull(lang);
 
-  return shell({ title: `Experience — ${host}`, host, path: "/experience", description: "Full work history: DevOps, SRE, backend and frontend engineering." }, `
+  return shell({ title: `Experience — ${host}`, host, pagePath: "/experience", lang, description: descs.experience }, `
   ${renderHeaderHtml(cv)}
 
   <div class="box">
@@ -314,82 +331,86 @@ export function htmlExperience(host) {
     </div>
   </div>
 
-  ${legendHtml(host)}
+  ${legendHtml(host, lang)}
   `);
 }
 
-export function htmlContact(host) {
-  const cv = data.cv();
+export function htmlContact(host, lang = "en") {
+  const cv = data.cv(lang);
   const ct = cv.contact || {};
+  const fields = cv.labels?.fields || {};
+  const descs = cv.labels?.descriptions || {};
 
-  return shell({ title: `Contact — ${host}`, host, path: "/contact", description: "Get in touch: email, LinkedIn and GitHub." }, `
+  return shell({ title: `Contact — ${host}`, host, pagePath: "/contact", lang, description: descs.contact }, `
   ${renderHeaderHtml(cv)}
 
   <div class="box">
-    <div class="box-title">contact</div>
+    <div class="box-title">${esc(cv.labels?.ui?.contact || "contact")}</div>
     <div class="box-body">
       <div class="row" style="padding-left:0">
-        <span class="cyan left">Email</span>
+        <span class="cyan left">${esc(fields.email || "Email")}</span>
         <span class="right">${esc(ct.email || "-")}</span>
       </div>
       <div class="row" style="padding-left:0">
-        <span class="cyan left">LinkedIn</span>
+        <span class="cyan left">${esc(fields.linkedin || "LinkedIn")}</span>
         <a class="purple right" href="${esc(ct.linkedin)}" target="_blank">${esc(compactUrl(ct.linkedin))}</a>
       </div>
       <div class="row" style="padding-left:0">
-        <span class="cyan left">GitHub</span>
+        <span class="cyan left">${esc(fields.github || "GitHub")}</span>
         <a class="purple right" href="${esc(ct.github)}" target="_blank">${esc(compactUrl(ct.github))}</a>
       </div>
     </div>
   </div>
 
-  ${legendHtml(host)}
+  ${legendHtml(host, lang)}
   `);
 }
 
-export function htmlYsap(host) {
-  return shell({ title: `You Suck at Programming — ${host}`, host, path: "/ysap", description: "Thanks to Dave Eddy and ysap.sh for inspiring this curl-first CV." }, `
+export function htmlYsap(host, lang = "en") {
+  const cv = data.cv(lang);
+  const y = cv.labels?.ysap || {};
+  const descs = cv.labels?.descriptions || {};
+
+  return shell({ title: `You Suck at Programming — ${host}`, host, pagePath: "/ysap", lang, description: descs.ysap }, `
   <div class="box">
-    <div class="box-title">YOU SUCK AT PROGRAMMING</div>
+    <div class="box-title">${esc(y.title || "YOU SUCK AT PROGRAMMING")}</div>
     <div class="box-body">
-      <p>This project was inspired by Dave Eddy's <span class="yellow">ysap.sh</span></p>
+      <p>${esc(y.inspired || "This project was inspired by Dave Eddy's")} <span class="yellow">ysap.sh</span></p>
 
       <div class="spacer"></div>
 
-      <p>Dave is a YouTube and Twitch streamer who created
-      <span class="yellow">You Suck at Programming</span> - a brilliant series that teaches
-      programming through humor and real-world examples.</p>
+      <p>${esc(y.daveIntro || "Dave is a YouTube and Twitch streamer who created")}
+      <span class="yellow">You Suck at Programming</span> - ${esc(y.daveDesc || "a brilliant series that teaches programming through humor and real-world examples.")}</p>
 
-      <p>His idea of delivering content via curl was the spark
-      that made this terminal-friendly CV possible.</p>
+      <p>${esc(y.spark || "His idea of delivering content via curl was the spark that made this terminal-friendly CV possible.")}</p>
 
       <div class="spacer"></div>
 
-      <p class="bold">Check out his work:</p>
+      <p class="bold">${esc(y.checkOut || "Check out his work:")}</p>
       <div class="row">
         <span class="left"><span class="green">$</span> <span class="bold">curl ysap.sh</span></span>
-        <a href="https://ysap.sh" class="cyan right" target="_blank">The original inspiration</a>
+        <a href="https://ysap.sh" class="cyan right" target="_blank">${esc(y.originalInspiration || "The original inspiration")}</a>
       </div>
       <div class="row">
         <a href="https://www.twitch.tv/dave_eddy" class="purple left" target="_blank">twitch.tv/dave_eddy</a>
-        <a href="https://www.twitch.tv/dave_eddy" class="cyan right" target="_blank">Twitch channel</a>
+        <a href="https://www.twitch.tv/dave_eddy" class="cyan right" target="_blank">${esc(y.twitchChannel || "Twitch channel")}</a>
       </div>
       <div class="row">
         <a href="https://ysap.sh/youtube" class="purple left" target="_blank">ysap.sh/youtube</a>
-        <a href="https://ysap.sh/youtube" class="cyan right" target="_blank">YouTube channel</a>
+        <a href="https://ysap.sh/youtube" class="cyan right" target="_blank">${esc(y.youtubeChannel || "YouTube channel")}</a>
       </div>
       <div class="row">
         <a href="https://course.ysap.sh" class="purple left" target="_blank">course.ysap.sh</a>
-        <a href="https://course.ysap.sh" class="cyan right" target="_blank">Complete Bash Course</a>
+        <a href="https://course.ysap.sh" class="cyan right" target="_blank">${esc(y.bashCourse || "Complete Bash Course")}</a>
       </div>
       <div class="row">
         <a href="https://daveeddy.com" class="purple left" target="_blank">daveeddy.com</a>
-        <a href="https://daveeddy.com" class="cyan right" target="_blank">His personal site</a>
+        <a href="https://daveeddy.com" class="cyan right" target="_blank">${esc(y.personalSite || "His personal site")}</a>
       </div>
 
       <div class="spacer"></div>
 
-      <p class="cyan">Thanks Dave for showing us a better way to share our work!</p>
+      <p class="cyan">${esc(y.thanks || "Thanks Dave for showing us a better way to share our work!")}</p>
     </div>
   </div>`);
 }

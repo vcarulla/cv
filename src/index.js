@@ -12,6 +12,8 @@ const getHost = (request) =>
   request.headers.get("host") ||
   "cv.local";
 
+const SUPPORTED_LANGS = new Set(["es"]);
+
 const secHeaders = {
   "X-Content-Type-Options": "nosniff",
   "X-Frame-Options": "DENY",
@@ -39,6 +41,16 @@ const json = (body, pretty = false) => new Response(
   { headers: { "Content-Type": "application/json; charset=utf-8", ...secHeaders } }
 );
 
+function parseLang(path) {
+  const match = path.match(/^\/(es)(\/|$)/);
+  if (match && SUPPORTED_LANGS.has(match[1])) {
+    const lang = match[1];
+    const cleanPath = path.replace(/^\/es/, "") || "/";
+    return { lang, cleanPath };
+  }
+  return { lang: "en", cleanPath: path };
+}
+
 export default {
   async fetch(request) {
     // Redirect HTTP to HTTPS
@@ -53,32 +65,34 @@ export default {
     const path = url.pathname;
     const host = getHost(request);
 
-    switch (path) {
+    const { lang, cleanPath } = parseLang(path);
+
+    switch (cleanPath) {
       case "/":
         return isCli(request)
-          ? text(render.renderHome({ host }))
-          : html(htmlHome(host), host);
+          ? text(render.renderHome({ host, lang }))
+          : html(htmlHome(host, lang), host);
 
       case "/help":
-        return text(render.renderHelp({ host }));
+        return text(render.renderHelp({ host, lang }));
 
       case "/skills":
         return isCli(request)
-          ? text(render.renderSkillsFull())
-          : html(htmlSkills(host), host);
+          ? text(render.renderSkillsFull({ lang }))
+          : html(htmlSkills(host, lang), host);
 
       case "/experience":
         return isCli(request)
-          ? text(render.renderExperience())
-          : html(htmlExperience(host), host);
+          ? text(render.renderExperience({ lang }))
+          : html(htmlExperience(host, lang), host);
 
       case "/contact":
         return isCli(request)
-          ? text(render.renderContact())
-          : html(htmlContact(host), host);
+          ? text(render.renderContact({ lang }))
+          : html(htmlContact(host, lang), host);
 
       case "/json":
-        return json(data.cv(), isCli(request));
+        return json(data.cv(lang), isCli(request));
 
       case "/robots.txt":
         return text(`User-agent: *\nAllow: /\nSitemap: https://${host}/sitemap.xml\n`);
@@ -86,9 +100,10 @@ export default {
       case "/sitemap.xml":
         return new Response(
           `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${
-            ["", "/skills", "/experience", "/contact"].map(p =>
-              `  <url><loc>https://${host}${p}</loc></url>`
-            ).join("\n")
+            ["", "/skills", "/experience", "/contact"].flatMap(p => [
+              `  <url><loc>https://${host}${p || "/"}</loc></url>`,
+              `  <url><loc>https://${host}/es${p}</loc></url>`,
+            ]).join("\n")
           }\n</urlset>\n`,
           { headers: { "Content-Type": "application/xml; charset=utf-8" } }
         );
@@ -98,8 +113,8 @@ export default {
 
       case "/ysap":
         return isCli(request)
-          ? text(render.renderYsap())
-          : html(htmlYsap(host), host);
+          ? text(render.renderYsap({ lang }))
+          : html(htmlYsap(host, lang), host);
 
       default:
         return text("Not found\n", { status: 404 });
