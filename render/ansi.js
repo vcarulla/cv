@@ -210,3 +210,23 @@ export function renderYsap({ lang = "en" } = {}) {
     ""
   ], W) + "\n";
 }
+
+export function render404({ host, lang = "en" } = {}) {
+  const cv = data.cv(lang);
+  const s = cv.labels?.sections || {};
+  const cow = [
+    "",
+    `       ${c.dim("\\|/")}          ${c.bold("(__)")}`,
+    `            ${c.dim("\`\\------")}${c.bold("(oo)")}`,
+    `              ${c.dim("||")}    ${c.bold("(__)")}`,
+    `              ${c.dim("||w--||")}     ${c.dim("\\|/")}`,
+    `          ${c.dim("\\|/")}`,
+    "",
+    c.bold(lang === "en" ? "404 NOT FOUND" : "404 PAGINA NO ENCONTRADA"),
+    "",
+  ];
+  return renderHeader(cv) + [
+    box(c.pink("404"), cow, W),
+    box(c.pink(s.legend || "$help"), legend(host, cv.labels, lang), W),
+  ].join("\n\n") + "\n";
+}

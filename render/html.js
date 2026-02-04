@@ -462,3 +462,27 @@ export function htmlYsap(host, lang = "en") {
     </div>
   </div>`);
 }
+
+export function html404(host, lang = "en") {
+  const cv = data.cv(lang);
+  const msg = lang === "en" ? "404 NOT FOUND" : "404 PAGINA NO ENCONTRADA";
+
+  return shell({ title: `404 — ${host}`, host, pagePath: "/", lang }, `
+  ${renderHeaderHtml(cv)}
+
+  <div class="box">
+    <div class="box-title">404</div>
+    <div class="box-body" style="text-align:center">
+      <pre style="display:inline-block;text-align:left;line-height:1.3;margin:12px 0" class="dim">
+ \\|/          <span class="fg bold">(__)</span>
+      \`\\------<span class="fg bold">(oo)</span>
+        ||    <span class="fg bold">(__)</span>
+        ||w--||     \\|/
+    \\|/</pre>
+      <p class="bold" style="font-size:16px;margin:12px 0">${esc(msg)}</p>
+    </div>
+  </div>
+
+  ${legendHtml(host, lang)}
+  `);
+}

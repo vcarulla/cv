@@ -1,6 +1,6 @@
 import * as render from "../render/ansi.js";
 import * as data from "../render/data.js";
-import { htmlHome, htmlSkills, htmlExperience, htmlContact, htmlYsap } from "../render/html.js";
+import { htmlHome, htmlSkills, htmlExperience, htmlContact, htmlYsap, html404 } from "../render/html.js";
 
 const isCli = (request) => {
   const ua = (request.headers.get("user-agent") || "").toLowerCase();
@@ -28,7 +28,8 @@ const text = (body, status = 200) => new Response(body, {
   headers: { "Content-Type": "text/plain; charset=utf-8", ...secHeaders }
 });
 
-const html = (body, host) => new Response(body, {
+const html = (body, host, status = 200) => new Response(body, {
+  status,
   headers: {
     "Content-Type": "text/html; charset=utf-8",
     "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; img-src data:; script-src 'sha256-nfU9GH4vMYtBGEhmbYodN1VSSuqE+65EE8e4UnxXYGM=' 'sha256-PjJkFu3E9pAXOag3lJ7FMAGEIT18Mr7EAJAv3Hmt7zQ=' https://static.cloudflareinsights.com; connect-src https://cloudflareinsights.com 'self'; require-trusted-types-for 'script'",
@@ -118,7 +119,9 @@ export default {
           : html(htmlYsap(host, lang), host);
 
       default:
-        return text("Not found\n", 404);
+        return isCli(request)
+          ? text(render.render404({ host, lang }), 404)
+          : html(html404(host, lang), host, 404);
     }
   }
 };
