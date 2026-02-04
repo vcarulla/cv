@@ -182,7 +182,6 @@ export function renderContact({ lang = "en" } = {}) {
   const fields = cv.labels?.fields || {};
   return renderHeader(cv) + box(c.pink(cv.labels?.ui?.contact || "contact"), [
     cols(c.cyan(fields.email || "Email"), ct.email || "-"),
-    cols(c.cyan(fields.phone || "Phone"), ct.phone || "-"),
     cols(c.cyan(fields.linkedin || "LinkedIn"), ct.linkedin || "-"),
     cols(c.cyan(fields.github || "GitHub"), ct.github || "-"),
   ], W) + "\n";
