@@ -30,7 +30,7 @@ const text = (body) => new Response(body, {
 const html = (body, host) => new Response(body, {
   headers: {
     "Content-Type": "text/html; charset=utf-8",
-    "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; img-src data:; script-src https://static.cloudflareinsights.com; connect-src https://cloudflareinsights.com 'self'; require-trusted-types-for 'script'",
+    "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; img-src data:; script-src 'unsafe-inline' https://static.cloudflareinsights.com; connect-src https://cloudflareinsights.com 'self'; require-trusted-types-for 'script'",
     "Link": `<https://${host}/json>; rel="alternate"; type="application/ld+json"`,
     ...secHeaders,
   }
