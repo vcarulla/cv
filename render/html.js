@@ -39,7 +39,7 @@ function shell({ title, description, host, lang = "en", pagePath = "/" }, body) 
   <link rel="canonical" href="${esc(canonical)}"/>
   ${hreflangTags(host, pagePath)}
   <meta name="theme-color" content="#282a36"/>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23282a36'/><text x='50' y='68' font-family='monospace' font-size='48' font-weight='bold' fill='%23bd93f9' text-anchor='middle'>VC</text></svg>"/>
+  <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48cmVjdCB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEwMCcgcng9JzEyJyBmaWxsPScjMjgyYTM2Jy8+PHRleHQgeD0nNTAnIHk9JzY4JyBmb250LWZhbWlseT0nbW9ub3NwYWNlJyBmb250LXNpemU9JzQ4JyBmb250LXdlaWdodD0nYm9sZCcgZmlsbD0nI2JkOTNmOScgdGV4dC1hbmNob3I9J21pZGRsZSc+VkM8L3RleHQ+PC9zdmc+"/>
 
   <meta property="og:type" content="website"/>
   <meta property="og:title" content="${esc(title)}"/>
@@ -474,9 +474,9 @@ export function html404(host, lang = "en") {
     <div class="box-title">404</div>
     <div class="box-body" style="text-align:center">
       <pre style="display:inline-block;text-align:left;line-height:1.3;margin:12px 0" class="dim">
- \\|/          <span class="fg bold">(__)</span>
-      \`\\------<span class="fg bold">(oo)</span>
-        ||    <span class="fg bold">(__)</span>
+ \\|/          <span style="color:var(--fg)" class="bold">(__)</span>
+      \`\\------<span style="color:var(--fg)" class="bold">(oo)</span>
+        ||    <span style="color:var(--fg)" class="bold">(__)</span>
         ||w--||     \\|/
     \\|/</pre>
       <p class="bold" style="font-size:16px;margin:12px 0">${esc(msg)}</p>

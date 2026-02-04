@@ -214,15 +214,25 @@ export function renderYsap({ lang = "en" } = {}) {
 export function render404({ host, lang = "en" } = {}) {
   const cv = data.cv(lang);
   const s = cv.labels?.sections || {};
+  const contentW = W - 4 - 2;
+  const ctr = (line, w) => {
+    const lpad = Math.max(0, Math.floor((contentW - w) / 2));
+    return " ".repeat(lpad) + line;
+  };
+  const msg = lang === "en" ? "404 NOT FOUND" : "404 PAGINA NO ENCONTRADA";
+  const cowLines = [
+    `${c.dim("\\|/")}          ${c.bold("(__)")}`,
+    `     ${c.dim("\`\\------")}${c.bold("(oo)")}`,
+    `       ${c.dim("||")}    ${c.bold("(__)")}`,
+    `       ${c.dim("||w--||")}     ${c.dim("\\|/")}`,
+    `   ${c.dim("\\|/")}`,
+  ];
+  const cowW = Math.max(...cowLines.map(l => stripAnsi(l).length));
   const cow = [
     "",
-    `       ${c.dim("\\|/")}          ${c.bold("(__)")}`,
-    `            ${c.dim("\`\\------")}${c.bold("(oo)")}`,
-    `              ${c.dim("||")}    ${c.bold("(__)")}`,
-    `              ${c.dim("||w--||")}     ${c.dim("\\|/")}`,
-    `          ${c.dim("\\|/")}`,
+    ...cowLines.map(l => ctr(l, cowW)),
     "",
-    c.bold(lang === "en" ? "404 NOT FOUND" : "404 PAGINA NO ENCONTRADA"),
+    ctr(c.bold(msg), stripAnsi(msg).length),
     "",
   ];
   return renderHeader(cv) + [
