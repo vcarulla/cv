@@ -58,6 +58,19 @@ export default {
       case "/json":
         return json(data.cv(), isCli(request));
 
+      case "/robots.txt":
+        return text(`User-agent: *\nAllow: /\nSitemap: https://${host}/sitemap.xml\n`);
+
+      case "/sitemap.xml":
+        return new Response(
+          `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${
+            ["", "/skills", "/experience", "/contact"].map(p =>
+              `  <url><loc>https://${host}${p}</loc></url>`
+            ).join("\n")
+          }\n</urlset>\n`,
+          { headers: { "Content-Type": "application/xml; charset=utf-8" } }
+        );
+
       case "/healthz":
         return text("ok\n");
 
