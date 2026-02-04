@@ -329,7 +329,7 @@ export function htmlHome(host, lang = "en") {
       ${(cv.certifications || []).map(c => `
       <div class="cert">
         <p><span class="bold">${esc(c.issuer || c.provider)}</span> — ${esc(c.title || c.name)} <span class="yellow">[${esc(c.date || c.period)}]</span></p>
-        ${c.url ? `<p style="padding-left:8px"><a class="purple" href="${esc(ensureHttps(c.url))}" target="_blank">${esc(compactUrl(c.url))}</a></p>` : ""}
+        ${c.url ? `<p style="padding-left:8px"><a class="purple" href="${esc(ensureHttps(c.url))}" target="_blank" rel="noopener">${esc(compactUrl(c.url))}</a></p>` : ""}
       </div>`).join("\n")}
     </div>
   </div>
@@ -401,11 +401,11 @@ export function htmlContact(host, lang = "en") {
       </div>
       <div class="row" style="padding-left:0">
         <span class="cyan left">${esc(fields.linkedin || "LinkedIn")}</span>
-        <a class="purple right" href="${esc(ct.linkedin)}" target="_blank">${esc(compactUrl(ct.linkedin))}</a>
+        <a class="purple right" href="${esc(ct.linkedin)}" target="_blank" rel="noopener">${esc(compactUrl(ct.linkedin))}</a>
       </div>
       <div class="row" style="padding-left:0">
         <span class="cyan left">${esc(fields.github || "GitHub")}</span>
-        <a class="purple right" href="${esc(ct.github)}" target="_blank">${esc(compactUrl(ct.github))}</a>
+        <a class="purple right" href="${esc(ct.github)}" target="_blank" rel="noopener">${esc(compactUrl(ct.github))}</a>
       </div>
     </div>
   </div>
@@ -437,23 +437,23 @@ export function htmlYsap(host, lang = "en") {
       <p class="bold">${esc(y.checkOut || "Check out his work:")}</p>
       <div class="row">
         <span class="left"><span class="green">$</span> <span class="bold">curl ysap.sh</span></span>
-        <a href="https://ysap.sh" class="cyan right" target="_blank">${esc(y.originalInspiration || "The original inspiration")}</a>
+        <a href="https://ysap.sh" class="cyan right" target="_blank" rel="noopener">${esc(y.originalInspiration || "The original inspiration")}</a>
       </div>
       <div class="row">
-        <a href="https://www.twitch.tv/dave_eddy" class="purple left" target="_blank">twitch.tv/dave_eddy</a>
-        <a href="https://www.twitch.tv/dave_eddy" class="cyan right" target="_blank">${esc(y.twitchChannel || "Twitch channel")}</a>
+        <a href="https://www.twitch.tv/dave_eddy" class="purple left" target="_blank" rel="noopener">twitch.tv/dave_eddy</a>
+        <a href="https://www.twitch.tv/dave_eddy" class="cyan right" target="_blank" rel="noopener">${esc(y.twitchChannel || "Twitch channel")}</a>
       </div>
       <div class="row">
-        <a href="https://ysap.sh/youtube" class="purple left" target="_blank">ysap.sh/youtube</a>
-        <a href="https://ysap.sh/youtube" class="cyan right" target="_blank">${esc(y.youtubeChannel || "YouTube channel")}</a>
+        <a href="https://ysap.sh/youtube" class="purple left" target="_blank" rel="noopener">ysap.sh/youtube</a>
+        <a href="https://ysap.sh/youtube" class="cyan right" target="_blank" rel="noopener">${esc(y.youtubeChannel || "YouTube channel")}</a>
       </div>
       <div class="row">
-        <a href="https://course.ysap.sh" class="purple left" target="_blank">course.ysap.sh</a>
-        <a href="https://course.ysap.sh" class="cyan right" target="_blank">${esc(y.bashCourse || "Complete Bash Course")}</a>
+        <a href="https://course.ysap.sh" class="purple left" target="_blank" rel="noopener">course.ysap.sh</a>
+        <a href="https://course.ysap.sh" class="cyan right" target="_blank" rel="noopener">${esc(y.bashCourse || "Complete Bash Course")}</a>
       </div>
       <div class="row">
-        <a href="https://daveeddy.com" class="purple left" target="_blank">daveeddy.com</a>
-        <a href="https://daveeddy.com" class="cyan right" target="_blank">${esc(y.personalSite || "His personal site")}</a>
+        <a href="https://daveeddy.com" class="purple left" target="_blank" rel="noopener">daveeddy.com</a>
+        <a href="https://daveeddy.com" class="cyan right" target="_blank" rel="noopener">${esc(y.personalSite || "His personal site")}</a>
       </div>
 
       <div class="spacer"></div>
