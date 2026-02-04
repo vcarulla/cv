@@ -75,13 +75,13 @@ function shell({ title, description, host, path = "/", lang = "en", pagePath = "
     :root {
       --bg: #282a36; --fg: #f8f8f2; --purple: #bd93f9;
       --pink: #ff79c6; --cyan: #8be9fd; --green: #50fa7b;
-      --yellow: #f1fa8c; --orange: #ffb86c; --dim: #6272a4;
+      --yellow: #f1fa8c; --orange: #ffb86c; --dim: #9099b0;
       --border: #44475a;
     }
     [data-theme="light"] {
       --bg: #f8f8f2; --fg: #282a36; --purple: #7c3aed;
-      --pink: #db2777; --cyan: #0891b2; --green: #16a34a;
-      --yellow: #a16207; --orange: #ea580c; --dim: #6b7280;
+      --pink: #be185d; --cyan: #0e7490; --green: #15803d;
+      --yellow: #a16207; --orange: #c2410c; --dim: #6b7280;
       --border: #d1d5db;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -183,12 +183,11 @@ function shell({ title, description, host, path = "/", lang = "en", pagePath = "
       align-items: center;
       justify-content: center;
       padding: 0;
-      opacity: 0.85;
       transition: opacity 0.2s;
       text-decoration: none;
     }
     .float-btns a:hover,
-    .float-btns button:hover { opacity: 1; }
+    .float-btns button:hover { opacity: 0.8; }
     .float-btns svg { width: 18px; height: 18px; }
     .icon-sun { display: block; }
     .icon-moon { display: none; }
