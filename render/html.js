@@ -205,6 +205,7 @@ function shell({ title, description, host, path = "/", lang = "en", pagePath = "
       .float-btns button { width: 36px; height: 36px; }
     }
   </style>
+  <script>document.documentElement.dataset.theme=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');</script>
 </head>
 <body>
 <a class="skip-link" href="#main">${esc(ui.skipToContent || "Skip to content")}</a>
@@ -226,15 +227,11 @@ function shell({ title, description, host, path = "/", lang = "en", pagePath = "
 ${body}
 </main>
 <script>
-(function(){
-  var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');
+document.getElementById('theme-toggle').addEventListener('click',function(){
+  var t=document.documentElement.dataset.theme==='dark'?'light':'dark';
   document.documentElement.dataset.theme=t;
-  document.getElementById('theme-toggle').addEventListener('click',function(){
-    t=t==='dark'?'light':'dark';
-    document.documentElement.dataset.theme=t;
-    localStorage.setItem('theme',t);
-  });
-})();
+  localStorage.setItem('theme',t);
+});
 </script>
 </body>
 </html>`;
