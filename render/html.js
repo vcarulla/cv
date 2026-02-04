@@ -20,7 +20,7 @@ function hreflangTags(host, pagePath) {
   <link rel="alternate" hreflang="x-default" href="https://${esc(host)}${clean || "/"}"/>`;
 }
 
-function shell({ title, description, host, path = "/", lang = "en", pagePath = "/" }, body) {
+function shell({ title, description, host, lang = "en", pagePath = "/" }, body) {
   const cv = data.cv(lang);
   const prefix = lang === "en" ? "" : `/${lang}`;
   const altPrefix = lang === "en" ? "/es" : "";
