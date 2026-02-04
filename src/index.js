@@ -23,7 +23,8 @@ const secHeaders = {
   "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
 };
 
-const text = (body) => new Response(body, {
+const text = (body, status = 200) => new Response(body, {
+  status,
   headers: { "Content-Type": "text/plain; charset=utf-8", ...secHeaders }
 });
 
@@ -117,7 +118,7 @@ export default {
           : html(htmlYsap(host, lang), host);
 
       default:
-        return text("Not found\n", { status: 404 });
+        return text("Not found\n", 404);
     }
   }
 };
