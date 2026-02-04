@@ -18,6 +18,7 @@ const secHeaders = {
   "Cross-Origin-Opener-Policy": "same-origin",
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+  "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
 };
 
 const text = (body) => new Response(body, {
@@ -27,7 +28,7 @@ const text = (body) => new Response(body, {
 const html = (body, host) => new Response(body, {
   headers: {
     "Content-Type": "text/html; charset=utf-8",
-    "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; img-src data:",
+    "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; img-src data:; script-src https://static.cloudflareinsights.com; connect-src https://cloudflareinsights.com; require-trusted-types-for 'script'",
     "Link": `<https://${host}/json>; rel="alternate"; type="application/ld+json"`,
     ...secHeaders,
   }
@@ -40,6 +41,14 @@ const json = (body, pretty = false) => new Response(
 
 export default {
   async fetch(request) {
+    // Redirect HTTP to HTTPS
+    const cfVisitor = request.headers.get("cf-visitor");
+    if (cfVisitor && cfVisitor.includes('"http"')) {
+      const url = new URL(request.url);
+      url.protocol = "https:";
+      return Response.redirect(url.toString(), 301);
+    }
+
     const url = new URL(request.url);
     const path = url.pathname;
     const host = getHost(request);
