@@ -2,19 +2,6 @@ import * as data from "./data.js";
 import banner from "./banner.js";
 import { compactUrl } from "./text.js";
 
-const D = {
-  bg: "#282a36",
-  fg: "#f8f8f2",
-  purple: "#bd93f9",
-  pink: "#ff79c6",
-  cyan: "#8be9fd",
-  green: "#50fa7b",
-  yellow: "#f1fa8c",
-  orange: "#ffb86c",
-  dim: "#6272a4",
-  border: "#44475a",
-};
-
 function esc(s) {
   return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
@@ -51,7 +38,7 @@ function shell({ title, description, host, path = "/", lang = "en", pagePath = "
   <meta name="description" content="${esc(desc)}"/>
   <link rel="canonical" href="${esc(canonical)}"/>
   ${hreflangTags(host, pagePath)}
-  <meta name="theme-color" content="${D.bg}"/>
+  <meta name="theme-color" content="#282a36"/>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23282a36'/><text x='50' y='68' font-family='monospace' font-size='48' font-weight='bold' fill='%23bd93f9' text-anchor='middle'>VC</text></svg>"/>
 
   <meta property="og:type" content="website"/>
