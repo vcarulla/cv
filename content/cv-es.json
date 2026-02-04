@@ -19,17 +19,17 @@
     "Sistemas productivos · Kubernetes · CI/CD · Observabilidad",
     "",
     "Enfocado en mejorar la confiabilidad de sistemas, flujos de despliegue y visibilidad operativa.",
-    "Experiencia hands-on con CI/CD, entornos containerizados y operaciones en produccion."
+    "Experiencia sólida y hands-on con CI/CD, entornos containerizados y operaciones en producción."
   ],
   "skills": {
     "areas": [
-      "Sistemas Containerizados",
+      "Sistemas containerizados",
       "Pipelines CI/CD",
       "Infraestructura",
-      "Automatizacion",
-      "Monitoreo y Observabilidad",
-      "Sistemas de Mensajeria",
-      "Gestion de Secretos"
+      "Automatización",
+      "Monitoreo y observabilidad",
+      "Sistemas de Mensajería",
+      "Gestión de Secretos"
     ]
   },
   "experience": [
@@ -38,10 +38,10 @@
       "role": "DevOps Engineer | SRE",
       "period": "Mar 2024 – Presente",
       "highlights": [
-        "Mejore pipelines de CI/CD, aumentando la trazabilidad y seguridad operativa.",
-        "Implemente estandares de monitoreo y observabilidad para sistemas productivos.",
-        "Fortaleci las operaciones de Kubernetes y las practicas de gestion de secretos.",
-        "Habilite acceso self-service a flujos de despliegue e insights de sistemas, reduciendo la dependencia operativa."
+        "Mejoré pipelines de CI/CD, aumentando la trazabilidad y seguridad operativa.",
+        "Implementé estándares de monitoreo y observabilidad para sistemas productivos.",
+        "Fortalecí las operaciones de Kubernetes y las prácticas de gestión de secretos.",
+        "Habilité acceso self-service a flujos de despliegue e insights de sistemas, reduciendo la dependencia operativa."
       ],
       "tech": ["Kubernetes", "Docker", "Jenkins", "GitLab", "Azure"]
     },
@@ -50,9 +50,9 @@
       "role": "DevOps | SRE",
       "period": "Ene 2021 – Mar 2024",
       "highlights": [
-        "Opere y di soporte a infraestructura productiva y pipelines de despliegue.",
-        "Trabaje en CI/CD, monitoreo, logging y practicas de seguridad.",
-        "Mejore la confiabilidad y visibilidad entre entornos para dar soporte a equipos de desarrollo."
+        "Operé y di soporte a infraestructura productiva y pipelines de despliegue.",
+        "Trabajé en CI/CD, monitoreo, logging y prácticas de seguridad.",
+        "Di soporte a los equipos de desarrollo, mejorando la confiabilidad y la visibilidad entre entornos."
       ],
       "tech": ["CI/CD", "Monitoreo", "Logging", "Seguridad"]
     },
@@ -61,28 +61,28 @@
       "role": "Backend Developer (Fpay)",
       "period": "Sep 2019 – Ene 2021",
       "highlights": [
-        "Desarrollo backend para una plataforma de pagos multi-pais.",
-        "Integracion con servicios externos y sistemas de mensajeria."
+        "Desarrollo backend para una plataforma de pagos multi-país.",
+        "Integración con servicios externos y sistemas de mensajería."
       ],
-      "tech": ["Backend", "Integraciones", "Mensajeria"]
+      "tech": ["Backend", "Integraciones", "Mensajería"]
     },
     {
       "company": "Technisys",
-      "role": "Frontend Developer (Banco Itau)",
+      "role": "Frontend Developer (Banco Itaú)",
       "period": "Jul 2016 – Ago 2019",
       "highlights": [
-        "Desarrollo y mantenimiento de aplicaciones de banca movil.",
-        "Integracion con APIs backend en entornos regulados."
+        "Desarrollo y mantenimiento de aplicaciones de banca móvil.",
+        "Integración con APIs backend en entornos regulados."
       ],
       "tech": ["Mobile", "APIs", "Entornos regulados"]
     }
   ],
   "education": [
     {
-      "institution": "Educacion IT",
-      "program": "Carrera en Seguridad Informatica",
+      "institution": "Educación IT",
+      "program": "Formación en Seguridad Informática",
       "period": "2013 – 2014",
-      "details": "Carrera en seguridad de sistemas, mitigacion de vulnerabilidades y proteccion de infraestructura."
+      "details": "Formación en seguridad de sistemas, mitigación de vulnerabilidades y protección de infraestructura."
     }
   ],
   "certifications": [
@@ -112,13 +112,13 @@
     },
     {
       "issuer": "CLA",
-      "title": "Introduccion a Python",
+      "title": "Introducción a Python",
       "date": "Sep 2014"
     }
   ],
   "languages": [
-    { "name": "Espanol", "level": "Nativo" },
-    { "name": "Ingles", "level": "Competencia Profesional Basica" }
+    { "name": "Español", "level": "Nativo" },
+    { "name": "Inglés", "level": "Competencia profesional básica" }
   ],
   "labels": {
     "sections": {
@@ -130,48 +130,48 @@
     },
     "legend": {
       "/": "CV completo",
-      "/skills": "Stack tecnologico",
+      "/skills": "Stack tecnológico",
       "/experience": "Historial laboral",
       "/contact": "Contacto",
       "/json": "Salida JSON"
     },
     "fields": {
       "email": "Email",
-      "phone": "Telefono",
+      "phone": "Teléfono",
       "linkedin": "LinkedIn",
       "github": "GitHub"
     },
     "ui": {
       "education": "EDUCACION",
       "certifications": "LICENCIAS Y CERTIFICACIONES",
-      "areas": "AREAS",
+      "areas": "ÁREAS",
       "languages": "IDIOMAS",
       "availableCommands": "Comandos disponibles:",
       "usage": "Uso:",
       "skipToContent": "Ir al contenido",
-      "siteNavigation": "Navegacion del sitio",
+      "siteNavigation": "Navegación del sitio",
       "contact": "contacto"
     },
     "descriptions": {
-      "home": "DevOps / SRE. Sistemas productivos, Kubernetes, CI/CD, Observabilidad. CV curl-first.",
-      "skills": "Desglose completo de skills: containers, CI/CD, observabilidad, infraestructura y mas.",
-      "experience": "Historial laboral completo: DevOps, SRE, ingenieria backend y frontend.",
+      "home": "DevOps / SRE. Sistemas productivos, Kubernetes, CI/CD, Observabilidad",
+      "skills": "Desglose completo de skills: containers, CI/CD, observabilidad, infraestructura y más.",
+      "experience": "Historial laboral completo: DevOps, SRE, ingeniería backend y frontend.",
       "contact": "Contacto: email, LinkedIn y GitHub.",
       "ysap": "Gracias a Dave Eddy y ysap.sh por inspirar este CV curl-first."
     },
     "ysap": {
       "title": "YOU SUCK AT PROGRAMMING",
       "inspired": "Este proyecto fue inspirado por",
-      "daveIntro": "Dave es un streamer de YouTube y Twitch que creo",
-      "daveDesc": "una serie brillante que ensena programacion con humor y ejemplos del mundo real.",
-      "spark": "Su idea de entregar contenido via curl fue la chispa que hizo posible este CV amigable con la terminal.",
-      "checkOut": "Mira su trabajo:",
-      "originalInspiration": "La inspiracion original",
+      "daveIntro": "Dave es un streamer de YouTube y Twitch que creó",
+      "daveDesc": "una serie brillante que enseña programación con humor y ejemplos del mundo real.",
+      "spark": "Su idea de entregar contenido vía curl fue la chispa que hizo posible este CV amigable con la terminal.",
+      "checkOut": "Mirá su trabajo:",
+      "originalInspiration": "La inspiración original",
       "twitchChannel": "Canal de Twitch",
       "youtubeChannel": "Canal de YouTube",
       "bashCourse": "Curso completo de Bash",
       "personalSite": "Su sitio personal",
-      "thanks": "Gracias Dave por mostrarnos una mejor forma de compartir nuestro trabajo!"
+      "thanks": "¡Gracias Dave por mostrarnos una mejor forma de compartir nuestro trabajo!"
     }
   }
 }
