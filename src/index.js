@@ -12,17 +12,30 @@ const getHost = (request) =>
   request.headers.get("host") ||
   "cv.local";
 
+const secHeaders = {
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "DENY",
+  "Cross-Origin-Opener-Policy": "same-origin",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+};
+
 const text = (body) => new Response(body, {
-  headers: { "Content-Type": "text/plain; charset=utf-8" }
+  headers: { "Content-Type": "text/plain; charset=utf-8", ...secHeaders }
 });
 
-const html = (body) => new Response(body, {
-  headers: { "Content-Type": "text/html; charset=utf-8" }
+const html = (body, host) => new Response(body, {
+  headers: {
+    "Content-Type": "text/html; charset=utf-8",
+    "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; img-src data:",
+    "Link": `<https://${host}/json>; rel="alternate"; type="application/ld+json"`,
+    ...secHeaders,
+  }
 });
 
 const json = (body, pretty = false) => new Response(
   pretty ? JSON.stringify(body, null, 2) + "\n" : JSON.stringify(body),
-  { headers: { "Content-Type": "application/json; charset=utf-8" } }
+  { headers: { "Content-Type": "application/json; charset=utf-8", ...secHeaders } }
 );
 
 export default {
@@ -35,7 +48,7 @@ export default {
       case "/":
         return isCli(request)
           ? text(render.renderHome({ host }))
-          : html(htmlHome(host));
+          : html(htmlHome(host), host);
 
       case "/help":
         return text(render.renderHelp({ host }));
@@ -43,17 +56,17 @@ export default {
       case "/skills":
         return isCli(request)
           ? text(render.renderSkillsFull())
-          : html(htmlSkills(host));
+          : html(htmlSkills(host), host);
 
       case "/experience":
         return isCli(request)
           ? text(render.renderExperience())
-          : html(htmlExperience(host));
+          : html(htmlExperience(host), host);
 
       case "/contact":
         return isCli(request)
           ? text(render.renderContact())
-          : html(htmlContact(host));
+          : html(htmlContact(host), host);
 
       case "/json":
         return json(data.cv(), isCli(request));
@@ -77,7 +90,7 @@ export default {
       case "/ysap":
         return isCli(request)
           ? text(render.renderYsap())
-          : html(htmlYsap(host));
+          : html(htmlYsap(host), host);
 
       default:
         return text("Not found\n", { status: 404 });

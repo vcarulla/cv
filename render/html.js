@@ -33,19 +33,6 @@ const BANNER = `██╗   ██╗  █████╗
  ╚████╔╝   █████╗
   ╚═══╝    ╚════╝`;
 
-function personJsonLd(cv) {
-  const { identity: id = {}, contact: ct = {} } = cv;
-  return JSON.stringify({
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: id.name,
-    jobTitle: id.title,
-    url: "https://vcarulla.com",
-    address: { "@type": "PostalAddress", addressLocality: "Buenos Aires", addressCountry: "AR" },
-    sameAs: [ct.linkedin, ct.github].filter(Boolean),
-  });
-}
-
 function shell({ title, description, host, path = "/" }, body) {
   const cv = data.cv();
   const canonical = `https://${host}${path === "/" ? "" : path}`;
@@ -72,7 +59,6 @@ function shell({ title, description, host, path = "/" }, body) {
   <meta name="twitter:title" content="${esc(title)}"/>
   <meta name="twitter:description" content="${esc(desc)}"/>
 
-  <script type="application/ld+json">${personJsonLd(cv)}</script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -142,6 +128,17 @@ function shell({ title, description, host, path = "/" }, body) {
     .skills-list { padding-left: 8px; }
     .lang { padding-left: 8px; margin: 2px 0; }
     .cert { margin-bottom: 10px; }
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 0;
+      background: ${D.purple};
+      color: ${D.bg};
+      padding: 8px 16px;
+      z-index: 100;
+      font-weight: bold;
+    }
+    .skip-link:focus { top: 0; }
     @media (max-width: 600px) {
       body { padding: 12px; padding-top: 20px; }
       .header { gap: 16px; }
@@ -152,9 +149,10 @@ function shell({ title, description, host, path = "/" }, body) {
   </style>
 </head>
 <body>
-<div class="wrap">
+<a class="skip-link" href="#main">Skip to content</a>
+<main id="main" class="wrap" role="main">
 ${body}
-</div>
+</main>
 </body>
 </html>`;
 }
@@ -162,17 +160,17 @@ ${body}
 function renderHeaderHtml(cv) {
   const { identity: id = {}, contact: ct = {} } = cv;
   return `
-  <div class="header">
-    <div class="banner">${esc(BANNER)}</div>
+  <header class="header" role="banner">
+    <div class="banner" aria-hidden="true">${esc(BANNER)}</div>
     <div class="info">
-      <p class="bold">${esc(id.name)} — ${esc(id.title)}</p>
+      <h1 class="bold" style="font-size:inherit">${esc(id.name)} — ${esc(id.title)}</h1>
       <p>${esc(id.location)} | ${esc(id.tagline)}</p>
       <div class="spacer"></div>
-      <p><span class="cyan">LinkedIn:</span> <a class="purple" href="${esc(ct.linkedin)}" target="_blank">${esc(compactUrl(ct.linkedin))}</a></p>
-      <p><span class="cyan">GitHub:</span>   <a class="purple" href="${esc(ct.github)}" target="_blank">${esc(compactUrl(ct.github))}</a></p>
+      <p><span class="cyan">LinkedIn:</span> <a class="purple" href="${esc(ct.linkedin)}" target="_blank" rel="noopener">${esc(compactUrl(ct.linkedin))}</a></p>
+      <p><span class="cyan">GitHub:</span>   <a class="purple" href="${esc(ct.github)}" target="_blank" rel="noopener">${esc(compactUrl(ct.github))}</a></p>
       <p><span class="cyan">Email:</span>    <span class="purple">${esc(ct.email || "-")}</span></p>
     </div>
-  </div>`;
+  </header>`;
 }
 
 function renderJobsHtml(jobs) {
@@ -202,7 +200,7 @@ function legendHtml(host) {
     ["/json", lg["/json"] || "JSON output"],
   ];
   return `
-  <div class="box">
+  <nav class="box" role="navigation" aria-label="Site navigation">
     <div class="box-title">${esc(s.legend || "$help")}</div>
     <div class="box-body">
       ${items.map(([path, desc]) => `
@@ -213,7 +211,7 @@ function legendHtml(host) {
         <a class="cyan right" href="${path}">${esc(desc)}</a>
       </div>`).join("\n")}
     </div>
-  </div>`;
+  </nav>`;
 }
 
 export function htmlHome(host) {
