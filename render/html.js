@@ -145,6 +145,7 @@ function shell({ title, description, host, path = "/" }, body) {
       .banner { font-size: 10px; }
       .row { flex-direction: column; gap: 2px; padding-left: 8px; }
       .row .right { text-align: left; }
+      .row a, .row span { min-height: 48px; display: flex; align-items: center; }
     }
   </style>
 </head>
