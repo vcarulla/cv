@@ -117,9 +117,15 @@ function legend(host, labels, lang) {
     ["/experience", lg["/experience"] || "Career history"],
     ["/contact", lg["/contact"] || "Get in touch"],
   ];
-  return endpoints.map(([path, desc]) =>
-    cols(`${c.green("$")} ${c.bold(`curl ${host}${prefix}${path}`)}`, c.cyan(desc))
-  );
+  const switchPath = lang === "en" ? "/es" : "";
+  const switchLabel = lg.switchLang || (lang === "en" ? "Versión en español" : "English version");
+  return [
+    ...endpoints.map(([path, desc]) =>
+      cols(`${c.green("$")} ${c.bold(`curl ${host}${prefix}${path}`)}`, c.cyan(desc))
+    ),
+    "",
+    cols(`${c.green("$")} ${c.bold(`curl ${host}${switchPath}`)}`, c.cyan(switchLabel)),
+  ];
 }
 
 // --- public renderers ---
@@ -144,6 +150,9 @@ export function renderHelp({ host, lang = "en" }) {
   const ui = cv.labels?.ui || {};
   const prefix = lang === "en" ? "" : `/${lang}`;
   const cmd = path => `${c.green("$")} ${c.bold(`curl ${host}${prefix}${path}`)}`;
+  const switchPath = lang === "en" ? "/es" : "";
+  const switchLabel = lg.switchLang || (lang === "en" ? "Versión en español" : "English version");
+  const switchCmd = `${c.green("$")} ${c.bold(`curl ${host}${switchPath}`)}`;
   return box(c.pink(cv.labels?.sections?.legend || "$help"), [
     c.bold(ui.availableCommands || "Available commands:"), "",
     cols("help", "Show this help"),
@@ -153,7 +162,8 @@ export function renderHelp({ host, lang = "en" }) {
     c.dim(ui.usage || "Usage:"),
     cols(cmd(""), lg["/"] || "Full CV"),
     cols(cmd("/skills"), lg["/skills"] || "Tech stack"),
-    cols(cmd("/experience"), lg["/experience"] || "Career history"),
+    cols(cmd("/experience"), lg["/experience"] || "Career history"), "",
+    cols(switchCmd, c.cyan(switchLabel)),
   ], W) + "\n";
 }
 

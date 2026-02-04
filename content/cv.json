@@ -133,7 +133,8 @@
       "/skills": "Tech stack",
       "/experience": "Career history",
       "/contact": "Get in touch",
-      "/json": "JSON output"
+      "/json": "JSON output",
+      "switchLang": "Versión en español"
     },
     "fields": {
       "email": "Email",
