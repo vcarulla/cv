@@ -1,5 +1,6 @@
 import * as data from "./data.js";
 import banner from "./banner.js";
+import { compactUrl } from "./text.js";
 
 const D = {
   bg: "#282a36",
@@ -16,10 +17,6 @@ const D = {
 
 function esc(s) {
   return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-
-function compactUrl(url) {
-  return url ? String(url).replace(/^https?:\/\//, "").replace(/\/$/, "") : "-";
 }
 
 function ensureHttps(url) {
