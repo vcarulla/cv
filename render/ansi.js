@@ -116,7 +116,6 @@ function legend(host, labels, lang) {
     ["/skills", lg["/skills"] || "Tech stack"],
     ["/experience", lg["/experience"] || "Career history"],
     ["/contact", lg["/contact"] || "Get in touch"],
-    ["/json", lg["/json"] || "JSON output"],
   ];
   return endpoints.map(([path, desc]) =>
     cols(`${c.green("$")} ${c.bold(`curl ${host}${prefix}${path}`)}`, c.cyan(desc))
@@ -150,13 +149,11 @@ export function renderHelp({ host, lang = "en" }) {
     cols("help", "Show this help"),
     cols("skills", lg["/skills"] || "Tech stack"),
     cols("experience", lg["/experience"] || "Career history"),
-    cols("contact", lg["/contact"] || "Get in touch"),
-    cols("json", lg["/json"] || "JSON output"), "",
+    cols("contact", lg["/contact"] || "Get in touch"), "",
     c.dim(ui.usage || "Usage:"),
     cols(cmd(""), lg["/"] || "Full CV"),
     cols(cmd("/skills"), lg["/skills"] || "Tech stack"),
     cols(cmd("/experience"), lg["/experience"] || "Career history"),
-    cols(cmd("/json"), lg["/json"] || "JSON output"),
   ], W) + "\n";
 }
 

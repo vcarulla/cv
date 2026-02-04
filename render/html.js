@@ -283,7 +283,6 @@ function legendHtml(host, lang) {
     ["/skills", lg["/skills"] || "Tech stack"],
     ["/experience", lg["/experience"] || "Career history"],
     ["/contact", lg["/contact"] || "Get in touch"],
-    ["/json", lg["/json"] || "JSON output"],
   ];
   return `
   <nav class="box" role="navigation" aria-label="${esc(ui.siteNavigation || "Site navigation")}">
