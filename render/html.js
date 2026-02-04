@@ -1,4 +1,5 @@
 import * as data from "./data.js";
+import banner from "./banner.js";
 
 const D = {
   bg: "#282a36",
@@ -26,12 +27,7 @@ function ensureHttps(url) {
   return url.startsWith("http") ? url : `https://${url}`;
 }
 
-const BANNER = `██╗   ██╗  █████╗
-██║   ██║ ██╔═══╝
-██║   ██║ ██║
-╚██╗ ██╔╝ ██║
- ╚████╔╝   █████╗
-  ╚═══╝    ╚════╝`;
+const BANNER = banner();
 
 function hreflangTags(host, pagePath) {
   const clean = pagePath === "/" ? "" : pagePath;
