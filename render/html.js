@@ -46,10 +46,14 @@ function shell({ title, description, host, lang = "en", pagePath = "/" }, body) 
   <meta property="og:description" content="${esc(desc)}"/>
   <meta property="og:url" content="${esc(canonical)}"/>
   <meta property="og:site_name" content="${esc(host)}"/>
+  <meta property="og:image" content="https://${esc(host)}/og-image.svg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
 
-  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="${esc(title)}"/>
   <meta name="twitter:description" content="${esc(desc)}"/>
+  <meta name="twitter:image" content="https://${esc(host)}/og-image.svg"/>
 
   <style>
     :root {
@@ -176,7 +180,7 @@ function shell({ title, description, host, lang = "en", pagePath = "/" }, body) 
     @media (max-width: 600px) {
       body { padding: 12px; padding-top: 20px; }
       .header { gap: 16px; }
-      .banner { font-size: 10px; }
+      .banner { font-size: 12px; }
       .row { flex-direction: column; gap: 2px; padding-left: 8px; }
       .row .right { text-align: left; }
       .row a, .row span { min-height: 48px; display: flex; align-items: center; }

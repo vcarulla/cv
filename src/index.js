@@ -113,6 +113,23 @@ export default {
       case "/healthz":
         return text("ok\n");
 
+      case "/og-image.svg":
+        return new Response(
+          `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#282a36"/>
+  <text x="600" y="240" text-anchor="middle" font-family="monospace" font-size="48" fill="#bd93f9" xml:space="preserve">
+    <tspan x="600" dy="0">██╗   ██╗  █████╗</tspan>
+    <tspan x="600" dy="58">██║   ██║ ██╔═══╝</tspan>
+    <tspan x="600" dy="58">██║   ██║ ██║</tspan>
+    <tspan x="600" dy="58">╚██╗ ██╔╝ ██║</tspan>
+    <tspan x="600" dy="58"> ╚████╔╝   █████╗</tspan>
+    <tspan x="600" dy="58">  ╚═══╝    ╚════╝</tspan>
+  </text>
+  <text x="600" y="580" text-anchor="middle" font-family="monospace" font-size="32" fill="#f8f8f2">Victor Carulla</text>
+</svg>`,
+          { headers: { "Content-Type": "image/svg+xml", "Cache-Control": "public, max-age=31536000", ...secHeaders } }
+        );
+
       case "/ysap":
         return isCli(request)
           ? text(render.renderYsap({ lang }))
