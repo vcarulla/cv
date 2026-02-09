@@ -26,6 +26,5 @@ Thumbs.db
 dist/
 build/
 .wrangler/
+private/
 
-# Temp files
-temp-certs.txt
