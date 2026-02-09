@@ -23,15 +23,20 @@ const secHeaders = {
   "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
 };
 
-const text = (body, status = 200) => new Response(body, {
+const text = (body, status = 200, maxAge = 3600) => new Response(body, {
   status,
-  headers: { "Content-Type": "text/plain; charset=utf-8", ...secHeaders }
+  headers: {
+    "Content-Type": "text/plain; charset=utf-8",
+    "Cache-Control": `public, max-age=${maxAge}`,
+    ...secHeaders
+  }
 });
 
 const html = (body, host, status = 200) => new Response(body, {
   status,
   headers: {
     "Content-Type": "text/html; charset=utf-8",
+    "Cache-Control": "public, max-age=3600",
     "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; img-src data:; script-src 'sha256-nfU9GH4vMYtBGEhmbYodN1VSSuqE+65EE8e4UnxXYGM=' 'sha256-PjJkFu3E9pAXOag3lJ7FMAGEIT18Mr7EAJAv3Hmt7zQ=' https://static.cloudflareinsights.com; connect-src https://cloudflareinsights.com 'self'; require-trusted-types-for 'script'",
     "Link": `<https://${host}/json>; rel="alternate"; type="application/ld+json"`,
     ...secHeaders,
@@ -40,7 +45,7 @@ const html = (body, host, status = 200) => new Response(body, {
 
 const json = (body, pretty = false) => new Response(
   pretty ? JSON.stringify(body, null, 2) + "\n" : JSON.stringify(body),
-  { headers: { "Content-Type": "application/json; charset=utf-8", ...secHeaders } }
+  { headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "public, max-age=3600", ...secHeaders } }
 );
 
 function parseLang(path) {
@@ -97,7 +102,7 @@ export default {
         return json(data.cv(lang), isCli(request));
 
       case "/robots.txt":
-        return text(`User-agent: *\nAllow: /\nSitemap: https://${host}/sitemap.xml\n`);
+        return text(`User-agent: *\nAllow: /\nSitemap: https://${host}/sitemap.xml\n`, 200, 86400);
 
       case "/sitemap.xml":
         return new Response(
@@ -107,11 +112,11 @@ export default {
               `  <url><loc>https://${host}/es${p}</loc></url>`,
             ]).join("\n")
           }\n</urlset>\n`,
-          { headers: { "Content-Type": "application/xml; charset=utf-8" } }
+          { headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "public, max-age=86400", ...secHeaders } }
         );
 
       case "/healthz":
-        return text("ok\n");
+        return text("ok\n", 200, 0);
 
       case "/og-image.svg":
         return new Response(
