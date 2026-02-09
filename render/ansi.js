@@ -112,9 +112,9 @@ function legend(host, labels, lang) {
   const lg = labels?.legend || {};
   const prefix = lang === "en" ? "" : `/${lang}`;
   const endpoints = [
-    ["", lg["/"] || "Full CV"],
-    ["/skills", lg["/skills"] || "Tech stack"],
-    ["/experience", lg["/experience"] || "Career history"],
+    ["", lg["/"] || "One Page CV"],
+    ["/skills", lg["/skills"] || "Full tech stack"],
+    ["/experience", lg["/experience"] || "Full career history"],
     ["/contact", lg["/contact"] || "Get in touch"],
   ];
   const switchPath = lang === "en" ? "/es" : "";
@@ -156,13 +156,13 @@ export function renderHelp({ host, lang = "en" }) {
   return box(c.pink(cv.labels?.sections?.legend || "$help"), [
     c.bold(ui.availableCommands || "Available commands:"), "",
     cols("help", "Show this help"),
-    cols("skills", lg["/skills"] || "Tech stack"),
-    cols("experience", lg["/experience"] || "Career history"),
+    cols("skills", lg["/skills"] || "Full tech stack"),
+    cols("experience", lg["/experience"] || "Full career history"),
     cols("contact", lg["/contact"] || "Get in touch"), "",
     c.dim(ui.usage || "Usage:"),
-    cols(cmd(""), lg["/"] || "Full CV"),
-    cols(cmd("/skills"), lg["/skills"] || "Tech stack"),
-    cols(cmd("/experience"), lg["/experience"] || "Career history"), "",
+    cols(cmd(""), lg["/"] || "One Page CV"),
+    cols(cmd("/skills"), lg["/skills"] || "Full tech stack"),
+    cols(cmd("/experience"), lg["/experience"] || "Full career history"), "",
     cols(switchCmd, c.cyan(switchLabel)),
   ], W) + "\n";
 }

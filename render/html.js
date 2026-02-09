@@ -260,9 +260,9 @@ function legendHtml(host, lang) {
   const ui = cv.labels?.ui || {};
   const prefix = lang === "en" ? "" : `/${lang}`;
   const items = [
-    ["/", lg["/"] || "Full CV"],
-    ["/skills", lg["/skills"] || "Tech stack"],
-    ["/experience", lg["/experience"] || "Career history"],
+    ["/", lg["/"] || "One Page CV"],
+    ["/skills", lg["/skills"] || "Full tech stack"],
+    ["/experience", lg["/experience"] || "Full career history"],
     ["/contact", lg["/contact"] || "Get in touch"],
   ];
   return `

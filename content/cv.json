@@ -129,9 +129,9 @@
       "legend": "$help"
     },
     "legend": {
-      "/": "Full CV",
-      "/skills": "Tech stack",
-      "/experience": "Career history",
+      "/": "One Page CV",
+      "/skills": "Full tech stack",
+      "/experience": "Full career history",
       "/contact": "Get in touch",
       "/json": "JSON output",
       "switchLang": "Versión en español"
