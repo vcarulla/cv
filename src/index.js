@@ -13,7 +13,6 @@ const getHost = (request) =>
   "cv.local";
 
 const SUPPORTED_LANGS = new Set(["en", "es"]);
-const DEFAULT_LANG = "es"; // Change to "en" to make English the default
 
 const secHeaders = {
   "X-Content-Type-Options": "nosniff",
@@ -49,14 +48,22 @@ const json = (body, pretty = false) => new Response(
   { headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "public, max-age=3600", ...secHeaders } }
 );
 
-function parseLang(path) {
+function detectLang(acceptLang) {
+  // Spanish for es-*, English for everything else
+  return (acceptLang || "").toLowerCase().startsWith("es") ? "es" : "en";
+}
+
+function parseLang(path, acceptLang) {
   const match = path.match(/^\/(en|es)(\/|$)/);
   if (match && SUPPORTED_LANGS.has(match[1])) {
+    // Explicit prefix takes priority
     const lang = match[1];
     const cleanPath = path.replace(/^\/(en|es)/, "") || "/";
-    return { lang, cleanPath };
+    return { lang, cleanPath, explicit: true };
   }
-  return { lang: DEFAULT_LANG, cleanPath: path };
+  // No prefix: detect from Accept-Language header
+  const lang = detectLang(acceptLang);
+  return { lang, cleanPath: path, explicit: false };
 }
 
 export default {
@@ -72,8 +79,9 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname;
     const host = getHost(request);
+    const acceptLang = request.headers.get("Accept-Language");
 
-    const { lang, cleanPath } = parseLang(path);
+    const { lang, cleanPath } = parseLang(path, acceptLang);
 
     switch (cleanPath) {
       case "/":
