@@ -22,8 +22,8 @@ function hreflangTags(host, pagePath) {
 
 function shell({ title, description, host, lang = "en", pagePath = "/" }, body) {
   const cv = data.cv(lang);
-  const prefix = lang === "en" ? "" : `/${lang}`;
-  const altPrefix = lang === "en" ? "/es" : "";
+  const prefix = `/${lang}`;
+  const altPrefix = lang === "en" ? "/es" : "/en";
   const canonical = `https://${host}${prefix}${pagePath === "/" ? "" : pagePath}`;
   const altLangUrl = `${altPrefix}${pagePath === "/" ? "/" : pagePath}`;
   const desc = description || `${cv.identity.name} — ${cv.identity.title}. ${cv.identity.location}. curl-first CV.`;
@@ -258,7 +258,7 @@ function legendHtml(host, lang, currentPath = "/") {
   const lg = cv.labels?.legend || {};
   const s = cv.labels?.sections || {};
   const ui = cv.labels?.ui || {};
-  const prefix = lang === "en" ? "" : `/${lang}`;
+  const prefix = `/${lang}`;
   const items = [
     ["/", lg["/"] || "Home"],
     ["/skills", lg["/skills"] || "Full tech stack"],

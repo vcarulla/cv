@@ -12,7 +12,8 @@ const getHost = (request) =>
   request.headers.get("host") ||
   "cv.local";
 
-const SUPPORTED_LANGS = new Set(["es"]);
+const SUPPORTED_LANGS = new Set(["en", "es"]);
+const DEFAULT_LANG = "es"; // Change to "en" to make English the default
 
 const secHeaders = {
   "X-Content-Type-Options": "nosniff",
@@ -49,13 +50,13 @@ const json = (body, pretty = false) => new Response(
 );
 
 function parseLang(path) {
-  const match = path.match(/^\/(es)(\/|$)/);
+  const match = path.match(/^\/(en|es)(\/|$)/);
   if (match && SUPPORTED_LANGS.has(match[1])) {
     const lang = match[1];
-    const cleanPath = path.replace(/^\/es/, "") || "/";
+    const cleanPath = path.replace(/^\/(en|es)/, "") || "/";
     return { lang, cleanPath };
   }
-  return { lang: "en", cleanPath: path };
+  return { lang: DEFAULT_LANG, cleanPath: path };
 }
 
 export default {
@@ -85,17 +86,17 @@ export default {
 
       case "/skills":
         return isCli(request)
-          ? text(render.renderSkillsFull({ lang }))
+          ? text(render.renderSkillsFull({ host, lang }))
           : html(htmlSkills(host, lang), host);
 
       case "/experience":
         return isCli(request)
-          ? text(render.renderExperience({ lang }))
+          ? text(render.renderExperience({ host, lang }))
           : html(htmlExperience(host, lang), host);
 
       case "/contact":
         return isCli(request)
-          ? text(render.renderContact({ lang }))
+          ? text(render.renderContact({ host, lang }))
           : html(htmlContact(host, lang), host);
 
       case "/json":
@@ -137,7 +138,7 @@ export default {
 
       case "/ysap":
         return isCli(request)
-          ? text(render.renderYsap({ lang }))
+          ? text(render.renderYsap({ host, lang }))
           : html(htmlYsap(host, lang), host);
 
       default:

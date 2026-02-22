@@ -110,14 +110,14 @@ function renderSkillsCompact(cv) {
 
 function legend(host, labels, lang, currentPath = "/") {
   const lg = labels?.legend || {};
-  const prefix = lang === "en" ? "" : `/${lang}`;
+  const prefix = `/${lang}`;
   const endpoints = [
     ["/", lg["/"] || "Home"],
     ["/skills", lg["/skills"] || "Full tech stack"],
     ["/experience", lg["/experience"] || "Full career history"],
     ["/contact", lg["/contact"] || "Get in touch"],
   ].filter(([path]) => path !== currentPath);
-  const switchPath = lang === "en" ? "/es" : "";
+  const switchPath = lang === "en" ? "/es" : "/en";
   const switchLabel = lg.switchLang || (lang === "en" ? "Versión en español" : "English version");
   return [
     ...endpoints.map(([path, desc]) =>
@@ -154,9 +154,9 @@ export function renderHelp({ host, lang = "en" }) {
   const cv = data.cv(lang);
   const lg = cv.labels?.legend || {};
   const ui = cv.labels?.ui || {};
-  const prefix = lang === "en" ? "" : `/${lang}`;
+  const prefix = `/${lang}`;
   const cmd = path => `${c.green("$")} ${c.bold(`curl -L ${host}${prefix}${path}`)}`;
-  const switchPath = lang === "en" ? "/es" : "";
+  const switchPath = lang === "en" ? "/es" : "/en";
   const switchLabel = lg.switchLang || (lang === "en" ? "Versión en español" : "English version");
   const switchCmd = `${c.green("$")} ${c.bold(`curl -L ${host}${switchPath}`)}`;
   return box(c.pink(cv.labels?.sections?.legend || "$help"), [
@@ -169,7 +169,7 @@ export function renderHelp({ host, lang = "en" }) {
   ], W) + "\n";
 }
 
-export function renderSkillsFull({ lang = "en" } = {}) {
+export function renderSkillsFull({ host, lang = "en" } = {}) {
   const cv = data.cv(lang);
   const s = cv.labels?.sections || {};
   const skills = data.skillsFull(lang);
@@ -184,49 +184,63 @@ export function renderSkillsFull({ lang = "en" } = {}) {
     }),
     c.dim(" ")
   ]);
-  return renderHeader(cv) + box(c.pink(s.skillsFull || "$ echo ${SKILLS[@]}"), lines, W) + "\n";
+  return renderHeader(cv) + [
+    box(c.pink(s.skillsFull || "$ echo ${SKILLS[@]}"), lines, W),
+    box(c.pink(s.legend || "$help"), legend(host, cv.labels, lang, "/skills"), W),
+  ].join("\n\n") + "\n";
 }
 
-export function renderExperience({ lang = "en" } = {}) {
+export function renderExperience({ host, lang = "en" } = {}) {
   const cv = data.cv(lang);
   const s = cv.labels?.sections || {};
   const { experience = [] } = data.experienceFull(lang);
-  return renderHeader(cv) + box(c.pink(s.experienceFull || "$jobs --all"), renderJobs(experience), W) + "\n";
+  return renderHeader(cv) + [
+    box(c.pink(s.experienceFull || "$jobs --all"), renderJobs(experience), W),
+    box(c.pink(s.legend || "$help"), legend(host, cv.labels, lang, "/experience"), W),
+  ].join("\n\n") + "\n";
 }
 
-export function renderContact({ lang = "en" } = {}) {
+export function renderContact({ host, lang = "en" } = {}) {
   const cv = data.cv(lang);
   const ct = cv.contact || {};
   const fields = cv.labels?.fields || {};
-  return renderHeader(cv) + box(c.pink(cv.labels?.ui?.contact || "contact"), [
-    cols(c.cyan(fields.email || "Email"), ct.email || "-"),
-    cols(c.cyan(fields.linkedin || "LinkedIn"), ct.linkedin || "-"),
-    cols(c.cyan(fields.github || "GitHub"), ct.github || "-"),
-  ], W) + "\n";
+  const s = cv.labels?.sections || {};
+  return renderHeader(cv) + [
+    box(c.pink(cv.labels?.ui?.contact || "contact"), [
+      cols(c.cyan(fields.email || "Email"), ct.email || "-"),
+      cols(c.cyan(fields.linkedin || "LinkedIn"), ct.linkedin || "-"),
+      cols(c.cyan(fields.github || "GitHub"), ct.github || "-"),
+    ], W),
+    box(c.pink(s.legend || "$help"), legend(host, cv.labels, lang, "/contact"), W),
+  ].join("\n\n") + "\n";
 }
 
-export function renderYsap({ lang = "en" } = {}) {
+export function renderYsap({ host, lang = "en" } = {}) {
   const cv = data.cv(lang);
+  const s = cv.labels?.sections || {};
   const y = cv.labels?.ysap || {};
-  return renderHeader(cv) + box(c.pink(y.title || "YOU SUCK AT PROGRAMMING"), [
-    "",
-    `${y.inspired || "This project was inspired by Dave Eddy's"} ${c.yellow("ysap.sh")}`,
-    "",
-    `${y.daveIntro || "Dave is a YouTube and Twitch streamer who created"}`,
-    `${c.yellow("You Suck at Programming")} - ${y.daveDesc || "a brilliant series that teaches programming through humor and real-world examples."}`,
-    "",
-    `${y.spark || "His idea of delivering content via curl was the spark that made this terminal-friendly CV possible."}`,
-    "",
-    c.bold(`${y.checkOut || "Check out his work:"}`),
-    cols(`  ${c.green("$")} ${c.bold("curl ysap.sh")}`, c.cyan(y.originalInspiration || "The original inspiration")),
-    cols(`  ${c.purple("twitch.tv/dave_eddy")}`, c.cyan(y.twitchChannel || "Twitch channel")),
-    cols(`  ${c.purple("ysap.sh/youtube")}`, c.cyan(y.youtubeChannel || "YouTube channel")),
-    cols(`  ${c.purple("course.ysap.sh")}`, c.cyan(y.bashCourse || "Complete Bash Course")),
-    cols(`  ${c.purple("daveeddy.com")}`, c.cyan(y.personalSite || "His personal site")),
-    "",
-    c.cyan(y.thanks || "Thanks Dave for showing us a better way to share our work!"),
-    ""
-  ], W) + "\n";
+  return renderHeader(cv) + [
+    box(c.pink(y.title || "YOU SUCK AT PROGRAMMING"), [
+      "",
+      `${y.inspired || "This project was inspired by Dave Eddy's"} ${c.yellow("ysap.sh")}`,
+      "",
+      `${y.daveIntro || "Dave is a YouTube and Twitch streamer who created"}`,
+      `${c.yellow("You Suck at Programming")} - ${y.daveDesc || "a brilliant series that teaches programming through humor and real-world examples."}`,
+      "",
+      `${y.spark || "His idea of delivering content via curl was the spark that made this terminal-friendly CV possible."}`,
+      "",
+      c.bold(`${y.checkOut || "Check out his work:"}`),
+      cols(`  ${c.green("$")} ${c.bold("curl ysap.sh")}`, c.cyan(y.originalInspiration || "The original inspiration")),
+      cols(`  ${c.purple("twitch.tv/dave_eddy")}`, c.cyan(y.twitchChannel || "Twitch channel")),
+      cols(`  ${c.purple("ysap.sh/youtube")}`, c.cyan(y.youtubeChannel || "YouTube channel")),
+      cols(`  ${c.purple("course.ysap.sh")}`, c.cyan(y.bashCourse || "Complete Bash Course")),
+      cols(`  ${c.purple("daveeddy.com")}`, c.cyan(y.personalSite || "His personal site")),
+      "",
+      c.cyan(y.thanks || "Thanks Dave for showing us a better way to share our work!"),
+      ""
+    ], W),
+    box(c.pink(s.legend || "$help"), legend(host, cv.labels, lang, "/ysap"), W),
+  ].join("\n\n") + "\n";
 }
 
 export function render404({ host, lang = "en" } = {}) {
