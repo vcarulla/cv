@@ -121,10 +121,10 @@ function legend(host, labels, lang, currentPath = "/") {
   const switchLabel = lg.switchLang || (lang === "en" ? "Versión en español" : "English version");
   return [
     ...endpoints.map(([path, desc]) =>
-      cols(`${c.green("$")} ${c.bold(`curl ${host}${prefix}${path === "/" ? "" : path}`)}`, c.cyan(desc))
+      cols(`${c.green("$")} ${c.bold(`curl -L ${host}${prefix}${path === "/" ? "" : path}`)}`, c.cyan(desc))
     ),
     "",
-    cols(`${c.green("$")} ${c.bold(`curl ${host}${switchPath}`)}`, c.cyan(switchLabel)),
+    cols(`${c.green("$")} ${c.bold(`curl -L ${host}${switchPath}`)}`, c.cyan(switchLabel)),
   ];
 }
 
@@ -133,7 +133,13 @@ export function renderHome({ host, lang = "en" }) {
   const cv = data.cv(lang);
   const s = cv.labels?.sections || {};
   const header = renderHeader(cv);
-  const whoami = (cv.summary || []).flatMap(s => wrap(s, 80));
+  const summary = cv.summary || [];
+  const whoami = summary.flatMap((s, i) => {
+    if (s === "") return [""];
+    const lines = wrap(s, 80);
+    if (i === 0) return [...lines.map(l => c.purple(l)), ""];
+    return lines;
+  });
 
   return header + [
     box(c.pink(s.whoami || "$whoami"), whoami, W),
@@ -149,20 +155,16 @@ export function renderHelp({ host, lang = "en" }) {
   const lg = cv.labels?.legend || {};
   const ui = cv.labels?.ui || {};
   const prefix = lang === "en" ? "" : `/${lang}`;
-  const cmd = path => `${c.green("$")} ${c.bold(`curl ${host}${prefix}${path}`)}`;
+  const cmd = path => `${c.green("$")} ${c.bold(`curl -L ${host}${prefix}${path}`)}`;
   const switchPath = lang === "en" ? "/es" : "";
   const switchLabel = lg.switchLang || (lang === "en" ? "Versión en español" : "English version");
-  const switchCmd = `${c.green("$")} ${c.bold(`curl ${host}${switchPath}`)}`;
+  const switchCmd = `${c.green("$")} ${c.bold(`curl -L ${host}${switchPath}`)}`;
   return box(c.pink(cv.labels?.sections?.legend || "$help"), [
-    c.bold(ui.availableCommands || "Available commands:"), "",
-    cols("help", "Show this help"),
-    cols("skills", lg["/skills"] || "Full tech stack"),
-    cols("experience", lg["/experience"] || "Full career history"),
-    cols("contact", lg["/contact"] || "Get in touch"), "",
-    c.dim(ui.usage || "Usage:"),
+    c.bold(ui.usage || "Usage:"), "",
     cols(cmd(""), lg["/"] || "Home"),
     cols(cmd("/skills"), lg["/skills"] || "Full tech stack"),
-    cols(cmd("/experience"), lg["/experience"] || "Full career history"), "",
+    cols(cmd("/experience"), lg["/experience"] || "Full career history"),
+    cols(cmd("/contact"), lg["/contact"] || "Get in touch"), "",
     cols(switchCmd, c.cyan(switchLabel)),
   ], W) + "\n";
 }

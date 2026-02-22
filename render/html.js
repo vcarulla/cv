@@ -272,7 +272,7 @@ function legendHtml(host, lang, currentPath = "/") {
       ${items.map(([path, desc]) => `
       <div class="row" style="padding-left:0">
         <a class="left" href="${prefix}${path}" style="color:inherit">
-          <span class="green">$</span> <span class="bold">curl ${esc(host)}${prefix}${path === "/" ? "" : path}</span>
+          <span class="green">$</span> <span class="bold">curl -L ${esc(host)}${prefix}${path === "/" ? "" : path}</span>
         </a>
         <a class="cyan right" href="${prefix}${path}">${esc(desc)}</a>
       </div>`).join("\n")}
@@ -293,7 +293,11 @@ export function htmlHome(host, lang = "en") {
   <div class="box">
     <div class="box-title">${esc(s.whoami || "$whoami")}</div>
     <div class="box-body">
-      ${(cv.summary || []).map(s => s === "" ? '<div class="spacer"></div>' : `<p>${esc(s)}</p>`).join("\n      ")}
+      ${(cv.summary || []).map((s, i) => {
+        if (s === "") return '<div class="spacer"></div>';
+        if (i === 0) return `<p class="purple">${esc(s)}</p><div class="spacer"></div>`;
+        return `<p>${esc(s)}</p>`;
+      }).join("\n      ")}
     </div>
   </div>
 
