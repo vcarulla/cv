@@ -253,18 +253,18 @@ function renderJobsHtml(jobs) {
     </div>`).join("\n");
 }
 
-function legendHtml(host, lang) {
+function legendHtml(host, lang, currentPath = "/") {
   const cv = data.cv(lang);
   const lg = cv.labels?.legend || {};
   const s = cv.labels?.sections || {};
   const ui = cv.labels?.ui || {};
   const prefix = lang === "en" ? "" : `/${lang}`;
   const items = [
-    ["/", lg["/"] || "One Page CV"],
+    ["/", lg["/"] || "Home"],
     ["/skills", lg["/skills"] || "Full tech stack"],
     ["/experience", lg["/experience"] || "Full career history"],
     ["/contact", lg["/contact"] || "Get in touch"],
-  ];
+  ].filter(([path]) => path !== currentPath);
   return `
   <nav class="box" role="navigation" aria-label="${esc(ui.siteNavigation || "Site navigation")}">
     <div class="box-title">${esc(s.legend || "$help")}</div>
@@ -338,7 +338,7 @@ export function htmlHome(host, lang = "en") {
     </div>
   </div>
 
-  ${legendHtml(host, lang)}
+  ${legendHtml(host, lang, "/")}
   `);
 }
 
@@ -369,7 +369,7 @@ export function htmlSkills(host, lang = "en") {
     </div>
   </div>
 
-  ${legendHtml(host, lang)}
+  ${legendHtml(host, lang, "/skills")}
   `);
 }
 
@@ -389,7 +389,7 @@ export function htmlExperience(host, lang = "en") {
     </div>
   </div>
 
-  ${legendHtml(host, lang)}
+  ${legendHtml(host, lang, "/experience")}
   `);
 }
 
@@ -420,7 +420,7 @@ export function htmlContact(host, lang = "en") {
     </div>
   </div>
 
-  ${legendHtml(host, lang)}
+  ${legendHtml(host, lang, "/contact")}
   `);
 }
 
@@ -493,6 +493,6 @@ export function html404(host, lang = "en") {
     </div>
   </div>
 
-  ${legendHtml(host, lang)}
+  ${legendHtml(host, lang, "/404")}
   `);
 }

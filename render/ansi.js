@@ -108,20 +108,20 @@ function renderSkillsCompact(cv) {
   ];
 }
 
-function legend(host, labels, lang) {
+function legend(host, labels, lang, currentPath = "/") {
   const lg = labels?.legend || {};
   const prefix = lang === "en" ? "" : `/${lang}`;
   const endpoints = [
-    ["", lg["/"] || "One Page CV"],
+    ["/", lg["/"] || "Home"],
     ["/skills", lg["/skills"] || "Full tech stack"],
     ["/experience", lg["/experience"] || "Full career history"],
     ["/contact", lg["/contact"] || "Get in touch"],
-  ];
+  ].filter(([path]) => path !== currentPath);
   const switchPath = lang === "en" ? "/es" : "";
   const switchLabel = lg.switchLang || (lang === "en" ? "Versión en español" : "English version");
   return [
     ...endpoints.map(([path, desc]) =>
-      cols(`${c.green("$")} ${c.bold(`curl ${host}${prefix}${path}`)}`, c.cyan(desc))
+      cols(`${c.green("$")} ${c.bold(`curl ${host}${prefix}${path === "/" ? "" : path}`)}`, c.cyan(desc))
     ),
     "",
     cols(`${c.green("$")} ${c.bold(`curl ${host}${switchPath}`)}`, c.cyan(switchLabel)),
@@ -140,7 +140,7 @@ export function renderHome({ host, lang = "en" }) {
     box(c.pink(s.skills || "$./skills"), renderSkillsCompact(cv), W),
     box(c.pink(s.experience || "$jobs"), renderJobs(cv.experience || []), W),
     box(c.pink(s.education || "$cv | grep education"), renderEducation(cv), W),
-    box(c.pink(s.legend || "$help"), legend(host, cv.labels, lang), W),
+    box(c.pink(s.legend || "$help"), legend(host, cv.labels, lang, "/"), W),
   ].join("\n\n") + "\n";
 }
 
@@ -160,7 +160,7 @@ export function renderHelp({ host, lang = "en" }) {
     cols("experience", lg["/experience"] || "Full career history"),
     cols("contact", lg["/contact"] || "Get in touch"), "",
     c.dim(ui.usage || "Usage:"),
-    cols(cmd(""), lg["/"] || "One Page CV"),
+    cols(cmd(""), lg["/"] || "Home"),
     cols(cmd("/skills"), lg["/skills"] || "Full tech stack"),
     cols(cmd("/experience"), lg["/experience"] || "Full career history"), "",
     cols(switchCmd, c.cyan(switchLabel)),
