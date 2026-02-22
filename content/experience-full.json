@@ -5,45 +5,49 @@
       "role": "DevOps Engineer | SRE",
       "period": "Mar 2024 – Present",
       "highlights": [
-        "Improved CI/CD pipelines, increasing traceability and operational safety.",
-        "Implemented monitoring and observability standards for production systems.",
-        "Strengthened Kubernetes operations and secrets management practices.",
-        "Reduced operational dependency by enabling self-service access to deployment workflows and system insights."
+        "Modernization and standardization of CI/CD workflows through the design of controlled, parameterized pipelines, increasing deployment reliability and enabling self-service models across teams.",
+        "Container orchestration improvements and platform stability across production environments.",
+        "Implementation of centralized secrets management practices across distributed systems.",
+        "Reorganization and reinforcement of observability through rapid visibility solutions, metric normalization via an internal service layer, and integration of threshold-based alerting into centralized monitoring systems, promoting technical adoption across teams."
       ],
-      "environment": "Containerized workloads, CI/CD pipelines, observability tooling, secrets management and production Kubernetes operations."
+      "technologies": "Azure · Kubernetes (AKS, k3s) · Helm · GitLab CI · Jenkins · Elastic Stack · Zabbix · Kuma · Vault · Consul · Harbor · Proxmox · Docker Swarm"
     },
     {
       "company": "Fpay",
       "role": "DevOps | SRE",
       "period": "Jan 2021 – Mar 2024",
       "highlights": [
-        "Operated and supported production infrastructure and deployment pipelines.",
-        "Worked on CI/CD, monitoring, logging and security practices.",
-        "Supported development teams by improving reliability and visibility across environments."
+        "DevOps point of contact for multiple backend and frontend teams, supporting the full deployment and operational lifecycle of microservices in production cloud environments.",
+        "Evolution of the Infrastructure-as-Code and automation platform, strengthening pipelines and supporting the transition from Jenkins to GitLab CI.",
+        "Operation and maintenance of Docker Swarm-based infrastructure on Azure, ensuring platform stability in distributed environments.",
+        "Incident management across critical platform components, including API gateway (KongHQ), messaging systems, and managed data services such as MongoDB Atlas and BigQuery.",
+        "Improvement of observability and monitoring practices (ELK, Datadog) during high-demand operational periods."
       ],
-      "environment": "Cloud infrastructure, container platforms, CI/CD automation, monitoring and logging systems, messaging services."
+      "technologies": "Azure · GCP · Docker Swarm · Kubernetes · Terraform · Jenkins · GitLab CI · Chef · KongHQ ·ELK · Datadog · Vault · Cloudflare · MongoDB Atlas · BigQuery"
     },
     {
       "company": "Technisys",
       "role": "Backend Developer at Fpay",
       "period": "Sep 2019 – Jan 2021",
       "highlights": [
-        "Backend development for a multi-country payment platform.",
-        "Integration with external services and messaging systems.",
-        "Collaboration with infrastructure and operations teams on deployment and reliability aspects."
+        "Backend development for a multi-country digital payment wallet, integrating financial services across regulated environments.",
+        "Design and implementation of backend components for asynchronous payment transaction processing using messaging queues, handling persistence, transactional state management, and retry mechanisms.",
+        "Implementation of integrations with external systems and collaboration on financial traceability and auditability.",
+        "Collaboration with infrastructure teams on deployment, configuration, and service reliability."
       ],
-      "technologies": "Node.js, message brokers, relational and non-relational databases."
+      "technologies": "Node.js · Express · RabbitMQ · MySQL · Redis · Docker · Jenkins · Kong · Instana · JWT · MongoDB"
     },
     {
       "company": "Technisys",
       "role": "Frontend Developer at Banco Itaú",
       "period": "Jul 2016 – Aug 2019",
       "highlights": [
-        "Development and maintenance of mobile banking applications.",
-        "Integration with backend services and REST APIs.",
-        "Experience working in regulated and high-availability environments."
+        "Development and maintenance of the Banco Itaú mobile banking application.",
+        "Development of Angular/Ionic components and services to support multi-step operational flows and client-side validations.",
+        "Resolution of cross-platform styling and compatibility issues using SASS.",
+        "Integration of banking APIs and analytics tools, including participation in mobile build and store release processes (Android/iOS)."
       ],
-      "technologies": "Angular, Ionic, mobile development frameworks, RESTful APIs."
+      "technologies": "Angular · Ionic · TypeScript · RxJS · SASS · Cordova · REST APIs"
     },
     {
       "company": "DoWhale",

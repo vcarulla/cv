@@ -247,8 +247,8 @@ function renderJobsHtml(jobs) {
       <ul class="bullets">
         ${(j.highlights || []).map(h => `<li>${esc(h)}</li>`).join("\n        ")}
       </ul>
-      ${j.environment ? `<p class="dim" style="padding-left:8px"><span class="bold">environment:</span> ${esc(j.environment)}</p>` : ""}
-      ${j.technologies ? `<p class="dim" style="padding-left:8px"><span class="bold">technologies:</span> ${esc(j.technologies)}</p>` : ""}
+      ${j.environment ? `<p class="tech">${esc(j.environment)}</p>` : ""}
+      ${j.technologies ? `<p class="tech">${esc(j.technologies)}</p>` : ""}
       ${j.tech?.length ? `<p class="tech">${j.tech.map(esc).join(" · ")}</p>` : ""}
     </div>`).join("\n");
 }
@@ -298,7 +298,7 @@ export function htmlHome(host, lang = "en") {
   </div>
 
   <div class="box">
-    <div class="box-title">${esc(s.skills || "$./skills")}</div>
+    <div class="box-title">${esc(s.skills || "$ echo $SKILLS")}</div>
     <div class="box-body">
       <p class="purple bold">${esc(ui.areas || "AREAS")}</p>
       <p class="skills-list">${(cv.skills?.areas || []).map(esc).join(" · ")}</p>
@@ -352,12 +352,18 @@ export function htmlSkills(host, lang = "en") {
   ${renderHeaderHtml(cv)}
 
   <div class="box">
-    <div class="box-title">${esc(s.skills || "$./skills")}</div>
+    <div class="box-title">${esc(s.skillsFull || "$ echo ${SKILLS[@]}")}</div>
     <div class="box-body">
       ${Object.entries(skills || {}).map(([section, items]) => `
       <p class="bold">${esc(section)}</p>
       <ul class="bullets">
-        ${items.map(it => `<li class="dim">${esc(it)}</li>`).join("\n        ")}
+        ${items.map(it => {
+          const match = it.match(/^([^(]+)(\(.+\))$/);
+          if (match) {
+            return `<li>${esc(match[1])}<span class="dim">${esc(match[2])}</span></li>`;
+          }
+          return `<li>${esc(it)}</li>`;
+        }).join("\n        ")}
       </ul>
       <div class="spacer"></div>`).join("\n")}
     </div>
@@ -377,7 +383,7 @@ export function htmlExperience(host, lang = "en") {
   ${renderHeaderHtml(cv)}
 
   <div class="box">
-    <div class="box-title">${esc(s.experience || "$jobs")}</div>
+    <div class="box-title">${esc(s.experienceFull || "$jobs --all")}</div>
     <div class="box-body">
       ${renderJobsHtml(experience)}
     </div>

@@ -1,21 +1,36 @@
 {
-  "Containers & Platforms": [
-    "Docker",
-    "Kubernetes"
+  "Containers & Orchestration": [
+    "Container runtimes (Docker, Docker Swarm)",
+    "Orchestration (Kubernetes - AKS, k3s)",
+    "Package management & registries (Helm, Harbor)"
   ],
   "CI/CD & Automation": [
-    "CI/CD concepts (Jenkins, GitLab CI/CD)"
+    "Pipelines (Jenkins, GitLab CI)",
+    "Configuration management (Chef)",
+    "Infrastructure as Code (Terraform)"
+  ],
+  "Cloud Platforms": [
+    "Azure, GCP, Cloudflare"
   ],
   "Observability & Monitoring": [
-    "Metrics, logs, dashboards (Prometheus, Grafana)",
-    "Elastic Stack (ELK, Elasticsearch, Logstash, Kibana)",
-    "Datadog"
+    "Metrics and dashboards (Zabbix, Kuma)",
+    "Logging and APM (Elastic Stack, Datadog, Instana)"
   ],
   "Infrastructure & Security": [
-    "Infrastructure as Code concepts (Terraform)",
-    "Secrets management (Vault)"
+    "Secrets management (Vault, Consul)",
+    "API Gateway (KongHQ)"
   ],
-  "Messaging & Integration": [
-    "Message brokers (RabbitMQ, Kafka)"
+  "Messaging & Data": [
+    "Message brokers (RabbitMQ, Kafka)",
+    "Databases (MongoDB, MySQL, Redis, BigQuery)"
+  ],
+  "Backend": [
+    "Runtime and frameworks (Node.js, Express)",
+    "Authentication (JWT)"
+  ],
+  "Frontend & Mobile": [
+    "Frameworks (Angular, Ionic)",
+    "Languages and tools (TypeScript, RxJS, SASS, Cordova)",
+    "API integration (REST APIs)"
   ]
 }

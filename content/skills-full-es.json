@@ -1,21 +1,36 @@
 {
-  "Contenedores y Plataformas": [
-    "Docker",
-    "Kubernetes"
+  "Contenedores y Orquestación": [
+    "Runtimes de contenedores (Docker, Docker Swarm)",
+    "Orquestación (Kubernetes - AKS, k3s)",
+    "Gestión de paquetes y registros (Helm, Harbor)"
   ],
   "CI/CD y Automatización": [
-    "Conceptos de CI/CD (Jenkins, GitLab CI/CD)"
+    "Pipelines (Jenkins, GitLab CI)",
+    "Gestión de configuración (Chef)",
+    "Infraestructura como Código (Terraform)"
+  ],
+  "Plataformas Cloud": [
+    "Azure, GCP, Cloudflare"
   ],
   "Observabilidad y Monitoreo": [
-    "Métricas, logs, tableros (Prometheus, Grafana)",
-    "Elastic Stack (ELK, Elasticsearch, Logstash, Kibana)",
-    "Datadog"
+    "Métricas y dashboards (Zabbix, Kuma)",
+    "Logging y APM (Elastic Stack, Datadog, Instana)"
   ],
   "Infraestructura y Seguridad": [
-    "Conceptos de Infrastructura como Código - IaC (Terraform)",
-    "Gestión de secretos (Vault)"
+    "Gestión de secretos (Vault, Consul)",
+    "API Gateway (KongHQ)"
   ],
-  "Mensajería e Integración": [
-    "Bróker de mensajería  (RabbitMQ, Kafka)"
+  "Mensajería y Datos": [
+    "Brokers de mensajería (RabbitMQ, Kafka)",
+    "Bases de datos (MongoDB, MySQL, Redis, BigQuery)"
+  ],
+  "Backend": [
+    "Runtime y frameworks (Node.js, Express)",
+    "Autenticación (JWT)"
+  ],
+  "Frontend y Mobile": [
+    "Frameworks (Angular, Ionic)",
+    "Lenguajes y herramientas (TypeScript, RxJS, SASS, Cordova)",
+    "Integración de APIs (REST APIs)"
   ]
 }

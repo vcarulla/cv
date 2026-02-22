@@ -48,9 +48,9 @@ function renderJobs(jobs) {
   return jobs.flatMap(j => [
     jobHeader(j),
     ...(j.highlights || []).flatMap(h => bullet(h)),
-    ...(j.environment ? labeled("environment", j.environment) : []),
-    ...(j.technologies ? labeled("technologies", j.technologies) : []),
-    ...(j.tech?.length ? ["  tech:", c.purple(`    ${j.tech.join(" · ")}`)] : []),
+    ...(j.environment ? ["", ...wrap(j.environment, INNER).map((l, i) => c.purple(`${i === 0 ? "  " : "  "}${l}`))] : []),
+    ...(j.technologies ? ["", ...wrap(j.technologies, INNER).map((l, i) => c.purple(`${i === 0 ? "  " : "  "}${l}`))] : []),
+    ...(j.tech?.length ? ["", ...wrap(j.tech.join(" · "), INNER).map((l, i) => c.purple(`${i === 0 ? "  " : "  "}${l}`))] : []),
     c.dim(" ")
   ]);
 }
@@ -173,17 +173,23 @@ export function renderSkillsFull({ lang = "en" } = {}) {
   const skills = data.skillsFull(lang);
   const lines = Object.entries(skills || {}).flatMap(([section, items]) => [
     c.bold(section),
-    ...items.map(it => c.dim(`  • ${it}`)),
+    ...items.map(it => {
+      const match = it.match(/^([^(]+)(\(.+\))$/);
+      if (match) {
+        return `  • ${match[1]}${c.dim(match[2])}`;
+      }
+      return `  • ${it}`;
+    }),
     c.dim(" ")
   ]);
-  return renderHeader(cv) + box(c.pink(s.skills || "$./skills"), lines, W) + "\n";
+  return renderHeader(cv) + box(c.pink(s.skillsFull || "$ echo ${SKILLS[@]}"), lines, W) + "\n";
 }
 
 export function renderExperience({ lang = "en" } = {}) {
   const cv = data.cv(lang);
   const s = cv.labels?.sections || {};
   const { experience = [] } = data.experienceFull(lang);
-  return renderHeader(cv) + box(c.pink(s.experience || "$jobs"), renderJobs(experience), W) + "\n";
+  return renderHeader(cv) + box(c.pink(s.experienceFull || "$jobs --all"), renderJobs(experience), W) + "\n";
 }
 
 export function renderContact({ lang = "en" } = {}) {
