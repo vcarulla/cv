@@ -123,6 +123,66 @@
       "issuer": "CLA",
       "title": "Introducción a Python",
       "date": "Sep 2014"
+    },
+    {
+      "issuer": "Educación IT",
+      "title": "Linux Security",
+      "date": "Aug 2014",
+      "url": "https://www.educacionit.com/perfil/victor-carulla-72057/certificado/14588"
+    },
+    {
+      "issuer": "Educación IT",
+      "title": "Windows Security",
+      "date": "Aug 2014",
+      "url": "https://www.educacionit.com/perfil/victor-carulla-72057/certificado/13509"
+    },
+    {
+      "issuer": "Educación IT",
+      "title": "Web Security",
+      "date": "Jun 2014",
+      "url": "https://www.educacionit.com/perfil/victor-carulla-72057/certificado/13597"
+    },
+    {
+      "issuer": "Educación IT",
+      "title": "Google Hacking & Social Engineering",
+      "date": "Feb 2014",
+      "url": "https://www.educacionit.com/perfil/victor-carulla-72057/certificado/6585"
+    },
+    {
+      "issuer": "Educación IT",
+      "title": "Physical Security & Legal Aspects",
+      "date": "Feb 2014",
+      "url": "https://www.educacionit.com/perfil/victor-carulla-72057/certificado/6588"
+    },
+    {
+      "issuer": "Educación IT",
+      "title": "Ethical Hacking",
+      "date": "Dec 2013",
+      "url": "https://www.educacionit.com/perfil/victor-carulla-72057/certificado/10678"
+    },
+    {
+      "issuer": "Educación IT",
+      "title": "Linux Operator",
+      "date": "Nov 2013",
+      "url": "https://www.educacionit.com/perfil/victor-carulla-72057/certificado/10492"
+    },
+    {
+      "issuer": "Educación IT",
+      "title": "Network Security",
+      "date": "Oct 2013",
+      "url": "https://www.educacionit.com/perfil/victor-carulla-72057/certificado/10500"
+    },
+    {
+      "issuer": "Educación IT",
+      "title": "Introduction to Information Security",
+      "date": "Aug 2013",
+      "url": "https://www.educacionit.com/perfil/victor-carulla-72057/certificado/11156"
+    },
+    {
+      "issuer": "Educación IT",
+      "title": "Software Exploitation",
+      "date": "Jul 2013",
+      "url": "https://www.educacionit.com/perfil/victor-carulla-72057/certificado/11327"
     }
   ],
   "languages": [
