@@ -54,20 +54,20 @@
       "role": "Frontend Developer",
       "period": "Oct 2014 – Jul 2016",
       "highlights": [
-        "Development of responsive, public-facing web applications.",
-        "Integration with APIs and focus on performance and usability."
+        "Development of responsive, public-facing web applications with focus on usability, cross-browser compatibility, and performance optimization.",
+        "Integration with REST APIs and client-side interaction logic."
       ],
-      "technologies": "JavaScript, HTML, CSS, responsive design, API integration."
+      "technologies": "JavaScript · HTML5 · CSS3 · Responsive Design · REST API Integration · WordPress"
     },
     {
       "company": "Freelance",
       "role": "System Consultant",
       "period": "Aug 2007 – Oct 2014",
       "highlights": [
-        "System administration and infrastructure support for small and medium companies.",
-        "Experience with servers, networking, virtualization and backups."
+        "System administration and infrastructure consulting for small and medium-sized companies.",
+        "Deployment and maintenance of Linux and Windows servers, networking equipment, virtualization platforms, and backup solutions."
       ],
-      "technologies": "Linux servers, Windows servers, networking equipment, virtualization platforms."
+      "technologies": "Linux Servers · Windows Servers · Networking · Virtualization · Backup Solutions"
     },
     {
       "company": "Sirius IT Solutions",

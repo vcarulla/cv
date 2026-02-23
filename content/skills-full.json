@@ -7,10 +7,11 @@
   "CI/CD & Automation": [
     "Pipelines (Jenkins, GitLab CI)",
     "Configuration management (Chef)",
-    "Infrastructure as Code (Terraform)"
+    "Infrastructure as Code (Terraform)",
+    "Scripting (Bash)"
   ],
-  "Cloud Platforms": [
-    "Azure, GCP, Cloudflare"
+  "Platforms & Systems": [
+    "Azure, GCP, Cloudflare, Linux, Proxmox"
   ],
   "Observability & Monitoring": [
     "Metrics and dashboards (Zabbix, Kuma)",
