@@ -11,7 +11,7 @@
     "Scripting (Bash)"
   ],
   "Plataformas y Sistemas": [
-    "Azure, GCP, Cloudflare, Linux, Proxmox"
+    "Azure, GCP, Cloudflare, GNU/Linux, Proxmox"
   ],
   "Observabilidad y Monitoreo": [
     "Métricas y dashboards (Zabbix, Kuma)",
