@@ -37,7 +37,7 @@ const html = (body, host, status = 200) => new Response(body, {
   headers: {
     "Content-Type": "text/html; charset=utf-8",
     "Cache-Control": "public, max-age=3600",
-    "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; img-src data:; script-src 'sha256-nfU9GH4vMYtBGEhmbYodN1VSSuqE+65EE8e4UnxXYGM=' 'sha256-PjJkFu3E9pAXOag3lJ7FMAGEIT18Mr7EAJAv3Hmt7zQ=' https://static.cloudflareinsights.com; connect-src https://cloudflareinsights.com 'self'; require-trusted-types-for 'script'",
+    "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; img-src data:; script-src 'sha256-nfU9GH4vMYtBGEhmbYodN1VSSuqE+65EE8e4UnxXYGM=' 'sha256-PjJkFu3E9pAXOag3lJ7FMAGEIT18Mr7EAJAv3Hmt7zQ=' 'sha256-CUFgxL8obn0VrJJWSqwD9hfUMxmYC74g15ZVBNHiHpM=' https://static.cloudflareinsights.com; connect-src https://cloudflareinsights.com 'self'; require-trusted-types-for 'script'",
     "Link": `<https://${host}/json>; rel="alternate"; type="application/ld+json"`,
     ...secHeaders,
   }

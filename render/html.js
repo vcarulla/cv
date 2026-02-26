@@ -177,6 +177,10 @@ function shell({ title, description, host, lang = "en", pagePath = "/" }, body) 
     .icon-moon { display: none; }
     [data-theme="light"] .icon-sun { display: none; }
     [data-theme="light"] .icon-moon { display: block; }
+    .icon-download { display: block; }
+    .icon-cooldown { display: none; }
+    .cooldown .icon-download { display: none; }
+    .cooldown .icon-cooldown { display: block; }
     @media (max-width: 600px) {
       body { padding: 12px; padding-top: 20px; }
       .header { gap: 16px; }
@@ -205,6 +209,10 @@ function shell({ title, description, host, lang = "en", pagePath = "/" }, body) 
     <svg class="icon-sun" viewBox="0 0 20 20" role="img" aria-label="${lang === "en" ? "Day" : "Día"}" xmlns="http://www.w3.org/2000/svg"><title>${lang === "en" ? "Day" : "Día"}</title><circle cx="10" cy="10" r="4" fill="var(--yellow)"/><g stroke="var(--yellow)" stroke-width="1.5" stroke-linecap="round"><line x1="10" y1="1" x2="10" y2="3.5"/><line x1="10" y1="16.5" x2="10" y2="19"/><line x1="1" y1="10" x2="3.5" y2="10"/><line x1="16.5" y1="10" x2="19" y2="10"/><line x1="3.64" y1="3.64" x2="5.4" y2="5.4"/><line x1="14.6" y1="14.6" x2="16.36" y2="16.36"/><line x1="3.64" y1="16.36" x2="5.4" y2="14.6"/><line x1="14.6" y1="5.4" x2="16.36" y2="3.64"/></g></svg>
     <svg class="icon-moon" viewBox="0 0 20 20" role="img" aria-label="${lang === "en" ? "Night" : "Noche"}" xmlns="http://www.w3.org/2000/svg"><title>${lang === "en" ? "Night" : "Noche"}</title><path d="M15 11a7 7 0 01-9.8-6.4A6 6 0 004 10a6 6 0 0012 0c0-.34-.03-.67-.08-1z" fill="var(--yellow)"/></svg>
   </button>
+  <button id="download-cv" type="button" data-url="${lang === "es" ? "/Carulla%20Victor%20Curriculum%20Completo.pdf" : "/Carulla%20Victor%20Resume%20Complete.pdf"}" aria-label="${lang === "es" ? "Descargar CV en PDF" : "Download CV as PDF"}">
+    <svg class="icon-download" viewBox="0 0 20 20" role="img" xmlns="http://www.w3.org/2000/svg"><title>${lang === "es" ? "Descargar CV en PDF" : "Download CV as PDF"}</title><path d="M10 3v10M10 13l-4-4M10 13l4-4" stroke="var(--fg)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M4 15h12" stroke="var(--fg)" stroke-width="1.5" stroke-linecap="round"/></svg>
+    <svg class="icon-cooldown" viewBox="0 0 20 20" role="img" xmlns="http://www.w3.org/2000/svg"><title>${lang === "es" ? "Espera un momento" : "Please wait"}</title><path d="M6 6l8 8M14 6l-8 8" stroke="var(--pink)" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </button>
 </div>
 
 <main id="main" class="wrap" role="main">
@@ -216,6 +224,9 @@ document.getElementById('theme-toggle').addEventListener('click',function(){
   document.documentElement.dataset.theme=t;
   localStorage.setItem('theme',t);
 });
+</script>
+<script>
+(function(){var btn=document.getElementById('download-cv');if(!btn)return;var CD=5000,KEY='cv_dl_ts';btn.addEventListener('click',function(){var last=parseInt(localStorage.getItem(KEY)||'0',10);var now=Date.now();if(now-last<CD){btn.classList.add('cooldown');return;}localStorage.setItem(KEY,String(now));btn.classList.add('cooldown');setTimeout(function(){btn.classList.remove('cooldown');},CD);var a=document.createElement('a');a.href=btn.dataset.url;a.download='';document.body.appendChild(a);a.click();document.body.removeChild(a);});})();
 </script>
 </body>
 </html>`;
