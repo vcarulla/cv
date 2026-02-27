@@ -10,9 +10,7 @@
     "Infraestructura como Código (Terraform)",
     "Scripting (Bash)"
   ],
-  "Plataformas y Sistemas": [
-    "Azure, GCP, Cloudflare, GNU/Linux, Proxmox"
-  ],
+  "Plataformas y Sistemas": ["Azure, GCP, Cloudflare, GNU/Linux, Proxmox"],
   "Observabilidad y Monitoreo": [
     "Métricas y dashboards (Zabbix, Kuma)",
     "Logging y APM (Elastic Stack, Datadog, Instana)"
@@ -25,10 +23,7 @@
     "Brokers de mensajería (RabbitMQ, Kafka)",
     "Bases de datos (MongoDB, MySQL, Redis, BigQuery)"
   ],
-  "Backend": [
-    "Runtime y frameworks (Node.js, Express)",
-    "Autenticación (JWT)"
-  ],
+  "Backend": ["Runtime y frameworks (Node.js, Express)", "Autenticación (JWT)"],
   "Frontend y Mobile": [
     "Frameworks (Angular, Ionic)",
     "Lenguajes y herramientas (TypeScript, RxJS, SASS, Cordova)",

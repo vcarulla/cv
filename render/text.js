@@ -9,14 +9,22 @@ export function truncate(input, max, ellipsis = true) {
   if (visible <= max) return s;
 
   const target = ellipsis ? Math.max(0, max - 3) : max;
-  let out = "", count = 0, i = 0;
+  let out = "",
+    count = 0,
+    i = 0;
 
   while (i < s.length && count < target) {
     if (s[i] === "\x1b" && s[i + 1] === "[") {
       const m = s.slice(i).match(/^\x1b\[[0-9;]*m/);
-      if (m) { out += m[0]; i += m[0].length; continue; }
+      if (m) {
+        out += m[0];
+        i += m[0].length;
+        continue;
+      }
     }
-    out += s[i]; count++; i++;
+    out += s[i];
+    count++;
+    i++;
   }
 
   return out + (ellipsis ? "..." : "") + "\x1b[0m";
@@ -28,7 +36,9 @@ export function pad(input, width) {
 }
 
 export function wrap(text, width) {
-  const words = String(text || "").split(/\s+/).filter(Boolean);
+  const words = String(text || "")
+    .split(/\s+/)
+    .filter(Boolean);
   const lines = [];
   let line = "";
 
@@ -46,7 +56,11 @@ export function wrap(text, width) {
 }
 
 export function compactUrl(url) {
-  return url ? String(url).replace(/^https?:\/\//, "").replace(/\/$/, "") : "-";
+  return url
+    ? String(url)
+        .replace(/^https?:\/\//, "")
+        .replace(/\/$/, "")
+    : "-";
 }
 
 export function cols(left, right, leftW = 38, gap = 2) {
@@ -55,7 +69,8 @@ export function cols(left, right, leftW = 38, gap = 2) {
 
 export function sideBySide(leftLines, leftW, rightLines, rightW, gap = 6) {
   const height = Math.max(leftLines.length, rightLines.length);
-  const L = [...leftLines], R = [...rightLines];
+  const L = [...leftLines],
+    R = [...rightLines];
   while (L.length < height) L.push("");
   while (R.length < height) R.push("");
 

@@ -10,9 +10,7 @@
     "Infrastructure as Code (Terraform)",
     "Scripting (Bash)"
   ],
-  "Platforms & Systems": [
-    "Azure, GCP, Cloudflare, GNU/Linux, Proxmox"
-  ],
+  "Platforms & Systems": ["Azure, GCP, Cloudflare, GNU/Linux, Proxmox"],
   "Observability & Monitoring": [
     "Metrics and dashboards (Zabbix, Kuma)",
     "Logging and APM (Elastic Stack, Datadog, Instana)"

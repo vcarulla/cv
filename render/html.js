@@ -1,9 +1,12 @@
-import * as data from "./data.js";
 import banner from "./banner.js";
+import * as data from "./data.js";
 import { compactUrl } from "./text.js";
 
 function esc(s) {
-  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
 function ensureHttps(url) {
@@ -20,13 +23,18 @@ function hreflangTags(host, pagePath) {
   <link rel="alternate" hreflang="x-default" href="https://${esc(host)}${clean || "/"}"/>`;
 }
 
-function shell({ title, description, host, lang = "en", pagePath = "/" }, body) {
+function shell(
+  { title, description, host, lang = "en", pagePath = "/" },
+  body,
+) {
   const cv = data.cv(lang);
   const prefix = `/${lang}`;
   const altPrefix = lang === "en" ? "/es" : "/en";
   const canonical = `https://${host}${prefix}${pagePath === "/" ? "" : pagePath}`;
   const altLangUrl = `${altPrefix}${pagePath === "/" ? "/" : pagePath}`;
-  const desc = description || `${cv.identity.name} — ${cv.identity.title}. ${cv.identity.location}. curl-first CV.`;
+  const desc =
+    description ||
+    `${cv.identity.name} — ${cv.identity.title}. ${cv.identity.location}. curl-first CV.`;
   const ui = cv.labels?.ui || {};
 
   return `<!doctype html>
@@ -200,9 +208,10 @@ function shell({ title, description, host, lang = "en", pagePath = "/" }, body) 
 
 <div class="float-btns">
   <a href="${altLangUrl}" aria-label="${lang === "en" ? "Cambiar a espa\\u00f1ol" : "Switch to English"}">
-    ${lang === "en"
-      ? `<svg viewBox="0 0 20 14" role="img" aria-label="Espa\u00f1ol" xmlns="http://www.w3.org/2000/svg"><title>Espa\u00f1ol</title><rect width="20" height="14" fill="#c60b1e"/><rect y="3.5" width="20" height="7" fill="#ffc400"/></svg>`
-      : `<svg viewBox="0 0 20 14" role="img" aria-label="English" xmlns="http://www.w3.org/2000/svg"><title>English</title><rect width="20" height="14" fill="#012169"/><path d="M0 0L20 14M20 0L0 14" stroke="#fff" stroke-width="2.5"/><path d="M0 0L20 14M20 0L0 14" stroke="#c8102e" stroke-width="1.5"/><path d="M10 0v14M0 7h20" stroke="#fff" stroke-width="4"/><path d="M10 0v14M0 7h20" stroke="#c8102e" stroke-width="2.5"/></svg>`
+    ${
+      lang === "en"
+        ? `<svg viewBox="0 0 20 14" role="img" aria-label="Espa\u00f1ol" xmlns="http://www.w3.org/2000/svg"><title>Espa\u00f1ol</title><rect width="20" height="14" fill="#c60b1e"/><rect y="3.5" width="20" height="7" fill="#ffc400"/></svg>`
+        : `<svg viewBox="0 0 20 14" role="img" aria-label="English" xmlns="http://www.w3.org/2000/svg"><title>English</title><rect width="20" height="14" fill="#012169"/><path d="M0 0L20 14M20 0L0 14" stroke="#fff" stroke-width="2.5"/><path d="M0 0L20 14M20 0L0 14" stroke="#c8102e" stroke-width="1.5"/><path d="M10 0v14M0 7h20" stroke="#fff" stroke-width="4"/><path d="M10 0v14M0 7h20" stroke="#c8102e" stroke-width="2.5"/></svg>`
     }
   </a>
   <button id="theme-toggle" type="button" aria-label="${lang === "en" ? "Toggle theme" : "Cambiar tema"}">
@@ -250,18 +259,22 @@ function renderHeaderHtml(cv) {
 }
 
 function renderJobsHtml(jobs) {
-  return jobs.map(j => `
+  return jobs
+    .map(
+      (j) => `
     <div class="job">
       <div class="job-header">
         <span class="bold">${esc(j.company)}</span> — ${esc(j.role)} <span class="yellow">[${esc(j.period)}]</span>
       </div>
       <ul class="bullets">
-        ${(j.highlights || []).map(h => `<li>${esc(h)}</li>`).join("\n        ")}
+        ${(j.highlights || []).map((h) => `<li>${esc(h)}</li>`).join("\n        ")}
       </ul>
       ${j.environment ? `<p class="tech">${esc(j.environment)}</p>` : ""}
       ${j.technologies ? `<p class="tech">${esc(j.technologies)}</p>` : ""}
       ${j.tech?.length ? `<p class="tech">${j.tech.map(esc).join(" · ")}</p>` : ""}
-    </div>`).join("\n");
+    </div>`,
+    )
+    .join("\n");
 }
 
 function legendHtml(host, lang, currentPath = "/") {
@@ -280,13 +293,17 @@ function legendHtml(host, lang, currentPath = "/") {
   <nav class="box" role="navigation" aria-label="${esc(ui.siteNavigation || "Site navigation")}">
     <div class="box-title">${esc(s.legend || "$help")}</div>
     <div class="box-body">
-      ${items.map(([path, desc]) => `
+      ${items
+        .map(
+          ([path, desc]) => `
       <div class="row" style="padding-left:0">
         <a class="left" href="${prefix}${path}" style="color:inherit">
           <span class="green">$</span> <span class="bold">curl -L ${esc(host)}${prefix}${path === "/" ? "" : path}</span>
         </a>
         <a class="cyan right" href="${prefix}${path}">${esc(desc)}</a>
-      </div>`).join("\n")}
+      </div>`,
+        )
+        .join("\n")}
     </div>
   </nav>`;
 }
@@ -298,17 +315,28 @@ export function htmlHome(host, lang = "en") {
   const descs = cv.labels?.descriptions || {};
   const { experience = [] } = cv;
 
-  return shell({ title: `${cv.identity.name} — ${cv.identity.title}`, host, pagePath: "/", lang, description: descs.home }, `
+  return shell(
+    {
+      title: `${cv.identity.name} — ${cv.identity.title}`,
+      host,
+      pagePath: "/",
+      lang,
+      description: descs.home,
+    },
+    `
   ${renderHeaderHtml(cv)}
 
   <div class="box">
     <div class="box-title">${esc(s.whoami || "$whoami")}</div>
     <div class="box-body">
-      ${(cv.summary || []).map((s, i) => {
-        if (s === "") return '<div class="spacer"></div>';
-        if (i === 0) return `<p class="purple">${esc(s)}</p><div class="spacer"></div>`;
-        return `<p>${esc(s)}</p>`;
-      }).join("\n      ")}
+      ${(cv.summary || [])
+        .map((s, i) => {
+          if (s === "") return '<div class="spacer"></div>';
+          if (i === 0)
+            return `<p class="purple">${esc(s)}</p><div class="spacer"></div>`;
+          return `<p>${esc(s)}</p>`;
+        })
+        .join("\n      ")}
     </div>
   </div>
 
@@ -319,9 +347,12 @@ export function htmlHome(host, lang = "en") {
       <p class="skills-list">${(cv.skills?.areas || []).map(esc).join(" · ")}</p>
       <div class="spacer"></div>
       <p class="purple bold">${esc(ui.languages || "LANGUAGES")}</p>
-      ${(cv.languages || []).map(l =>
-        `<p class="lang"><span class="bold">${esc(l.name.toUpperCase())}</span>  ${esc(l.level)}</p>`
-      ).join("\n      ")}
+      ${(cv.languages || [])
+        .map(
+          (l) =>
+            `<p class="lang"><span class="bold">${esc(l.name.toUpperCase())}</span>  ${esc(l.level)}</p>`,
+        )
+        .join("\n      ")}
     </div>
   </div>
 
@@ -337,24 +368,33 @@ export function htmlHome(host, lang = "en") {
     <div class="box-body">
       <p class="bold">${esc(ui.education || "EDUCATION")}</p>
       <div class="spacer"></div>
-      ${(cv.education || []).map(e => `
+      ${(cv.education || [])
+        .map(
+          (e) => `
       <div class="cert">
         <p><span class="bold">${esc(e.institution || e.name)}</span> — ${esc(e.program || e.title)} <span class="yellow">[${esc(e.period || e.date)}]</span></p>
         ${e.details ? `<p style="padding-left:8px">${esc(e.details)}</p>` : ""}
-      </div>`).join("\n")}
+      </div>`,
+        )
+        .join("\n")}
 
       <p class="bold">${esc(ui.certifications || "LICENSES & CERTIFICATIONS")}</p>
       <div class="spacer"></div>
-      ${(cv.certifications || []).map(c => `
+      ${(cv.certifications || [])
+        .map(
+          (c) => `
       <div class="cert">
         <p><span class="bold">${esc(c.issuer || c.provider)}</span> — ${esc(c.title || c.name)} <span class="yellow">[${esc(c.date || c.period)}]</span></p>
         ${c.url ? `<p style="padding-left:8px"><a class="purple" href="${esc(ensureHttps(c.url))}" target="_blank" rel="noopener">${esc(compactUrl(c.url))}</a></p>` : ""}
-      </div>`).join("\n")}
+      </div>`,
+        )
+        .join("\n")}
     </div>
   </div>
 
   ${legendHtml(host, lang, "/")}
-  `);
+  `,
+  );
 }
 
 export function htmlSkills(host, lang = "en") {
@@ -363,29 +403,44 @@ export function htmlSkills(host, lang = "en") {
   const descs = cv.labels?.descriptions || {};
   const skills = data.skillsFull(lang);
 
-  return shell({ title: `Skills — ${host}`, host, pagePath: "/skills", lang, description: descs.skills }, `
+  return shell(
+    {
+      title: `Skills — ${host}`,
+      host,
+      pagePath: "/skills",
+      lang,
+      description: descs.skills,
+    },
+    `
   ${renderHeaderHtml(cv)}
 
   <div class="box">
     <div class="box-title">${esc(s.skillsFull || "$ echo ${SKILLS[@]}")}</div>
     <div class="box-body">
-      ${Object.entries(skills || {}).map(([section, items]) => `
+      ${Object.entries(skills || {})
+        .map(
+          ([section, items]) => `
       <p class="bold">${esc(section)}</p>
       <ul class="bullets">
-        ${items.map(it => {
-          const match = it.match(/^([^(]+)(\(.+\))$/);
-          if (match) {
-            return `<li>${esc(match[1])}<span class="dim">${esc(match[2])}</span></li>`;
-          }
-          return `<li>${esc(it)}</li>`;
-        }).join("\n        ")}
+        ${items
+          .map((it) => {
+            const match = it.match(/^([^(]+)(\(.+\))$/);
+            if (match) {
+              return `<li>${esc(match[1])}<span class="dim">${esc(match[2])}</span></li>`;
+            }
+            return `<li>${esc(it)}</li>`;
+          })
+          .join("\n        ")}
       </ul>
-      <div class="spacer"></div>`).join("\n")}
+      <div class="spacer"></div>`,
+        )
+        .join("\n")}
     </div>
   </div>
 
   ${legendHtml(host, lang, "/skills")}
-  `);
+  `,
+  );
 }
 
 export function htmlExperience(host, lang = "en") {
@@ -394,7 +449,15 @@ export function htmlExperience(host, lang = "en") {
   const descs = cv.labels?.descriptions || {};
   const { experience = [] } = data.experienceFull(lang);
 
-  return shell({ title: `Experience — ${host}`, host, pagePath: "/experience", lang, description: descs.experience }, `
+  return shell(
+    {
+      title: `Experience — ${host}`,
+      host,
+      pagePath: "/experience",
+      lang,
+      description: descs.experience,
+    },
+    `
   ${renderHeaderHtml(cv)}
 
   <div class="box">
@@ -405,7 +468,8 @@ export function htmlExperience(host, lang = "en") {
   </div>
 
   ${legendHtml(host, lang, "/experience")}
-  `);
+  `,
+  );
 }
 
 export function htmlContact(host, lang = "en") {
@@ -414,7 +478,15 @@ export function htmlContact(host, lang = "en") {
   const fields = cv.labels?.fields || {};
   const descs = cv.labels?.descriptions || {};
 
-  return shell({ title: `Contact — ${host}`, host, pagePath: "/contact", lang, description: descs.contact }, `
+  return shell(
+    {
+      title: `Contact — ${host}`,
+      host,
+      pagePath: "/contact",
+      lang,
+      description: descs.contact,
+    },
+    `
   ${renderHeaderHtml(cv)}
 
   <div class="box">
@@ -436,7 +508,8 @@ export function htmlContact(host, lang = "en") {
   </div>
 
   ${legendHtml(host, lang, "/contact")}
-  `);
+  `,
+  );
 }
 
 export function htmlYsap(host, lang = "en") {
@@ -444,7 +517,15 @@ export function htmlYsap(host, lang = "en") {
   const y = cv.labels?.ysap || {};
   const descs = cv.labels?.descriptions || {};
 
-  return shell({ title: `You Suck at Programming — ${host}`, host, pagePath: "/ysap", lang, description: descs.ysap }, `
+  return shell(
+    {
+      title: `You Suck at Programming — ${host}`,
+      host,
+      pagePath: "/ysap",
+      lang,
+      description: descs.ysap,
+    },
+    `
   <div class="box">
     <div class="box-title">${esc(y.title || "YOU SUCK AT PROGRAMMING")}</div>
     <div class="box-body">
@@ -485,14 +566,17 @@ export function htmlYsap(host, lang = "en") {
 
       <p class="cyan">${esc(y.thanks || "Thanks Dave for showing us a better way to share our work!")}</p>
     </div>
-  </div>`);
+  </div>`,
+  );
 }
 
 export function html404(host, lang = "en") {
   const cv = data.cv(lang);
   const msg = lang === "en" ? "404 NOT FOUND" : "404 PAGINA NO ENCONTRADA";
 
-  return shell({ title: `404 — ${host}`, host, pagePath: "/", lang }, `
+  return shell(
+    { title: `404 — ${host}`, host, pagePath: "/", lang },
+    `
   ${renderHeaderHtml(cv)}
 
   <div class="box">
@@ -509,5 +593,6 @@ export function html404(host, lang = "en") {
   </div>
 
   ${legendHtml(host, lang, "/404")}
-  `);
+  `,
+  );
 }

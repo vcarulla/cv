@@ -11,4 +11,5 @@ const skillsByLang = { en: skillsEn, es: skillsEs };
 
 export const cv = (lang = "en") => cvByLang[lang] || cvByLang.en;
 export const experienceFull = (lang = "en") => expByLang[lang] || expByLang.en;
-export const skillsFull = (lang = "en") => skillsByLang[lang] || skillsByLang.en;
+export const skillsFull = (lang = "en") =>
+  skillsByLang[lang] || skillsByLang.en;

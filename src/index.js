@@ -1,6 +1,13 @@
 import * as render from "../render/ansi.js";
 import * as data from "../render/data.js";
-import { htmlHome, htmlSkills, htmlExperience, htmlContact, htmlYsap, html404 } from "../render/html.js";
+import {
+  html404,
+  htmlContact,
+  htmlExperience,
+  htmlHome,
+  htmlSkills,
+  htmlYsap,
+} from "../render/html.js";
 
 const isCli = (request) => {
   const ua = (request.headers.get("user-agent") || "").toLowerCase();
@@ -23,30 +30,40 @@ const secHeaders = {
   "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
 };
 
-const text = (body, status = 200, maxAge = 3600) => new Response(body, {
-  status,
-  headers: {
-    "Content-Type": "text/plain; charset=utf-8",
-    "Cache-Control": `public, max-age=${maxAge}`,
-    ...secHeaders
-  }
-});
+const text = (body, status = 200, maxAge = 3600) =>
+  new Response(body, {
+    status,
+    headers: {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Cache-Control": `public, max-age=${maxAge}`,
+      ...secHeaders,
+    },
+  });
 
-const html = (body, host, status = 200) => new Response(body, {
-  status,
-  headers: {
-    "Content-Type": "text/html; charset=utf-8",
-    "Cache-Control": "public, max-age=3600",
-    "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; img-src data:; script-src 'sha256-nfU9GH4vMYtBGEhmbYodN1VSSuqE+65EE8e4UnxXYGM=' 'sha256-PjJkFu3E9pAXOag3lJ7FMAGEIT18Mr7EAJAv3Hmt7zQ=' 'sha256-CUFgxL8obn0VrJJWSqwD9hfUMxmYC74g15ZVBNHiHpM=' https://static.cloudflareinsights.com; connect-src https://cloudflareinsights.com 'self'; require-trusted-types-for 'script'",
-    "Link": `<https://${host}/json>; rel="alternate"; type="application/ld+json"`,
-    ...secHeaders,
-  }
-});
+const html = (body, host, status = 200) =>
+  new Response(body, {
+    status,
+    headers: {
+      "Content-Type": "text/html; charset=utf-8",
+      "Cache-Control": "public, max-age=3600",
+      "Content-Security-Policy":
+        "default-src 'none'; style-src 'unsafe-inline'; img-src data:; script-src 'sha256-nfU9GH4vMYtBGEhmbYodN1VSSuqE+65EE8e4UnxXYGM=' 'sha256-PjJkFu3E9pAXOag3lJ7FMAGEIT18Mr7EAJAv3Hmt7zQ=' 'sha256-CUFgxL8obn0VrJJWSqwD9hfUMxmYC74g15ZVBNHiHpM=' https://static.cloudflareinsights.com; connect-src https://cloudflareinsights.com 'self'; require-trusted-types-for 'script'",
+      Link: `<https://${host}/json>; rel="alternate"; type="application/ld+json"`,
+      ...secHeaders,
+    },
+  });
 
-const json = (body, pretty = false) => new Response(
-  pretty ? JSON.stringify(body, null, 2) + "\n" : JSON.stringify(body),
-  { headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "public, max-age=3600", ...secHeaders } }
-);
+const json = (body, pretty = false) =>
+  new Response(
+    pretty ? JSON.stringify(body, null, 2) + "\n" : JSON.stringify(body),
+    {
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "public, max-age=3600",
+        ...secHeaders,
+      },
+    },
+  );
 
 function detectLang(acceptLang) {
   // Spanish for es-*, English for everything else
@@ -70,7 +87,7 @@ export default {
   async fetch(request) {
     // Redirect HTTP to HTTPS
     const cfVisitor = request.headers.get("cf-visitor");
-    if (cfVisitor && cfVisitor.includes('"http"')) {
+    if (cfVisitor?.includes('"http"')) {
       const url = new URL(request.url);
       url.protocol = "https:";
       return Response.redirect(url.toString(), 301);
@@ -111,17 +128,32 @@ export default {
         return json(data.cv(lang), isCli(request));
 
       case "/robots.txt":
-        return text(`User-agent: *\nAllow: /\nSitemap: https://${host}/sitemap.xml\n`, 200, 86400);
+        return text(
+          `User-agent: *\nAllow: /\nSitemap: https://${host}/sitemap.xml\n`,
+          200,
+          86400,
+        );
 
       case "/sitemap.xml":
         return new Response(
-          `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${
-            ["", "/skills", "/experience", "/contact"].flatMap(p => [
+          `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${[
+            "",
+            "/skills",
+            "/experience",
+            "/contact",
+          ]
+            .flatMap((p) => [
               `  <url><loc>https://${host}${p || "/"}</loc></url>`,
               `  <url><loc>https://${host}/es${p}</loc></url>`,
-            ]).join("\n")
-          }\n</urlset>\n`,
-          { headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "public, max-age=86400", ...secHeaders } }
+            ])
+            .join("\n")}\n</urlset>\n`,
+          {
+            headers: {
+              "Content-Type": "application/xml; charset=utf-8",
+              "Cache-Control": "public, max-age=86400",
+              ...secHeaders,
+            },
+          },
         );
 
       case "/healthz":
@@ -141,7 +173,13 @@ export default {
   </text>
   <text x="600" y="580" text-anchor="middle" font-family="monospace" font-size="32" fill="#f8f8f2">Victor Carulla</text>
 </svg>`,
-          { headers: { "Content-Type": "image/svg+xml", "Cache-Control": "public, max-age=31536000", ...secHeaders } }
+          {
+            headers: {
+              "Content-Type": "image/svg+xml",
+              "Cache-Control": "public, max-age=31536000",
+              ...secHeaders,
+            },
+          },
         );
 
       case "/ysap":
@@ -154,5 +192,5 @@ export default {
           ? text(render.render404({ host, lang }), 404)
           : html(html404(host, lang), host, 404);
     }
-  }
+  },
 };

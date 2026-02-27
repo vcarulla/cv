@@ -46,7 +46,21 @@
         "Implementation of centralized secrets management practices across distributed systems.",
         "Reorganization and reinforcement of observability through rapid visibility solutions, metric normalization via an internal service layer, and integration of threshold-based alerting into centralized monitoring systems, promoting technical adoption across teams."
       ],
-      "tech": ["Azure", "Kubernetes (AKS, k3s)", "Helm", "GitLab CI", "Jenkins", "Elastic Stack", "Zabbix", "Kuma", "Vault", "Consul", "Harbor", "Proxmox", "Docker Swarm"]
+      "tech": [
+        "Azure",
+        "Kubernetes (AKS, k3s)",
+        "Helm",
+        "GitLab CI",
+        "Jenkins",
+        "Elastic Stack",
+        "Zabbix",
+        "Kuma",
+        "Vault",
+        "Consul",
+        "Harbor",
+        "Proxmox",
+        "Docker Swarm"
+      ]
     },
     {
       "company": "Fpay",
@@ -59,7 +73,23 @@
         "Incident management across critical platform components, including API gateway (KongHQ), messaging systems, and managed data services such as MongoDB Atlas and BigQuery.",
         "Improvement of observability and monitoring practices (ELK, Datadog) during high-demand operational periods."
       ],
-      "tech": ["Azure", "GCP", "Docker Swarm", "Kubernetes", "Terraform", "Jenkins", "GitLab CI", "Chef", "KongHQ", "ELK", "Datadog", "Vault", "Cloudflare", "MongoDB Atlas", "BigQuery"]
+      "tech": [
+        "Azure",
+        "GCP",
+        "Docker Swarm",
+        "Kubernetes",
+        "Terraform",
+        "Jenkins",
+        "GitLab CI",
+        "Chef",
+        "KongHQ",
+        "ELK",
+        "Datadog",
+        "Vault",
+        "Cloudflare",
+        "MongoDB Atlas",
+        "BigQuery"
+      ]
     },
     {
       "company": "Technisys",
@@ -71,7 +101,19 @@
         "Implementation of integrations with external systems and collaboration on financial traceability and auditability.",
         "Collaboration with infrastructure teams on deployment, configuration, and service reliability."
       ],
-      "tech": ["Node.js", "Express", "RabbitMQ", "MySQL", "Redis", "Docker", "Jenkins", "Kong", "Instana", "JWT", "MongoDB"]
+      "tech": [
+        "Node.js",
+        "Express",
+        "RabbitMQ",
+        "MySQL",
+        "Redis",
+        "Docker",
+        "Jenkins",
+        "Kong",
+        "Instana",
+        "JWT",
+        "MongoDB"
+      ]
     },
     {
       "company": "Technisys",
@@ -83,10 +125,18 @@
         "Resolution of cross-platform styling and compatibility issues using SASS.",
         "Integration of banking APIs and analytics tools, including participation in mobile build and store release processes (Android/iOS)."
       ],
-      "tech": ["Angular", "Ionic", "TypeScript", "RxJS", "SASS", "Cordova", "REST APIs"]
+      "tech": [
+        "Angular",
+        "Ionic",
+        "TypeScript",
+        "RxJS",
+        "SASS",
+        "Cordova",
+        "REST APIs"
+      ]
     }
   ],
-"education": [
+  "education": [
     {
       "institution": "EDUCACION IT",
       "program": "Information Security Career",
