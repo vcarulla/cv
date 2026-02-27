@@ -64,7 +64,8 @@ function shell(
   <meta name="twitter:description" content="${esc(desc)}"/>
   <meta name="twitter:image" content="https://${esc(host)}/assets/img/og-image.svg"/>
 
-  <link rel="stylesheet" href="/assets/css/styles.css">
+  <link rel="preload" href="/assets/css/styles.min.css" as="style">
+  <link rel="stylesheet" href="/assets/css/styles.min.css">
   <script>document.documentElement.dataset.theme=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');</script>
 </head>
 <body>
