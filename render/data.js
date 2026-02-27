@@ -1,15 +1,9 @@
-import cvEn from "../content/cv.json";
-import cvEs from "../content/cv-es.json";
-import experienceEn from "../content/experience-full.json";
-import experienceEs from "../content/experience-full-es.json";
-import skillsEn from "../content/skills-full.json";
-import skillsEs from "../content/skills-full-es.json";
+import * as en from "../content/en.js";
+import * as es from "../content/es.js";
 
-const cvByLang = { en: cvEn, es: cvEs };
-const expByLang = { en: experienceEn, es: experienceEs };
-const skillsByLang = { en: skillsEn, es: skillsEs };
+const langs = { en, es };
+const get = (lang) => langs[lang] || langs.en;
 
-export const cv = (lang = "en") => cvByLang[lang] || cvByLang.en;
-export const experienceFull = (lang = "en") => expByLang[lang] || expByLang.en;
-export const skillsFull = (lang = "en") =>
-  skillsByLang[lang] || skillsByLang.en;
+export const cv = (lang = "en") => get(lang).cv;
+export const experienceFull = (lang = "en") => get(lang).experience;
+export const skillsFull = (lang = "en") => get(lang).skills;

@@ -1,4 +1,4 @@
-import * as render from "../render/ansi.js";
+import * as render from "../render/cli/ansi.js";
 import * as data from "../render/data.js";
 import {
   html404,
@@ -7,7 +7,7 @@ import {
   htmlHome,
   htmlSkills,
   htmlYsap,
-} from "../render/html.js";
+} from "../render/web/html.js";
 
 const isCli = (request) => {
   const ua = (request.headers.get("user-agent") || "").toLowerCase();
@@ -21,6 +21,10 @@ const getHost = (request) =>
 
 const SUPPORTED_LANGS = new Set(["en", "es"]);
 
+const TYPE_TEXT = "text/plain; charset=utf-8";
+const TYPE_HTML = "text/html; charset=utf-8";
+const TYPE_JSON = "application/json; charset=utf-8";
+
 const secHeaders = {
   "X-Content-Type-Options": "nosniff",
   "X-Frame-Options": "DENY",
@@ -30,39 +34,33 @@ const secHeaders = {
   "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
 };
 
-const text = (body, status = 200, maxAge = 3600) =>
+const response = (body, type, { status = 200, maxAge = 3600, headers = {} } = {}) =>
   new Response(body, {
     status,
     headers: {
-      "Content-Type": "text/plain; charset=utf-8",
+      "Content-Type": type,
       "Cache-Control": `public, max-age=${maxAge}`,
       ...secHeaders,
+      ...headers,
     },
   });
 
-const html = (body, host, status = 200) =>
-  new Response(body, {
+const text = (body, status, maxAge) => response(body, TYPE_TEXT, { status, maxAge });
+
+const html = (body, host, status) =>
+  response(body, TYPE_HTML, {
     status,
     headers: {
-      "Content-Type": "text/html; charset=utf-8",
-      "Cache-Control": "public, max-age=3600",
       "Content-Security-Policy":
-        "default-src 'none'; style-src 'unsafe-inline'; img-src data:; script-src 'sha256-nfU9GH4vMYtBGEhmbYodN1VSSuqE+65EE8e4UnxXYGM=' 'sha256-PjJkFu3E9pAXOag3lJ7FMAGEIT18Mr7EAJAv3Hmt7zQ=' 'sha256-CUFgxL8obn0VrJJWSqwD9hfUMxmYC74g15ZVBNHiHpM=' https://static.cloudflareinsights.com; connect-src https://cloudflareinsights.com 'self'; require-trusted-types-for 'script'",
+        "default-src 'none'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; script-src 'sha256-nfU9GH4vMYtBGEhmbYodN1VSSuqE+65EE8e4UnxXYGM=' 'sha256-PjJkFu3E9pAXOag3lJ7FMAGEIT18Mr7EAJAv3Hmt7zQ=' 'sha256-CUFgxL8obn0VrJJWSqwD9hfUMxmYC74g15ZVBNHiHpM=' https://static.cloudflareinsights.com; connect-src https://cloudflareinsights.com 'self'; require-trusted-types-for 'script'",
       Link: `<https://${host}/json>; rel="alternate"; type="application/ld+json"`,
-      ...secHeaders,
     },
   });
 
 const json = (body, pretty = false) =>
-  new Response(
+  response(
     pretty ? JSON.stringify(body, null, 2) + "\n" : JSON.stringify(body),
-    {
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-        "Cache-Control": "public, max-age=3600",
-        ...secHeaders,
-      },
-    },
+    TYPE_JSON,
   );
 
 function detectLang(acceptLang) {
@@ -141,6 +139,7 @@ export default {
             "/skills",
             "/experience",
             "/contact",
+            "/ysap",
           ]
             .flatMap((p) => [
               `  <url><loc>https://${host}${p || "/"}</loc></url>`,
@@ -158,29 +157,6 @@ export default {
 
       case "/healthz":
         return text("ok\n", 200, 0);
-
-      case "/og-image.svg":
-        return new Response(
-          `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#282a36"/>
-  <text x="600" y="240" text-anchor="middle" font-family="monospace" font-size="48" fill="#bd93f9" xml:space="preserve">
-    <tspan x="600" dy="0">██╗   ██╗  █████╗</tspan>
-    <tspan x="600" dy="58">██║   ██║ ██╔═══╝</tspan>
-    <tspan x="600" dy="58">██║   ██║ ██║</tspan>
-    <tspan x="600" dy="58">╚██╗ ██╔╝ ██║</tspan>
-    <tspan x="600" dy="58"> ╚████╔╝   █████╗</tspan>
-    <tspan x="600" dy="58">  ╚═══╝    ╚════╝</tspan>
-  </text>
-  <text x="600" y="580" text-anchor="middle" font-family="monospace" font-size="32" fill="#f8f8f2">Victor Carulla</text>
-</svg>`,
-          {
-            headers: {
-              "Content-Type": "image/svg+xml",
-              "Cache-Control": "public, max-age=31536000",
-              ...secHeaders,
-            },
-          },
-        );
 
       case "/ysap":
         return isCli(request)

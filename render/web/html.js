@@ -1,6 +1,7 @@
-import banner from "./banner.js";
-import * as data from "./data.js";
-import { compactUrl } from "./text.js";
+import banner from "../banner.js";
+import * as data from "../data.js";
+import { compactUrl } from "../text.js";
+import { iconSun, iconMoon, iconDownload, iconCooldown } from "./icons.js";
 
 function esc(s) {
   return String(s)
@@ -54,173 +55,32 @@ function shell(
   <meta property="og:description" content="${esc(desc)}"/>
   <meta property="og:url" content="${esc(canonical)}"/>
   <meta property="og:site_name" content="${esc(host)}"/>
-  <meta property="og:image" content="https://${esc(host)}/og-image.svg"/>
+  <meta property="og:image" content="https://${esc(host)}/assets/img/og-image.svg"/>
   <meta property="og:image:width" content="1200"/>
   <meta property="og:image:height" content="630"/>
 
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="${esc(title)}"/>
   <meta name="twitter:description" content="${esc(desc)}"/>
-  <meta name="twitter:image" content="https://${esc(host)}/og-image.svg"/>
+  <meta name="twitter:image" content="https://${esc(host)}/assets/img/og-image.svg"/>
 
-  <style>
-    :root {
-      --bg: #282a36; --fg: #f8f8f2; --purple: #bd93f9;
-      --pink: #ff79c6; --cyan: #8be9fd; --green: #50fa7b;
-      --yellow: #f1fa8c; --orange: #ffb86c; --dim: #9099b0;
-      --border: #44475a;
-    }
-    [data-theme="light"] {
-      --bg: #f8f8f2; --fg: #282a36; --purple: #7c3aed;
-      --pink: #be185d; --cyan: #0e7490; --green: #15803d;
-      --yellow: #a16207; --orange: #c2410c; --dim: #6b7280;
-      --border: #d1d5db;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: var(--bg);
-      color: var(--fg);
-      font-family: "SF Mono", "Fira Code", "Cascadia Code", Menlo, Consolas, monospace;
-      font-size: 14px;
-      line-height: 1.5;
-      padding: 24px;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 40px;
-    }
-    .wrap { max-width: 740px; width: 100%; }
-    .box {
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      margin-bottom: 20px;
-    }
-    .box-title {
-      color: var(--pink);
-      padding: 10px 20px;
-      border-bottom: 1px solid var(--border);
-      font-weight: bold;
-    }
-    .box-body { padding: 16px 20px; }
-    .box-body p { margin: 6px 0; }
-    .spacer { height: 12px; }
-    .yellow { color: var(--yellow); }
-    .cyan { color: var(--cyan); }
-    .purple { color: var(--purple); }
-    .pink { color: var(--pink); }
-    .green { color: var(--green); }
-    .orange { color: var(--orange); }
-    .dim { color: var(--dim); }
-    .bold { font-weight: bold; }
-    a { text-decoration: none; transition: opacity 0.2s; }
-    a:hover { opacity: 0.8; text-decoration: underline; }
-    a.purple { color: var(--purple); }
-    a.cyan { color: var(--cyan); }
-    .header {
-      display: flex;
-      gap: 40px;
-      align-items: center;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
-    .banner { color: var(--purple); white-space: pre; font-size: 13px; line-height: 1.2; }
-    .info p { margin: 2px 0; }
-    .row {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      margin: 3px 0;
-      padding-left: 16px;
-    }
-    .row .left { white-space: nowrap; }
-    .row .right { text-align: right; white-space: nowrap; }
-    ul.bullets { list-style: none; padding: 0; margin: 4px 0; }
-    ul.bullets li::before { content: "\\2022 "; color: var(--dim); }
-    ul.bullets li { padding-left: 8px; }
-    .job { margin-bottom: 16px; }
-    .job-header { margin-bottom: 4px; }
-    .tech { color: var(--purple); padding-left: 8px; margin-top: 4px; }
-    .skills-list { padding-left: 8px; }
-    .lang { padding-left: 8px; margin: 2px 0; }
-    .cert { margin-bottom: 10px; }
-    .skip-link {
-      position: absolute;
-      top: -100px;
-      left: 0;
-      background: var(--purple);
-      color: var(--bg);
-      padding: 8px 16px;
-      z-index: 100;
-      font-weight: bold;
-    }
-    .skip-link:focus { top: 0; }
-    .float-btns {
-      position: fixed;
-      top: 16px;
-      right: 16px;
-      display: flex;
-      gap: 8px;
-      z-index: 50;
-    }
-    .float-btns a,
-    .float-btns button {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      transition: opacity 0.2s;
-      text-decoration: none;
-    }
-    .float-btns a:hover,
-    .float-btns button:hover { opacity: 0.8; }
-    .float-btns svg { width: 18px; height: 18px; }
-    .icon-sun { display: block; }
-    .icon-moon { display: none; }
-    [data-theme="light"] .icon-sun { display: none; }
-    [data-theme="light"] .icon-moon { display: block; }
-    .icon-download { display: block; }
-    .icon-cooldown { display: none; }
-    .cooldown .icon-download { display: none; }
-    .cooldown .icon-cooldown { display: block; }
-    @media (max-width: 600px) {
-      body { padding: 12px; padding-top: 20px; }
-      .header { gap: 16px; }
-      .banner { font-size: 12px; }
-      .row { flex-direction: column; gap: 2px; padding-left: 8px; }
-      .row .right { text-align: left; }
-      .row a, .row span { min-height: 48px; display: flex; align-items: center; }
-      .float-btns { top: 8px; right: 8px; }
-      .float-btns a,
-      .float-btns button { width: 36px; height: 36px; }
-    }
-  </style>
+  <link rel="stylesheet" href="/assets/css/styles.css">
   <script>document.documentElement.dataset.theme=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');</script>
 </head>
 <body>
 <a class="skip-link" href="#main">${esc(ui.skipToContent || "Skip to content")}</a>
 
 <div class="float-btns">
-  <a href="${altLangUrl}" aria-label="${lang === "en" ? "Cambiar a espa\\u00f1ol" : "Switch to English"}">
-    ${
-      lang === "en"
-        ? `<svg viewBox="0 0 20 14" role="img" aria-label="Espa\u00f1ol" xmlns="http://www.w3.org/2000/svg"><title>Espa\u00f1ol</title><rect width="20" height="14" fill="#c60b1e"/><rect y="3.5" width="20" height="7" fill="#ffc400"/></svg>`
-        : `<svg viewBox="0 0 20 14" role="img" aria-label="English" xmlns="http://www.w3.org/2000/svg"><title>English</title><rect width="20" height="14" fill="#012169"/><path d="M0 0L20 14M20 0L0 14" stroke="#fff" stroke-width="2.5"/><path d="M0 0L20 14M20 0L0 14" stroke="#c8102e" stroke-width="1.5"/><path d="M10 0v14M0 7h20" stroke="#fff" stroke-width="4"/><path d="M10 0v14M0 7h20" stroke="#c8102e" stroke-width="2.5"/></svg>`
-    }
+  <a href="${altLangUrl}" aria-label="${lang === "en" ? "Cambiar a espa\u00f1ol" : "Switch to English"}">
+    <img src="/assets/img/flag-${lang === "en" ? "es" : "en"}.svg" alt="${lang === "en" ? "Espa\u00f1ol" : "English"}" width="20" height="14">
   </a>
   <button id="theme-toggle" type="button" aria-label="${lang === "en" ? "Toggle theme" : "Cambiar tema"}">
-    <svg class="icon-sun" viewBox="0 0 20 20" role="img" aria-label="${lang === "en" ? "Day" : "Día"}" xmlns="http://www.w3.org/2000/svg"><title>${lang === "en" ? "Day" : "Día"}</title><circle cx="10" cy="10" r="4" fill="var(--yellow)"/><g stroke="var(--yellow)" stroke-width="1.5" stroke-linecap="round"><line x1="10" y1="1" x2="10" y2="3.5"/><line x1="10" y1="16.5" x2="10" y2="19"/><line x1="1" y1="10" x2="3.5" y2="10"/><line x1="16.5" y1="10" x2="19" y2="10"/><line x1="3.64" y1="3.64" x2="5.4" y2="5.4"/><line x1="14.6" y1="14.6" x2="16.36" y2="16.36"/><line x1="3.64" y1="16.36" x2="5.4" y2="14.6"/><line x1="14.6" y1="5.4" x2="16.36" y2="3.64"/></g></svg>
-    <svg class="icon-moon" viewBox="0 0 20 20" role="img" aria-label="${lang === "en" ? "Night" : "Noche"}" xmlns="http://www.w3.org/2000/svg"><title>${lang === "en" ? "Night" : "Noche"}</title><path d="M15 11a7 7 0 01-9.8-6.4A6 6 0 004 10a6 6 0 0012 0c0-.34-.03-.67-.08-1z" fill="var(--yellow)"/></svg>
+    ${iconSun(lang)}
+    ${iconMoon(lang)}
   </button>
   <button id="download-cv" type="button" data-url="${lang === "es" ? "/Carulla%20Victor%20Curriculum%20Completo.pdf" : "/Carulla%20Victor%20Resume%20Complete.pdf"}" aria-label="${lang === "es" ? "Descargar CV en PDF" : "Download CV as PDF"}">
-    <svg class="icon-download" viewBox="0 0 20 20" role="img" xmlns="http://www.w3.org/2000/svg"><title>${lang === "es" ? "Descargar CV en PDF" : "Download CV as PDF"}</title><path d="M10 3v10M10 13l-4-4M10 13l4-4" stroke="var(--fg)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M4 15h12" stroke="var(--fg)" stroke-width="1.5" stroke-linecap="round"/></svg>
-    <svg class="icon-cooldown" viewBox="0 0 20 20" role="img" xmlns="http://www.w3.org/2000/svg"><title>${lang === "es" ? "Espera un momento" : "Please wait"}</title><path d="M6 6l8 8M14 6l-8 8" stroke="var(--pink)" stroke-width="1.5" stroke-linecap="round"/></svg>
+    ${iconDownload(lang)}
+    ${iconCooldown(lang)}
   </button>
 </div>
 

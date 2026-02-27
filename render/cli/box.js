@@ -1,4 +1,4 @@
-import { pad, stripAnsi, truncate } from "./text.js";
+import { pad, stripAnsi, truncate } from "../text.js";
 
 export function box(title, lines, width = 88) {
   const inner = width - 4;

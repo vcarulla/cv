@@ -1,7 +1,7 @@
-import banner from "./banner.js";
+import banner from "../banner.js";
 import { box } from "./box.js";
 import c from "./colors.js";
-import * as data from "./data.js";
+import * as data from "../data.js";
 import {
   cols,
   compactUrl,
@@ -9,7 +9,7 @@ import {
   stripAnsi,
   truncate,
   wrap,
-} from "./text.js";
+} from "../text.js";
 
 const W = 88;
 const INNER = 76;
@@ -17,6 +17,9 @@ const INNER = 76;
 // --- formatting helpers ---
 const bullet = (text, wrapW = INNER) =>
   wrap(text, wrapW).map((l, i) => `${i === 0 ? "  • " : "    "}${l}`);
+
+const techLines = (text) =>
+  text ? ["", ...wrap(text, INNER).map((l) => c.purple(`  ${l}`))] : [];
 
 const jobHeader = (j) =>
   `${c.bold(j.company)} — ${j.role} ${c.yellow(`[${j.period}]`)}`;
@@ -54,30 +57,9 @@ function renderJobs(jobs) {
   return jobs.flatMap((j) => [
     jobHeader(j),
     ...(j.highlights || []).flatMap((h) => bullet(h)),
-    ...(j.environment
-      ? [
-          "",
-          ...wrap(j.environment, INNER).map((l, i) =>
-            c.purple(`${i === 0 ? "  " : "  "}${l}`),
-          ),
-        ]
-      : []),
-    ...(j.technologies
-      ? [
-          "",
-          ...wrap(j.technologies, INNER).map((l, i) =>
-            c.purple(`${i === 0 ? "  " : "  "}${l}`),
-          ),
-        ]
-      : []),
-    ...(j.tech?.length
-      ? [
-          "",
-          ...wrap(j.tech.join(" · "), INNER).map((l, i) =>
-            c.purple(`${i === 0 ? "  " : "  "}${l}`),
-          ),
-        ]
-      : []),
+    ...techLines(j.environment),
+    ...techLines(j.technologies),
+    ...techLines(j.tech?.join(" · ")),
     c.dim(" "),
   ]);
 }
@@ -177,6 +159,11 @@ function legend(host, labels, lang, currentPath = "/") {
   ];
 }
 
+const page = (cv, boxes, host, lang, currentPath) =>
+  renderHeader(cv) +
+  [...boxes, box(c.pink(cv.labels?.sections?.legend || "$help"), legend(host, cv.labels, lang, currentPath), W)].join("\n\n") +
+  "\n";
+
 // --- public renderers ---
 export function renderHome({ host, lang = "en" }) {
   const cv = data.cv(lang);
@@ -244,138 +231,75 @@ export function renderSkillsFull({ host, lang = "en" } = {}) {
     c.bold(section),
     ...items.map((it) => {
       const match = it.match(/^([^(]+)(\(.+\))$/);
-      if (match) {
-        return `  • ${match[1]}${c.dim(match[2])}`;
-      }
-      return `  • ${it}`;
+      return match ? `  • ${match[1]}${c.dim(match[2])}` : `  • ${it}`;
     }),
     c.dim(" "),
   ]);
-  return (
-    renderHeader(cv) +
-    [
-      box(c.pink(s.skillsFull || "$ echo ${SKILLS[@]}"), lines, W),
-      box(
-        c.pink(s.legend || "$help"),
-        legend(host, cv.labels, lang, "/skills"),
-        W,
-      ),
-    ].join("\n\n") +
-    "\n"
-  );
+  return page(cv, [
+    box(c.pink(s.skillsFull || "$ echo ${SKILLS[@]}"), lines, W),
+  ], host, lang, "/skills");
 }
 
 export function renderExperience({ host, lang = "en" } = {}) {
   const cv = data.cv(lang);
   const s = cv.labels?.sections || {};
   const { experience = [] } = data.experienceFull(lang);
-  return (
-    renderHeader(cv) +
-    [
-      box(c.pink(s.experienceFull || "$jobs --all"), renderJobs(experience), W),
-      box(
-        c.pink(s.legend || "$help"),
-        legend(host, cv.labels, lang, "/experience"),
-        W,
-      ),
-    ].join("\n\n") +
-    "\n"
-  );
+  return page(cv, [
+    box(c.pink(s.experienceFull || "$jobs --all"), renderJobs(experience), W),
+  ], host, lang, "/experience");
 }
 
 export function renderContact({ host, lang = "en" } = {}) {
   const cv = data.cv(lang);
   const ct = cv.contact || {};
   const fields = cv.labels?.fields || {};
-  const s = cv.labels?.sections || {};
-  return (
-    renderHeader(cv) +
-    [
-      box(
-        c.pink(cv.labels?.ui?.contact || "contact"),
-        [
-          cols(c.cyan(fields.email || "Email"), ct.email || "-"),
-          cols(c.cyan(fields.linkedin || "LinkedIn"), ct.linkedin || "-"),
-          cols(c.cyan(fields.github || "GitHub"), ct.github || "-"),
-        ],
-        W,
-      ),
-      box(
-        c.pink(s.legend || "$help"),
-        legend(host, cv.labels, lang, "/contact"),
-        W,
-      ),
-    ].join("\n\n") +
-    "\n"
-  );
+  return page(cv, [
+    box(
+      c.pink(cv.labels?.ui?.contact || "contact"),
+      [
+        cols(c.cyan(fields.email || "Email"), ct.email || "-"),
+        cols(c.cyan(fields.linkedin || "LinkedIn"), ct.linkedin || "-"),
+        cols(c.cyan(fields.github || "GitHub"), ct.github || "-"),
+      ],
+      W,
+    ),
+  ], host, lang, "/contact");
 }
 
 export function renderYsap({ host, lang = "en" } = {}) {
   const cv = data.cv(lang);
-  const s = cv.labels?.sections || {};
   const y = cv.labels?.ysap || {};
-  return (
-    renderHeader(cv) +
-    [
-      box(
-        c.pink(y.title || "YOU SUCK AT PROGRAMMING"),
-        [
-          "",
-          `${y.inspired || "This project was inspired by Dave Eddy's"} ${c.yellow("ysap.sh")}`,
-          "",
-          `${y.daveIntro || "Dave is a YouTube and Twitch streamer who created"}`,
-          `${c.yellow("You Suck at Programming")} - ${y.daveDesc || "a brilliant series that teaches programming through humor and real-world examples."}`,
-          "",
-          `${y.spark || "His idea of delivering content via curl was the spark that made this terminal-friendly CV possible."}`,
-          "",
-          c.bold(`${y.checkOut || "Check out his work:"}`),
-          cols(
-            `  ${c.green("$")} ${c.bold("curl ysap.sh")}`,
-            c.cyan(y.originalInspiration || "The original inspiration"),
-          ),
-          cols(
-            `  ${c.purple("twitch.tv/dave_eddy")}`,
-            c.cyan(y.twitchChannel || "Twitch channel"),
-          ),
-          cols(
-            `  ${c.purple("ysap.sh/youtube")}`,
-            c.cyan(y.youtubeChannel || "YouTube channel"),
-          ),
-          cols(
-            `  ${c.purple("course.ysap.sh")}`,
-            c.cyan(y.bashCourse || "Complete Bash Course"),
-          ),
-          cols(
-            `  ${c.purple("daveeddy.com")}`,
-            c.cyan(y.personalSite || "His personal site"),
-          ),
-          "",
-          c.cyan(
-            y.thanks ||
-              "Thanks Dave for showing us a better way to share our work!",
-          ),
-          "",
-        ],
-        W,
-      ),
-      box(
-        c.pink(s.legend || "$help"),
-        legend(host, cv.labels, lang, "/ysap"),
-        W,
-      ),
-    ].join("\n\n") +
-    "\n"
-  );
+  return page(cv, [
+    box(
+      c.pink(y.title || "YOU SUCK AT PROGRAMMING"),
+      [
+        "",
+        `${y.inspired || "This project was inspired by Dave Eddy's"} ${c.yellow("ysap.sh")}`,
+        "",
+        `${y.daveIntro || "Dave is a YouTube and Twitch streamer who created"}`,
+        `${c.yellow("You Suck at Programming")} - ${y.daveDesc || "a brilliant series that teaches programming through humor and real-world examples."}`,
+        "",
+        `${y.spark || "His idea of delivering content via curl was the spark that made this terminal-friendly CV possible."}`,
+        "",
+        c.bold(`${y.checkOut || "Check out his work:"}`),
+        cols(`  ${c.green("$")} ${c.bold("curl ysap.sh")}`, c.cyan(y.originalInspiration || "The original inspiration")),
+        cols(`  ${c.purple("twitch.tv/dave_eddy")}`, c.cyan(y.twitchChannel || "Twitch channel")),
+        cols(`  ${c.purple("ysap.sh/youtube")}`, c.cyan(y.youtubeChannel || "YouTube channel")),
+        cols(`  ${c.purple("course.ysap.sh")}`, c.cyan(y.bashCourse || "Complete Bash Course")),
+        cols(`  ${c.purple("daveeddy.com")}`, c.cyan(y.personalSite || "His personal site")),
+        "",
+        c.cyan(y.thanks || "Thanks Dave for showing us a better way to share our work!"),
+        "",
+      ],
+      W,
+    ),
+  ], host, lang, "/ysap");
 }
 
 export function render404({ host, lang = "en" } = {}) {
   const cv = data.cv(lang);
-  const s = cv.labels?.sections || {};
   const contentW = W - 4 - 2;
-  const ctr = (line, w) => {
-    const lpad = Math.max(0, Math.floor((contentW - w) / 2));
-    return " ".repeat(lpad) + line;
-  };
+  const ctr = (line, w) => " ".repeat(Math.max(0, Math.floor((contentW - w) / 2))) + line;
   const msg = lang === "en" ? "404 NOT FOUND" : "404 PAGINA NO ENCONTRADA";
   const cowLines = [
     `${c.dim("\\|/")}          ${c.bold("(__)")}`,
@@ -385,19 +309,6 @@ export function render404({ host, lang = "en" } = {}) {
     `   ${c.dim("\\|/")}`,
   ];
   const cowW = Math.max(...cowLines.map((l) => stripAnsi(l).length));
-  const cow = [
-    "",
-    ...cowLines.map((l) => ctr(l, cowW)),
-    "",
-    ctr(c.bold(msg), stripAnsi(msg).length),
-    "",
-  ];
-  return (
-    renderHeader(cv) +
-    [
-      box(c.pink("404"), cow, W),
-      box(c.pink(s.legend || "$help"), legend(host, cv.labels, lang), W),
-    ].join("\n\n") +
-    "\n"
-  );
+  const cow = ["", ...cowLines.map((l) => ctr(l, cowW)), "", ctr(c.bold(msg), stripAnsi(msg).length), ""];
+  return page(cv, [box(c.pink("404"), cow, W)], host, lang);
 }
