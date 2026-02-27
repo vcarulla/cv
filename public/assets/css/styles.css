@@ -13,6 +13,7 @@ html { color-scheme: dark; }
   --border: #d1d5db;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
+a:focus, button:focus, [tabindex]:focus { outline: 2px dashed var(--purple); outline-offset: 2px; }
 body {
   background: var(--bg);
   color: var(--fg);
