@@ -281,20 +281,6 @@
       "experience": "Historial laboral completo: DevOps, SRE, ingeniería backend y frontend.",
       "contact": "Contacto: email, LinkedIn y GitHub.",
       "ysap": "Gracias a Dave Eddy y ysap.sh por inspirar este CV curl-first."
-    },
-    "ysap": {
-      "title": "YOU SUCK AT PROGRAMMING",
-      "inspired": "Este proyecto fue inspirado por",
-      "daveIntro": "Dave es un streamer de YouTube y Twitch que creó",
-      "daveDesc": "una serie brillante que enseña programación con humor y ejemplos del mundo real.",
-      "spark": "Su idea de entregar contenido vía curl fue la chispa que hizo posible este CV amigable con la terminal.",
-      "checkOut": "Mirá su trabajo:",
-      "originalInspiration": "La inspiración original",
-      "twitchChannel": "Canal de Twitch",
-      "youtubeChannel": "Canal de YouTube",
-      "bashCourse": "Curso completo de Bash",
-      "personalSite": "Su sitio personal",
-      "thanks": "¡Gracias Dave por mostrarnos una mejor forma de compartir nuestro trabajo!"
     }
   }
 }

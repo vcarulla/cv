@@ -1,6 +1,7 @@
-import { pad, stripAnsi, truncate } from "../text.js";
+import { pad, stripAnsi, truncate } from "./text.js";
+import { BOX_W } from "./layout.js";
 
-export function box(title, lines, width = 88) {
+export function box(title, lines, width = BOX_W) {
   const inner = width - 4;
   const content = Array.isArray(lines) ? lines : String(lines).split("\n");
   const padded = ["", ...content, ""];

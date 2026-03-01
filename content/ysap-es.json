@@ -1,0 +1,19 @@
+{
+  "title": "YOU SUCK AT PROGRAMMING",
+  "intro": [
+    "Este proyecto fue inspirado por",
+    "Dave es un streamer de YouTube y Twitch que creó",
+    "una serie brillante que enseña programación con humor y ejemplos del mundo real.",
+    "Su idea de entregar contenido via curl fue la chispa que hizo posible este CV terminal-friendly."
+  ],
+  "programName": "You Suck at Programming",
+  "checkOut": "Mirá su trabajo:",
+  "links": [
+    { "cmd": "curl ysap.sh", "url": "https://ysap.sh", "label": "La inspiración original" },
+    { "url": "https://www.twitch.tv/dave_eddy", "display": "twitch.tv/dave_eddy", "label": "Canal de Twitch" },
+    { "url": "https://ysap.sh/youtube", "display": "ysap.sh/youtube", "label": "Canal de YouTube" },
+    { "url": "https://course.ysap.sh", "display": "course.ysap.sh", "label": "Curso completo de Bash" },
+    { "url": "https://daveeddy.com", "display": "daveeddy.com", "label": "Su sitio personal" }
+  ],
+  "thanks": "Gracias Dave por mostrarnos una mejor forma de compartir nuestro trabajo!"
+}

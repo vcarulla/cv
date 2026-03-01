@@ -375,8 +375,21 @@ export function htmlContact(host, lang = "en") {
 
 export function htmlYsap(host, lang = "en") {
   const cv = data.cv(lang);
-  const y = cv.labels?.ysap || {};
+  const y = data.ysap(lang);
   const descs = cv.labels?.descriptions || {};
+  const [inspired, daveIntro, daveDesc, spark] = y.intro;
+
+  const linkRows = y.links.map((link) =>
+    link.cmd
+      ? `<div class="row">
+        <span class="left"><span class="green">$</span> <span class="bold">${esc(link.cmd)}</span></span>
+        <a href="${link.url}" class="cyan right" target="_blank" rel="noopener">${esc(link.label)}</a>
+      </div>`
+      : `<div class="row">
+        <a href="${link.url}" class="purple left" target="_blank" rel="noopener">${esc(link.display)}</a>
+        <a href="${link.url}" class="cyan right" target="_blank" rel="noopener">${esc(link.label)}</a>
+      </div>`
+  ).join("\n      ");
 
   return shell(
     {
@@ -388,44 +401,25 @@ export function htmlYsap(host, lang = "en") {
     },
     `
   <div class="box">
-    <div class="box-title">${esc(y.title || "YOU SUCK AT PROGRAMMING")}</div>
+    <div class="box-title">${esc(y.title)}</div>
     <div class="box-body">
-      <p>${esc(y.inspired || "This project was inspired by Dave Eddy's")} <span class="yellow">ysap.sh</span></p>
+      <p>${esc(inspired)} <span class="yellow">ysap.sh</span></p>
 
       <div class="spacer"></div>
 
-      <p>${esc(y.daveIntro || "Dave is a YouTube and Twitch streamer who created")}
-      <span class="yellow">You Suck at Programming</span> - ${esc(y.daveDesc || "a brilliant series that teaches programming through humor and real-world examples.")}</p>
+      <p>${esc(daveIntro)}
+      <span class="yellow">${esc(y.programName)}</span> - ${esc(daveDesc)}</p>
 
-      <p>${esc(y.spark || "His idea of delivering content via curl was the spark that made this terminal-friendly CV possible.")}</p>
-
-      <div class="spacer"></div>
-
-      <p class="bold">${esc(y.checkOut || "Check out his work:")}</p>
-      <div class="row">
-        <span class="left"><span class="green">$</span> <span class="bold">curl ysap.sh</span></span>
-        <a href="https://ysap.sh" class="cyan right" target="_blank" rel="noopener">${esc(y.originalInspiration || "The original inspiration")}</a>
-      </div>
-      <div class="row">
-        <a href="https://www.twitch.tv/dave_eddy" class="purple left" target="_blank" rel="noopener">twitch.tv/dave_eddy</a>
-        <a href="https://www.twitch.tv/dave_eddy" class="cyan right" target="_blank" rel="noopener">${esc(y.twitchChannel || "Twitch channel")}</a>
-      </div>
-      <div class="row">
-        <a href="https://ysap.sh/youtube" class="purple left" target="_blank" rel="noopener">ysap.sh/youtube</a>
-        <a href="https://ysap.sh/youtube" class="cyan right" target="_blank" rel="noopener">${esc(y.youtubeChannel || "YouTube channel")}</a>
-      </div>
-      <div class="row">
-        <a href="https://course.ysap.sh" class="purple left" target="_blank" rel="noopener">course.ysap.sh</a>
-        <a href="https://course.ysap.sh" class="cyan right" target="_blank" rel="noopener">${esc(y.bashCourse || "Complete Bash Course")}</a>
-      </div>
-      <div class="row">
-        <a href="https://daveeddy.com" class="purple left" target="_blank" rel="noopener">daveeddy.com</a>
-        <a href="https://daveeddy.com" class="cyan right" target="_blank" rel="noopener">${esc(y.personalSite || "His personal site")}</a>
-      </div>
+      <p>${esc(spark)}</p>
 
       <div class="spacer"></div>
 
-      <p class="cyan">${esc(y.thanks || "Thanks Dave for showing us a better way to share our work!")}</p>
+      <p class="bold">${esc(y.checkOut)}</p>
+      ${linkRows}
+
+      <div class="spacer"></div>
+
+      <p class="cyan">${esc(y.thanks)}</p>
     </div>
   </div>`,
   );
