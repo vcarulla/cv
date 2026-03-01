@@ -1,7 +1,9 @@
 // ANSI-aware text utilities for CLI rendering
 
 export function stripAnsi(s) {
-  return String(s).replace(/\x1b\[[0-9;]*m/g, "");
+  return String(s)
+    .replace(/\x1b\[[0-9;]*m/g, "") // ANSI escape codes e.g. \x1b[31m = red
+    .replace(/\u200E/g, ""); // U+200E Left-to-Right Mark (zero-width)
 }
 
 export function truncate(input, max, ellipsis = true) {
