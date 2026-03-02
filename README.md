@@ -1,5 +1,8 @@
 # curl-cv
 
+![tag](https://img.shields.io/github/v/tag/vcarulla/cv)
+![status](https://img.shields.io/website?url=https://vcarulla.com/healthz&cacheSeconds=300)
+
 CV curl-first.
 
 ## Uso
