@@ -22,9 +22,8 @@ curl -L vcarulla.com
 | `/es`         | Forzar español           |
 | `/en`         | Forzar inglés            |
 
-Por defecto responde en inglés. En el navegador el idioma se detecta según `Accept-Language`.
-
-Detecta automáticamente si es terminal (curl/wget/httpie) o navegador y responde en ANSI o HTML.
+Por defecto responde en español. En el navegador el idioma se detecta según `Accept-Language`.
+Detecta automáticamente si es terminal _(curl/wget/httpie)_ o navegador y responde en ANSI o HTML.
 
 ## Desarrollo
 
