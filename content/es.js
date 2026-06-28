@@ -1,4 +1,6 @@
-export { default as cv } from "./cv-es.json";
-export { default as experience } from "./experience-full-es.json";
-export { default as skills } from "./skills-full-es.json";
-export { default as ysap } from "./ysap-es.json";
+export { default as cv } from "./cv-es.json" with { type: "json" };
+export { default as experience } from "./experience-full-es.json" with {
+  type: "json",
+};
+export { default as skills } from "./skills-full-es.json" with { type: "json" };
+export { default as ysap } from "./ysap-es.json" with { type: "json" };
