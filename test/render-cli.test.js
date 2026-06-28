@@ -6,13 +6,13 @@ import { stripAnsi } from "../render/cli/text.js";
 import * as data from "../render/data.js";
 
 const RENDERERS = [
-  "renderHome",
-  "renderHelp",
-  "renderSkillsFull",
-  "renderExperience",
-  "renderContact",
-  "renderYsap",
-  "render404",
+  render.renderHome,
+  render.renderHelp,
+  render.renderSkillsFull,
+  render.renderExperience,
+  render.renderContact,
+  render.renderYsap,
+  render.render404,
 ];
 
 describe("CLI renderers", () => {
@@ -20,8 +20,8 @@ describe("CLI renderers", () => {
     const name = data.cv(lang).identity.name;
 
     for (const fn of RENDERERS) {
-      describe(`${fn} (${lang})`, () => {
-        const out = render[fn]({ host: "cv.test", lang });
+      describe(`${fn.name} (${lang})`, () => {
+        const out = fn({ host: "cv.test", lang });
 
         it("returns a non-empty string", () => {
           assert.equal(typeof out, "string");
