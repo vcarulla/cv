@@ -1,5 +1,6 @@
 import banner from "../banner.js";
 import * as data from "../data.js";
+import { navItems, switchLang } from "../nav.js";
 import { compactUrl, wrap } from "../text.js";
 import { box } from "./box.js";
 import c from "./colors.js";
@@ -128,13 +129,6 @@ function renderSkillsCompact(cv) {
   ];
 }
 
-const ENDPOINTS = [
-  ["/", "Home"],
-  ["/skills", "Full tech stack"],
-  ["/experience", "Full career history"],
-  ["/contact", "Get in touch"],
-];
-
 const curlCmd = (host, path) =>
   `${c.green("$")} ${c.bold(`curl -L ${host}${path}`)}`;
 
@@ -147,22 +141,15 @@ function legendLines(
   const lg = labels?.legend || {};
   const ui = labels?.ui || {};
   const prefix = `/${lang}`;
-
-  const endpoints = ENDPOINTS.filter(([path]) => path !== excludePath).map(
-    ([path, fallback]) => [path, lg[path] || fallback],
-  );
-
-  const switchPath = lang === "en" ? "/es" : "/en";
-  const switchLabel =
-    lg.switchLang || (lang === "en" ? "Versión en español" : "English version");
+  const sw = switchLang(lang, lg);
 
   return [
     ...(showUsage ? [c.bold(ui.usage || "Usage:"), ""] : []),
-    ...endpoints.map(([path, desc]) =>
+    ...navItems(lg, { excludePath }).map(([path, desc]) =>
       cols(curlCmd(host, `${prefix}${path === "/" ? "" : path}`), c.cyan(desc)),
     ),
     "",
-    cols(curlCmd(host, switchPath), c.cyan(switchLabel)),
+    cols(curlCmd(host, sw.path), c.cyan(sw.label)),
   ];
 }
 

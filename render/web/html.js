@@ -1,5 +1,6 @@
 import banner from "../banner.js";
 import * as data from "../data.js";
+import { navItems } from "../nav.js";
 import { compactUrl } from "../text.js";
 import { iconCooldown, iconDownload, iconMoon, iconSun } from "./icons.js";
 
@@ -144,12 +145,7 @@ function legendHtml(host, lang, currentPath = "/") {
   const s = cv.labels?.sections || {};
   const ui = cv.labels?.ui || {};
   const prefix = `/${lang}`;
-  const items = [
-    ["/", lg["/"] || "Home"],
-    ["/skills", lg["/skills"] || "Full tech stack"],
-    ["/experience", lg["/experience"] || "Full career history"],
-    ["/contact", lg["/contact"] || "Get in touch"],
-  ].filter(([path]) => path !== currentPath);
+  const items = navItems(lg, { excludePath: currentPath });
   return `
   <nav class="box" role="navigation" aria-label="${esc(ui.siteNavigation || "Site navigation")}">
     <div class="box-title">${esc(s.legend || "$help")}</div>
