@@ -1,7 +1,7 @@
 import banner from "../banner.js";
 import * as data from "../data.js";
 import { compactUrl } from "../text.js";
-import { iconSun, iconMoon, iconDownload, iconCooldown } from "./icons.js";
+import { iconCooldown, iconDownload, iconMoon, iconSun } from "./icons.js";
 
 function esc(s) {
   return String(s)
@@ -379,17 +379,19 @@ export function htmlYsap(host, lang = "en") {
   const descs = cv.labels?.descriptions || {};
   const [inspired, daveIntro, daveDesc, spark] = y.intro;
 
-  const linkRows = y.links.map((link) =>
-    link.cmd
-      ? `<div class="row">
+  const linkRows = y.links
+    .map((link) =>
+      link.cmd
+        ? `<div class="row">
         <span class="left"><span class="green">$</span> <span class="bold">${esc(link.cmd)}</span></span>
         <a href="${link.url}" class="cyan right" target="_blank" rel="noopener">${esc(link.label)}</a>
       </div>`
-      : `<div class="row">
+        : `<div class="row">
         <a href="${link.url}" class="purple left" target="_blank" rel="noopener">${esc(link.display)}</a>
         <a href="${link.url}" class="cyan right" target="_blank" rel="noopener">${esc(link.label)}</a>
-      </div>`
-  ).join("\n      ");
+      </div>`,
+    )
+    .join("\n      ");
 
   return shell(
     {
