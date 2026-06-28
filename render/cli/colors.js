@@ -7,8 +7,8 @@ export default {
   dim: (s) => `\x1b[2m${s}${RESET}`,
   bold: (s) => `\x1b[1m${s}${RESET}`,
   purple: (s) => fg(141, s), // #bd93f9 - accent, links
-  pink: (s) => fg(212, s),   // #ff79c6 - titles
-  cyan: (s) => fg(117, s),   // #8be9fd - labels
-  green: (s) => fg(84, s),   // #50fa7b - prompt $
+  pink: (s) => fg(212, s), // #ff79c6 - titles
+  cyan: (s) => fg(117, s), // #8be9fd - labels
+  green: (s) => fg(84, s), // #50fa7b - prompt $
   yellow: (s) => fg(228, s), // #f1fa8c - dates
 };

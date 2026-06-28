@@ -6,8 +6,12 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
+    "test": "node --test test/*.test.js",
     "lint": "biome check .",
     "lint:fix": "biome check --write ."
+  },
+  "engines": {
+    "node": ">=22"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.0",

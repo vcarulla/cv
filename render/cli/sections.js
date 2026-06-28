@@ -1,10 +1,11 @@
 import banner from "../banner.js";
+import * as data from "../data.js";
+import { navItems, switchLang } from "../nav.js";
 import { compactUrl, wrap } from "../text.js";
 import { box } from "./box.js";
 import c from "./colors.js";
 import { BOX_W, HEADER_GAP, HEADER_LEFT, TEXT_W, WRAP_W } from "./layout.js";
 import { cols, sideBySide, stripAnsi, truncate } from "./text.js";
-import * as data from "../data.js";
 
 // --- formatting helpers ---
 const bullet = (text, wrapW = WRAP_W) =>
@@ -41,7 +42,11 @@ function renderHeader(cv) {
     `${c.cyan(`${labels.email || "Email"}:`)}    ${c.purple(ct.email || "-")}`,
   ];
 
-  return "\n" + sideBySide(bannerLines, HEADER_LEFT, infoLines, RIGHT, HEADER_GAP) + "\n\n";
+  return (
+    "\n" +
+    sideBySide(bannerLines, HEADER_LEFT, infoLines, RIGHT, HEADER_GAP) +
+    "\n\n"
+  );
 }
 
 function renderJobs(jobs) {
@@ -69,7 +74,8 @@ function renderEducation(cv) {
           e.period || e.date,
         ),
       );
-      if (e.details) lines.push(...wrap(e.details, TEXT_W - 2).map((l) => `  ${l}`));
+      if (e.details)
+        lines.push(...wrap(e.details, TEXT_W - 2).map((l) => `  ${l}`));
       lines.push(c.dim(" "));
     }
   }
@@ -123,36 +129,27 @@ function renderSkillsCompact(cv) {
   ];
 }
 
-const ENDPOINTS = [
-  ["/", "Home"],
-  ["/skills", "Full tech stack"],
-  ["/experience", "Full career history"],
-  ["/contact", "Get in touch"],
-];
-
 const curlCmd = (host, path) =>
   `${c.green("$")} ${c.bold(`curl -L ${host}${path}`)}`;
 
-function legendLines(host, labels, lang, { excludePath = null, showUsage = false } = {}) {
+function legendLines(
+  host,
+  labels,
+  lang,
+  { excludePath = null, showUsage = false } = {},
+) {
   const lg = labels?.legend || {};
   const ui = labels?.ui || {};
   const prefix = `/${lang}`;
-
-  const endpoints = ENDPOINTS
-    .filter(([path]) => path !== excludePath)
-    .map(([path, fallback]) => [path, lg[path] || fallback]);
-
-  const switchPath = lang === "en" ? "/es" : "/en";
-  const switchLabel =
-    lg.switchLang || (lang === "en" ? "Versión en español" : "English version");
+  const sw = switchLang(lang, lg);
 
   return [
     ...(showUsage ? [c.bold(ui.usage || "Usage:"), ""] : []),
-    ...endpoints.map(([path, desc]) =>
+    ...navItems(lg, { excludePath }).map(([path, desc]) =>
       cols(curlCmd(host, `${prefix}${path === "/" ? "" : path}`), c.cyan(desc)),
     ),
     "",
-    cols(curlCmd(host, switchPath), c.cyan(switchLabel)),
+    cols(curlCmd(host, sw.path), c.cyan(sw.label)),
   ];
 }
 
@@ -162,7 +159,14 @@ function legend(host, labels, lang, currentPath = "/") {
 
 const page = (cv, boxes, host, lang, currentPath) =>
   renderHeader(cv) +
-  [...boxes, box(c.pink(cv.labels?.sections?.legend || "$help"), legend(host, cv.labels, lang, currentPath), BOX_W)].join("\n\n") +
+  [
+    ...boxes,
+    box(
+      c.pink(cv.labels?.sections?.legend || "$help"),
+      legend(host, cv.labels, lang, currentPath),
+      BOX_W,
+    ),
+  ].join("\n\n") +
   "\n";
 
 // --- public renderers ---
@@ -176,12 +180,26 @@ export function renderHome({ host, lang = "en" }) {
     return i === 0 ? [...lines.map((l) => c.purple(l)), ""] : lines;
   });
 
-  return page(cv, [
-    box(c.pink(s.whoami || "$whoami"), whoami, BOX_W),
-    box(c.pink(s.skills || "$./skills"), renderSkillsCompact(cv), BOX_W),
-    box(c.pink(s.experience || "$jobs"), renderJobs(cv.experience || []), BOX_W),
-    box(c.pink(s.education || "$cv | grep education"), renderEducation(cv), BOX_W),
-  ], host, lang, "/");
+  return page(
+    cv,
+    [
+      box(c.pink(s.whoami || "$whoami"), whoami, BOX_W),
+      box(c.pink(s.skills || "$./skills"), renderSkillsCompact(cv), BOX_W),
+      box(
+        c.pink(s.experience || "$jobs"),
+        renderJobs(cv.experience || []),
+        BOX_W,
+      ),
+      box(
+        c.pink(s.education || "$cv | grep education"),
+        renderEducation(cv),
+        BOX_W,
+      ),
+    ],
+    host,
+    lang,
+    "/",
+  );
 }
 
 export function renderHelp({ host, lang = "en" }) {
@@ -207,35 +225,55 @@ export function renderSkillsFull({ host, lang = "en" } = {}) {
     }),
     c.dim(" "),
   ]);
-  return page(cv, [
-    box(c.pink(s.skillsFull || "$ echo ${SKILLS[@]}"), lines, BOX_W),
-  ], host, lang, "/skills");
+  return page(
+    cv,
+    [box(c.pink(s.skillsFull || "$ echo ${SKILLS[@]}"), lines, BOX_W)],
+    host,
+    lang,
+    "/skills",
+  );
 }
 
 export function renderExperience({ host, lang = "en" } = {}) {
   const cv = data.cv(lang);
   const s = cv.labels?.sections || {};
   const { experience = [] } = data.experienceFull(lang);
-  return page(cv, [
-    box(c.pink(s.experienceFull || "$jobs --all"), renderJobs(experience), BOX_W),
-  ], host, lang, "/experience");
+  return page(
+    cv,
+    [
+      box(
+        c.pink(s.experienceFull || "$jobs --all"),
+        renderJobs(experience),
+        BOX_W,
+      ),
+    ],
+    host,
+    lang,
+    "/experience",
+  );
 }
 
 export function renderContact({ host, lang = "en" } = {}) {
   const cv = data.cv(lang);
   const ct = cv.contact || {};
   const fields = cv.labels?.fields || {};
-  return page(cv, [
-    box(
-      c.pink(cv.labels?.ui?.contact || "contact"),
-      [
-        cols(c.cyan(fields.email || "Email"), ct.email || "-"),
-        cols(c.cyan(fields.linkedin || "LinkedIn"), ct.linkedin || "-"),
-        cols(c.cyan(fields.github || "GitHub"), ct.github || "-"),
-      ],
-      BOX_W,
-    ),
-  ], host, lang, "/contact");
+  return page(
+    cv,
+    [
+      box(
+        c.pink(cv.labels?.ui?.contact || "contact"),
+        [
+          cols(c.cyan(fields.email || "Email"), ct.email || "-"),
+          cols(c.cyan(fields.linkedin || "LinkedIn"), ct.linkedin || "-"),
+          cols(c.cyan(fields.github || "GitHub"), ct.github || "-"),
+        ],
+        BOX_W,
+      ),
+    ],
+    host,
+    lang,
+    "/contact",
+  );
 }
 
 export function renderYsap({ host, lang = "en" } = {}) {
@@ -246,36 +284,43 @@ export function renderYsap({ host, lang = "en" } = {}) {
   const linkLines = y.links.map((link) =>
     link.cmd
       ? cols(`  ${c.green("$")} ${c.bold(link.cmd)}`, c.cyan(link.label))
-      : cols(`  ${c.purple(link.display)}`, c.cyan(link.label))
+      : cols(`  ${c.purple(link.display)}`, c.cyan(link.label)),
   );
 
-  return page(cv, [
-    box(
-      c.pink(y.title),
-      [
-        "",
-        `${inspired} ${c.yellow("ysap.sh")}`,
-        "",
-        daveIntro,
-        `${c.yellow(y.programName)} - ${daveDesc}`,
-        "",
-        spark,
-        "",
-        c.bold(y.checkOut),
-        ...linkLines,
-        "",
-        c.cyan(y.thanks),
-        "",
-      ],
-      BOX_W,
-    ),
-  ], host, lang, "/ysap");
+  return page(
+    cv,
+    [
+      box(
+        c.pink(y.title),
+        [
+          "",
+          `${inspired} ${c.yellow("ysap.sh")}`,
+          "",
+          daveIntro,
+          `${c.yellow(y.programName)} - ${daveDesc}`,
+          "",
+          spark,
+          "",
+          c.bold(y.checkOut),
+          ...linkLines,
+          "",
+          c.cyan(y.thanks),
+          "",
+        ],
+        BOX_W,
+      ),
+    ],
+    host,
+    lang,
+    "/ysap",
+  );
 }
 
 export function render404({ host, lang = "en" } = {}) {
   const cv = data.cv(lang);
   const contentW = TEXT_W;
-  const ctr = (line, w) => " ".repeat(Math.max(0, Math.floor((contentW - w) / 2))) + line;
+  const ctr = (line, w) =>
+    " ".repeat(Math.max(0, Math.floor((contentW - w) / 2))) + line;
   const msg = lang === "en" ? "404 NOT FOUND" : "404 PAGINA NO ENCONTRADA";
   const cowLines = [
     `${c.dim("\\|/")}          ${c.bold("(__)")}`,
@@ -285,6 +330,12 @@ export function render404({ host, lang = "en" } = {}) {
     `   ${c.dim("\\|/")}`,
   ];
   const cowW = Math.max(...cowLines.map((l) => stripAnsi(l).length));
-  const cow = ["", ...cowLines.map((l) => ctr(l, cowW)), "", ctr(c.bold(msg), stripAnsi(msg).length), ""];
+  const cow = [
+    "",
+    ...cowLines.map((l) => ctr(l, cowW)),
+    "",
+    ctr(c.bold(msg), stripAnsi(msg).length),
+    "",
+  ];
   return page(cv, [box(c.pink("404"), cow, BOX_W)], host, lang);
 }

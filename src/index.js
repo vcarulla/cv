@@ -1,4 +1,4 @@
-import * as render from "../render/cli/ansi.js";
+import * as render from "../render/cli/sections.js";
 import * as data from "../render/data.js";
 import {
   html404,
@@ -34,7 +34,11 @@ const secHeaders = {
   "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
 };
 
-const response = (body, type, { status = 200, maxAge = 3600, headers = {} } = {}) =>
+const response = (
+  body,
+  type,
+  { status = 200, maxAge = 3600, headers = {} } = {},
+) =>
   new Response(body, {
     status,
     headers: {
@@ -45,7 +49,8 @@ const response = (body, type, { status = 200, maxAge = 3600, headers = {} } = {}
     },
   });
 
-const text = (body, status, maxAge) => response(body, TYPE_TEXT, { status, maxAge });
+const text = (body, status, maxAge) =>
+  response(body, TYPE_TEXT, { status, maxAge });
 
 const html = (body, host, status) =>
   response(body, TYPE_HTML, {

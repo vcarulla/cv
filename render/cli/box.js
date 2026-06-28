@@ -1,5 +1,5 @@
-import { pad, stripAnsi, truncate } from "./text.js";
 import { BOX_W } from "./layout.js";
+import { pad, stripAnsi, truncate } from "./text.js";
 
 export function box(title, lines, width = BOX_W) {
   const inner = width - 4;

@@ -1,13 +1,16 @@
 import banner from "../banner.js";
 import * as data from "../data.js";
+import { navItems } from "../nav.js";
 import { compactUrl } from "../text.js";
-import { iconSun, iconMoon, iconDownload, iconCooldown } from "./icons.js";
+import { iconCooldown, iconDownload, iconMoon, iconSun } from "./icons.js";
 
 function esc(s) {
   return String(s)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 function ensureHttps(url) {
@@ -76,12 +79,12 @@ function shell(
     <img src="/assets/img/flag-${lang === "en" ? "es" : "en"}.svg" alt="${lang === "en" ? "Espa\u00f1ol" : "English"}" width="20" height="14">
   </a>
   <button id="theme-toggle" type="button" aria-label="${lang === "en" ? "Toggle theme" : "Cambiar tema"}">
-    ${iconSun(lang)}
-    ${iconMoon(lang)}
+    ${iconSun}
+    ${iconMoon}
   </button>
   <button id="download-cv" type="button" data-url="${lang === "es" ? "/Carulla%20Victor%20Curriculum%20Completo.pdf" : "/Carulla%20Victor%20Resume%20Complete.pdf"}" aria-label="${lang === "es" ? "Descargar CV en PDF" : "Download CV as PDF"}">
-    ${iconDownload(lang)}
-    ${iconCooldown(lang)}
+    ${iconDownload}
+    ${iconCooldown}
   </button>
 </div>
 
@@ -144,12 +147,7 @@ function legendHtml(host, lang, currentPath = "/") {
   const s = cv.labels?.sections || {};
   const ui = cv.labels?.ui || {};
   const prefix = `/${lang}`;
-  const items = [
-    ["/", lg["/"] || "Home"],
-    ["/skills", lg["/skills"] || "Full tech stack"],
-    ["/experience", lg["/experience"] || "Full career history"],
-    ["/contact", lg["/contact"] || "Get in touch"],
-  ].filter(([path]) => path !== currentPath);
+  const items = navItems(lg, { excludePath: currentPath });
   return `
   <nav class="box" role="navigation" aria-label="${esc(ui.siteNavigation || "Site navigation")}">
     <div class="box-title">${esc(s.legend || "$help")}</div>
@@ -379,17 +377,19 @@ export function htmlYsap(host, lang = "en") {
   const descs = cv.labels?.descriptions || {};
   const [inspired, daveIntro, daveDesc, spark] = y.intro;
 
-  const linkRows = y.links.map((link) =>
-    link.cmd
-      ? `<div class="row">
+  const linkRows = y.links
+    .map((link) =>
+      link.cmd
+        ? `<div class="row">
         <span class="left"><span class="green">$</span> <span class="bold">${esc(link.cmd)}</span></span>
         <a href="${link.url}" class="cyan right" target="_blank" rel="noopener">${esc(link.label)}</a>
       </div>`
-      : `<div class="row">
+        : `<div class="row">
         <a href="${link.url}" class="purple left" target="_blank" rel="noopener">${esc(link.display)}</a>
         <a href="${link.url}" class="cyan right" target="_blank" rel="noopener">${esc(link.label)}</a>
-      </div>`
-  ).join("\n      ");
+      </div>`,
+    )
+    .join("\n      ");
 
   return shell(
     {
