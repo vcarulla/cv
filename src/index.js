@@ -1,4 +1,4 @@
-import * as render from "../render/cli/ansi.js";
+import * as render from "../render/cli/sections.js";
 import * as data from "../render/data.js";
 import {
   html404,

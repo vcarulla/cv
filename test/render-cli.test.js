@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import * as render from "../render/cli/ansi.js";
 import { BOX_W } from "../render/cli/layout.js";
+import * as render from "../render/cli/sections.js";
 import { stripAnsi } from "../render/cli/text.js";
 import * as data from "../render/data.js";
 

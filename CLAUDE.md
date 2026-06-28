@@ -34,7 +34,7 @@ CV "curl-first": la misma URL responde **texto ANSI** a `curl`/`wget`/`httpie` y
     El ancho se mide con `stripAnsi`, no con `.length`, porque los escapes de color y los
     caracteres zero-width (U+200E) no ocupan columnas.
   - `box.js`: dibuja las cajas; depende de que el ancho visible se calcule bien.
-  - `ansi.js`: arma las secciones y páginas (home, skills, experience, etc.).
+  - `sections.js`: arma las secciones y páginas (home, skills, experience, etc.).
   - `layout.js`/`colors.js`: constantes de ancho y paleta.
   - **Invariante**: todas las líneas de una caja deben tener el mismo ancho visible. Si
     tocás el cálculo de ancho, corré los tests de `box`/render (cubren zero-width y ANSI).
