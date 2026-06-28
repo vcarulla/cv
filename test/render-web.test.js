@@ -52,4 +52,10 @@ describe("HTML escaping", () => {
     );
     assert.ok(out.includes("&lt;script&gt;"));
   });
+
+  it("escapes quotes so data cannot break out of an attribute", () => {
+    const out = htmlHome('a" onload="alert(1)', "en");
+    assert.ok(!out.includes('" onload="alert(1)'), "attribute breakout leaked");
+    assert.ok(out.includes("&quot;"));
+  });
 });
