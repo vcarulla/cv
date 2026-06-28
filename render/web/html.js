@@ -76,12 +76,12 @@ function shell(
     <img src="/assets/img/flag-${lang === "en" ? "es" : "en"}.svg" alt="${lang === "en" ? "Espa\u00f1ol" : "English"}" width="20" height="14">
   </a>
   <button id="theme-toggle" type="button" aria-label="${lang === "en" ? "Toggle theme" : "Cambiar tema"}">
-    ${iconSun(lang)}
-    ${iconMoon(lang)}
+    ${iconSun}
+    ${iconMoon}
   </button>
   <button id="download-cv" type="button" data-url="${lang === "es" ? "/Carulla%20Victor%20Curriculum%20Completo.pdf" : "/Carulla%20Victor%20Resume%20Complete.pdf"}" aria-label="${lang === "es" ? "Descargar CV en PDF" : "Download CV as PDF"}">
-    ${iconDownload(lang)}
-    ${iconCooldown(lang)}
+    ${iconDownload}
+    ${iconCooldown}
   </button>
 </div>
 
