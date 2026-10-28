@@ -75,4 +75,21 @@ describe("worker routing", () => {
     assert.equal(res.status, 301);
     assert.ok(res.headers.get("location").startsWith("https://"));
   });
+
+  it("ignores X-Forwarded-Host (client-controlled) when building links", async () => {
+    const headers = { "x-forwarded-host": "evil.example" };
+    const sitemap = await (await get("/sitemap.xml", { headers })).text();
+    assert.ok(!sitemap.includes("evil.example"));
+    assert.ok(sitemap.includes("https://cv.test/"));
+    const res = await get("/", { headers });
+    assert.ok(!res.headers.get("link").includes("evil.example"));
+    assert.ok(!(await res.text()).includes("evil.example"));
+  });
+
+  it("sends Vary for User-Agent / Accept-Language negotiated responses", async () => {
+    for (const ua of ["Mozilla/5.0", "curl/8.7.1"]) {
+      const vary = (await get("/", { ua })).headers.get("vary");
+      assert.equal(vary, "User-Agent, Accept-Language");
+    }
+  });
 });

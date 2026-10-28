@@ -14,10 +14,9 @@ const isCli = (request) => {
   return ua.includes("curl") || ua.includes("wget") || ua.includes("httpie");
 };
 
-const getHost = (request) =>
-  request.headers.get("x-forwarded-host") ||
-  request.headers.get("host") ||
-  "cv.local";
+// Host de la URL que resolvió Cloudflare, no de headers: X-Forwarded-Host lo
+// manda el cliente y se reflejaba en links, sitemap y header Link.
+const getHost = (request) => new URL(request.url).host;
 
 const SUPPORTED_LANGS = new Set(["en", "es"]);
 
@@ -44,6 +43,9 @@ const response = (
     headers: {
       "Content-Type": type,
       "Cache-Control": `public, max-age=${maxAge}`,
+      // La misma URL responde ANSI o HTML según User-Agent, y es/en según
+      // Accept-Language: sin Vary, un cache compartido puede mezclarlos.
+      Vary: "User-Agent, Accept-Language",
       ...secHeaders,
       ...headers,
     },

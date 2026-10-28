@@ -14,7 +14,7 @@
     "node": ">=22"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.1",
+    "@biomejs/biome": "^2.6.3",
     "wrangler": "^4.105.0"
   }
 }
