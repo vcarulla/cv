@@ -20,22 +20,29 @@ function ensureHttps(url) {
 
 const BANNER = banner();
 
-function hreflangTags(host, pagePath) {
+// URL canónica de cada idioma: inglés sin prefijo, español con /es. Es la misma
+// que usan el hreflang y el sitemap, para que Google no reciba señales cruzadas.
+function pageUrl(host, lang, pagePath) {
   const clean = pagePath === "/" ? "" : pagePath;
-  return `<link rel="alternate" hreflang="en" href="https://${esc(host)}${clean || "/"}"/>
-  <link rel="alternate" hreflang="es" href="https://${esc(host)}/es${clean}"/>
-  <link rel="alternate" hreflang="x-default" href="https://${esc(host)}${clean || "/"}"/>`;
+  return lang === "es"
+    ? `https://${host}/es${clean}`
+    : `https://${host}${clean || "/"}`;
+}
+
+function hreflangTags(host, pagePath) {
+  return `<link rel="alternate" hreflang="en" href="${esc(pageUrl(host, "en", pagePath))}"/>
+  <link rel="alternate" hreflang="es" href="${esc(pageUrl(host, "es", pagePath))}"/>
+  <link rel="alternate" hreflang="x-default" href="${esc(pageUrl(host, "en", pagePath))}"/>`;
 }
 
 function shell(
-  { title, description, host, lang = "en", pagePath = "/" },
+  { title, description, host, lang = "en", pagePath = "/", noindex = false },
   body,
 ) {
   const cv = data.cv(lang);
-  const prefix = `/${lang}`;
   const altPrefix = lang === "en" ? "/es" : "/en";
-  const canonical = `https://${host}${prefix}${pagePath === "/" ? "" : pagePath}`;
-  const altLangUrl = `${altPrefix}${pagePath === "/" ? "/" : pagePath}`;
+  const canonical = pageUrl(host, lang, pagePath);
+  const altLangUrl = `${altPrefix}${pagePath === "/" ? "" : pagePath}`;
   const desc =
     description ||
     `${cv.identity.name} — ${cv.identity.title}. ${cv.identity.location}. curl-first CV.`;
@@ -48,8 +55,12 @@ function shell(
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>${esc(title)}</title>
   <meta name="description" content="${esc(desc)}"/>
-  <link rel="canonical" href="${esc(canonical)}"/>
-  ${hreflangTags(host, pagePath)}
+  ${
+    noindex
+      ? '<meta name="robots" content="noindex"/>'
+      : `<link rel="canonical" href="${esc(canonical)}"/>
+  ${hreflangTags(host, pagePath)}`
+  }
   <meta name="theme-color" content="#282a36"/>
   <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48cmVjdCB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEwMCcgcng9JzEyJyBmaWxsPScjMjgyYTM2Jy8+PHRleHQgeD0nNTAnIHk9JzY4JyBmb250LWZhbWlseT0nbW9ub3NwYWNlJyBmb250LXNpemU9JzQ4JyBmb250LXdlaWdodD0nYm9sZCcgZmlsbD0nI2JkOTNmOScgdGV4dC1hbmNob3I9J21pZGRsZSc+VkM8L3RleHQ+PC9zdmc+"/>
 
@@ -382,11 +393,11 @@ export function htmlYsap(host, lang = "en") {
       link.cmd
         ? `<div class="row">
         <span class="left"><span class="green">$</span> <span class="bold">${esc(link.cmd)}</span></span>
-        <a href="${link.url}" class="cyan right" target="_blank" rel="noopener">${esc(link.label)}</a>
+        <a href="${esc(link.url)}" class="cyan right" target="_blank" rel="noopener">${esc(link.label)}</a>
       </div>`
         : `<div class="row">
-        <a href="${link.url}" class="purple left" target="_blank" rel="noopener">${esc(link.display)}</a>
-        <a href="${link.url}" class="cyan right" target="_blank" rel="noopener">${esc(link.label)}</a>
+        <a href="${esc(link.url)}" class="purple left" target="_blank" rel="noopener">${esc(link.display)}</a>
+        <a href="${esc(link.url)}" class="cyan right" target="_blank" rel="noopener">${esc(link.label)}</a>
       </div>`,
     )
     .join("\n      ");
@@ -427,10 +438,10 @@ export function htmlYsap(host, lang = "en") {
 
 export function html404(host, lang = "en") {
   const cv = data.cv(lang);
-  const msg = lang === "en" ? "404 NOT FOUND" : "404 PAGINA NO ENCONTRADA";
+  const msg = lang === "en" ? "404 NOT FOUND" : "404 PÁGINA NO ENCONTRADA";
 
   return shell(
-    { title: `404 — ${host}`, host, pagePath: "/", lang },
+    { title: `404 — ${host}`, host, pagePath: "/", lang, noindex: true },
     `
   ${renderHeaderHtml(cv)}
 

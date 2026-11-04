@@ -321,7 +321,7 @@ export function render404({ host, lang = "en" } = {}) {
   const contentW = TEXT_W;
   const ctr = (line, w) =>
     " ".repeat(Math.max(0, Math.floor((contentW - w) / 2))) + line;
-  const msg = lang === "en" ? "404 NOT FOUND" : "404 PAGINA NO ENCONTRADA";
+  const msg = lang === "en" ? "404 NOT FOUND" : "404 PÁGINA NO ENCONTRADA";
   const cowLines = [
     `${c.dim("\\|/")}          ${c.bold("(__)")}`,
     `     ${c.dim("`\\------")}${c.bold("(oo)")}`,

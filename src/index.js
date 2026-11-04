@@ -14,15 +14,12 @@ const isCli = (request) => {
   return ua.includes("curl") || ua.includes("wget") || ua.includes("httpie");
 };
 
-// Host de la URL que resolvió Cloudflare, no de headers: X-Forwarded-Host lo
-// manda el cliente y se reflejaba en links, sitemap y header Link.
-const getHost = (request) => new URL(request.url).host;
-
-const SUPPORTED_LANGS = new Set(["en", "es"]);
-
 const TYPE_TEXT = "text/plain; charset=utf-8";
 const TYPE_HTML = "text/html; charset=utf-8";
 const TYPE_JSON = "application/json; charset=utf-8";
+const TYPE_XML = "application/xml; charset=utf-8";
+
+const SITEMAP_PATHS = ["", "/skills", "/experience", "/contact", "/ysap"];
 
 const secHeaders = {
   "X-Content-Type-Options": "nosniff",
@@ -76,31 +73,52 @@ function detectLang(acceptLang) {
 }
 
 function parseLang(path, acceptLang) {
-  const match = path.match(/^\/(en|es)(\/|$)/);
-  if (match && SUPPORTED_LANGS.has(match[1])) {
-    // Explicit prefix takes priority
-    const lang = match[1];
-    const cleanPath = path.replace(/^\/(en|es)/, "") || "/";
-    return { lang, cleanPath, explicit: true };
-  }
-  // No prefix: detect from Accept-Language header
-  const lang = detectLang(acceptLang);
-  return { lang, cleanPath: path, explicit: false };
+  // Explicit prefix takes priority; without one, detect from Accept-Language
+  const match = path.match(/^\/(en|es)(\/.*)?$/);
+  if (match) return { lang: match[1], cleanPath: match[2] || "/" };
+  return { lang: detectLang(acceptLang), cleanPath: path };
 }
+
+const sitemap = (host) =>
+  `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${SITEMAP_PATHS.flatMap((p) => [
+  `  <url><loc>https://${host}${p || "/"}</loc></url>`,
+  `  <url><loc>https://${host}/es${p}</loc></url>`,
+]).join("\n")}
+</urlset>
+`;
 
 export default {
   async fetch(request) {
+    const url = new URL(request.url);
+
     // Redirect HTTP to HTTPS
     const cfVisitor = request.headers.get("cf-visitor");
     if (cfVisitor?.includes('"http"')) {
-      const url = new URL(request.url);
       url.protocol = "https:";
       return Response.redirect(url.toString(), 301);
     }
 
-    const url = new URL(request.url);
+    // Solo lectura: un POST/PUT/etc. no tiene por qué recibir la página.
+    if (request.method !== "GET" && request.method !== "HEAD") {
+      return response("Method Not Allowed\n", TYPE_TEXT, {
+        status: 405,
+        maxAge: 0,
+        headers: { Allow: "GET, HEAD" },
+      });
+    }
+
+    // /skills/ → /skills (las rutas no llevan barra final)
+    if (url.pathname.length > 1 && url.pathname.endsWith("/")) {
+      url.pathname = url.pathname.replace(/\/+$/, "") || "/";
+      return Response.redirect(url.toString(), 301);
+    }
+
     const path = url.pathname;
-    const host = getHost(request);
+    // Host de la URL que resolvió Cloudflare, no de headers: X-Forwarded-Host lo
+    // manda el cliente y se reflejaba en links, sitemap y header Link.
+    const host = url.host;
     const acceptLang = request.headers.get("Accept-Language");
 
     const { lang, cleanPath } = parseLang(path, acceptLang);
@@ -140,27 +158,7 @@ export default {
         );
 
       case "/sitemap.xml":
-        return new Response(
-          `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${[
-            "",
-            "/skills",
-            "/experience",
-            "/contact",
-            "/ysap",
-          ]
-            .flatMap((p) => [
-              `  <url><loc>https://${host}${p || "/"}</loc></url>`,
-              `  <url><loc>https://${host}/es${p}</loc></url>`,
-            ])
-            .join("\n")}\n</urlset>\n`,
-          {
-            headers: {
-              "Content-Type": "application/xml; charset=utf-8",
-              "Cache-Control": "public, max-age=86400",
-              ...secHeaders,
-            },
-          },
-        );
+        return response(sitemap(host), TYPE_XML, { maxAge: 86400 });
 
       case "/healthz":
         return text("ok\n", 200, 0);

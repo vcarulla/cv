@@ -92,4 +92,44 @@ describe("worker routing", () => {
       assert.equal(vary, "User-Agent, Accept-Language");
     }
   });
+  it("rejects non-GET/HEAD methods with 405", async () => {
+    const res = await worker.fetch(
+      new Request("https://cv.test/", { method: "POST" }),
+    );
+    assert.equal(res.status, 405);
+    assert.equal(res.headers.get("allow"), "GET, HEAD");
+  });
+
+  it("redirects trailing slashes to the clean path", async () => {
+    for (const [from, to] of [
+      ["/skills/", "https://cv.test/skills"],
+      ["/es/", "https://cv.test/es"],
+      ["/es/contact/?x=1", "https://cv.test/es/contact?x=1"],
+    ]) {
+      const res = await get(from);
+      assert.equal(res.status, 301);
+      assert.equal(res.headers.get("location"), to);
+    }
+  });
+
+  it("uses the same URL for canonical, hreflang and sitemap", async () => {
+    const sitemap = await (await get("/sitemap.xml")).text();
+    for (const [path, lang, canonical] of [
+      ["/en/skills", "en", "https://cv.test/skills"],
+      ["/skills", "en", "https://cv.test/skills"],
+      ["/en", "en", "https://cv.test/"],
+      ["/es/skills", "es", "https://cv.test/es/skills"],
+    ]) {
+      const body = await (await get(path)).text();
+      assert.ok(body.includes(`rel="canonical" href="${canonical}"`), path);
+      assert.ok(body.includes(`hreflang="${lang}" href="${canonical}"`), path);
+      assert.ok(sitemap.includes(`<loc>${canonical}</loc>`), path);
+    }
+  });
+
+  it("marks 404 pages noindex, without canonical", async () => {
+    const body = await (await get("/nope")).text();
+    assert.ok(body.includes('<meta name="robots" content="noindex"/>'));
+    assert.ok(!body.includes('rel="canonical"'));
+  });
 });
