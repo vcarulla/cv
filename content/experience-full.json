@@ -9,7 +9,7 @@
         "Standardized CI/CD with parameterized Jenkins and GitLab CI pipelines, enabling self-service deployments across teams.",
         "Led root-cause analysis of production incidents in a banking environment: JVM memory/GC, TLS/JVM compatibility, SQL Server failover, overlay MTU and third-party connectivity.",
         "Operated AKS production clusters: version upgrades, probe/resource tuning and load-balancer troubleshooting.",
-        "Centralized secrets management with Vault and drove security hardening: certificate lifecycle and vulnerability patching campaigns.",
+        "Centralized secrets management with Vault and drove security hardening: certificate lifecycle, vulnerability patching campaigns and security incident response.",
         "Rebuilt observability with Grafana/Loki, Prometheus, Zabbix and Kuma, including threshold-based alerting adopted across teams."
       ],
       "technologies": "Azure · AWS · Kubernetes (AKS) · Helm · Docker Swarm · Traefik · Harbor · Jenkins · GitLab CI · Vault · Consul · Elastic Stack · Grafana/Loki · Prometheus · Zabbix · Kuma · Kafka"

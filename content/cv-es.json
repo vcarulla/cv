@@ -45,7 +45,7 @@
         "Estandarización de CI/CD con pipelines parametrizados en Jenkins y GitLab CI, habilitando despliegues self-service entre equipos.",
         "Análisis de causa raíz de incidentes productivos en un entorno bancario: memoria/GC de la JVM, compatibilidad TLS/JVM, failover de SQL Server, MTU de redes overlay y conectividad con terceros.",
         "Operación de clusters AKS productivos: actualizaciones de versión, ajuste de probes/recursos y troubleshooting de balanceadores.",
-        "Gestión centralizada de secretos con Vault y hardening de seguridad: ciclo de vida de certificados y campañas de parcheo de vulnerabilidades.",
+        "Gestión centralizada de secretos con Vault y hardening de seguridad: ciclo de vida de certificados, campañas de parcheo de vulnerabilidades y respuesta a incidentes de seguridad.",
         "Reconstrucción de la observabilidad con Grafana/Loki, Prometheus, Zabbix y Kuma, con alertas por umbrales adoptadas por los equipos."
       ],
       "tech": [

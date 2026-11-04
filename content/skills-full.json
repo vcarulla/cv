@@ -10,14 +10,15 @@
     "Infrastructure as Code (Terraform)",
     "Scripting (Bash)"
   ],
-  "Platforms & Systems": ["Azure, GCP, Cloudflare, GNU/Linux, Proxmox"],
+  "Platforms & Systems": ["Azure, AWS, GCP, Cloudflare, GNU/Linux, Proxmox"],
   "Observability & Monitoring": [
-    "Metrics and dashboards (Zabbix, Kuma)",
-    "Logging and APM (Elastic Stack, Datadog, Instana)"
+    "Metrics and dashboards (Prometheus, Grafana, Zabbix, Kuma)",
+    "Logging and APM (Elastic Stack, Loki, Datadog, Instana)"
   ],
   "Infrastructure & Security": [
-    "Secrets management (Vault, Consul)",
-    "API Gateway (KongHQ)"
+    "Secrets management and service discovery (Vault, Consul)",
+    "Reverse proxies and API gateways (Traefik, KongHQ)",
+    "TLS certificate lifecycle and security hardening"
   ],
   "Messaging & Data": [
     "Message brokers (RabbitMQ, Kafka)",
