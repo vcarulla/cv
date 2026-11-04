@@ -248,6 +248,7 @@
       "experience": "$ jobs --limit 4",
       "experienceFull": "$ jobs --all",
       "education": "$ grep -E 'edu|cert' .",
+      "contact": "$ cat contact",
       "legend": "$ help"
     },
     "legend": {
@@ -272,8 +273,7 @@
       "availableCommands": "Available commands:",
       "usage": "Usage:",
       "skipToContent": "Skip to content",
-      "siteNavigation": "Site navigation",
-      "contact": "contact"
+      "siteNavigation": "Site navigation"
     },
     "descriptions": {
       "home": "DevOps / SRE. Production systems, Kubernetes, CI/CD, Observability. curl-first CV.",

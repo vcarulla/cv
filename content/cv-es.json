@@ -248,6 +248,7 @@
       "experience": "$ jobs --limit 4",
       "experienceFull": "$ jobs --all",
       "education": "$ grep -E 'edu|cert' .",
+      "contact": "$ cat contact",
       "legend": "$ help"
     },
     "legend": {
@@ -272,8 +273,7 @@
       "availableCommands": "Comandos disponibles:",
       "usage": "Uso:",
       "skipToContent": "Ir al contenido",
-      "siteNavigation": "Navegación del sitio",
-      "contact": "contacto"
+      "siteNavigation": "Navegación del sitio"
     },
     "descriptions": {
       "home": "DevOps / SRE. Sistemas productivos, Kubernetes, CI/CD, Observabilidad",

@@ -132,4 +132,30 @@ describe("worker routing", () => {
     assert.ok(body.includes('<meta name="robots" content="noindex"/>'));
     assert.ok(!body.includes('rel="canonical"'));
   });
+  it("404 lists every page in $ help, Home included", async () => {
+    for (const [path, home] of [
+      ["/nope", "cv.test/en "],
+      ["/es/nada", "cv.test/es "],
+    ]) {
+      const out = await (await get(path, { ua: "curl/8.0" })).text();
+      assert.ok(out.replace(/\x1b\[[0-9;]*m/g, "").includes(home), path);
+    }
+  });
+
+  it("serves 404 in Spanish under /es/", async () => {
+    for (const path of ["/es/nada", "/es/skills/x"]) {
+      const cli = await (await get(path, { ua: "curl/8.0" })).text();
+      assert.ok(cli.includes("404 PÁGINA NO ENCONTRADA"), path);
+      const web = await (await get(path)).text();
+      assert.ok(web.includes('<html lang="es">'), path);
+      assert.ok(web.includes("404 PÁGINA NO ENCONTRADA"), path);
+    }
+  });
+
+  it("titles the contact box with a prompt", async () => {
+    for (const ua of ["curl/8.0", "Mozilla/5.0"]) {
+      const out = await (await get("/es/contact", { ua })).text();
+      assert.ok(out.includes("$ cat contact"), ua);
+    }
+  });
 });

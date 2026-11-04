@@ -362,7 +362,7 @@ export function htmlContact(host, lang = "en") {
   ${renderHeaderHtml(cv)}
 
   <div class="box">
-    <div class="box-title">${esc(cv.labels?.ui?.contact || "contact")}</div>
+    <div class="box-title">${esc(cv.labels?.sections?.contact || "$ cat contact")}</div>
     <div class="box-body">
       <div class="row" style="padding-left:0">
         <span class="cyan left">${esc(fields.email || "Email")}</span>

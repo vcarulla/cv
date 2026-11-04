@@ -261,7 +261,7 @@ export function renderContact({ host, lang = "en" } = {}) {
     cv,
     [
       box(
-        c.pink(cv.labels?.ui?.contact || "contact"),
+        c.pink(cv.labels?.sections?.contact || "$ cat contact"),
         [
           cols(c.cyan(fields.email || "Email"), ct.email || "-"),
           cols(c.cyan(fields.linkedin || "LinkedIn"), ct.linkedin || "-"),
@@ -337,5 +337,6 @@ export function render404({ host, lang = "en" } = {}) {
     ctr(c.bold(msg), stripAnsi(msg).length),
     "",
   ];
-  return page(cv, [box(c.pink("404"), cow, BOX_W)], host, lang);
+  // "/404" no es ninguna ruta del menú: así el $ help muestra todas, Home incluida.
+  return page(cv, [box(c.pink("404"), cow, BOX_W)], host, lang, "/404");
 }
