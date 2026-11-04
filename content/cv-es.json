@@ -242,13 +242,13 @@
   ],
   "labels": {
     "sections": {
-      "whoami": "$whoami",
+      "whoami": "$ whoami",
       "skills": "$ echo $SKILLS",
       "skillsFull": "$ echo ${SKILLS[@]}",
-      "experience": "$jobs --limit 4",
-      "experienceFull": "$jobs --all",
+      "experience": "$ jobs --limit 4",
+      "experienceFull": "$ jobs --all",
       "education": "$ grep -E 'edu|cert' .",
-      "legend": "$help"
+      "legend": "$ help"
     },
     "legend": {
       "/": "Inicio",

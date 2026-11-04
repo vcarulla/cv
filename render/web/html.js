@@ -163,7 +163,7 @@ function legendHtml(host, lang, currentPath = "/") {
   const items = navItems(lg, { excludePath: currentPath });
   return `
   <nav class="box" role="navigation" aria-label="${esc(ui.siteNavigation || "Site navigation")}">
-    <div class="box-title">${esc(s.legend || "$help")}</div>
+    <div class="box-title">${esc(s.legend || "$ help")}</div>
     <div class="box-body">
       ${items
         .map(
@@ -199,7 +199,7 @@ export function htmlHome(host, lang = "en") {
   ${renderHeaderHtml(cv)}
 
   <div class="box">
-    <div class="box-title">${esc(s.whoami || "$whoami")}</div>
+    <div class="box-title">${esc(s.whoami || "$ whoami")}</div>
     <div class="box-body">
       ${(cv.summary || [])
         .map((s, i) => {
@@ -229,14 +229,14 @@ export function htmlHome(host, lang = "en") {
   </div>
 
   <div class="box">
-    <div class="box-title">${esc(s.experience || "$jobs")}</div>
+    <div class="box-title">${esc(s.experience || "$ jobs --limit 4")}</div>
     <div class="box-body">
       ${renderJobsHtml(experience)}
     </div>
   </div>
 
   <div class="box">
-    <div class="box-title">${esc(s.education || "$cv | grep education")}</div>
+    <div class="box-title">${esc(s.education || "$ grep -E 'edu|cert' .")}</div>
     <div class="box-body">
       <p class="bold">${esc(ui.education || "EDUCATION")}</p>
       <div class="spacer"></div>
@@ -333,7 +333,7 @@ export function htmlExperience(host, lang = "en") {
   ${renderHeaderHtml(cv)}
 
   <div class="box">
-    <div class="box-title">${esc(s.experienceFull || "$jobs --all")}</div>
+    <div class="box-title">${esc(s.experienceFull || "$ jobs --all")}</div>
     <div class="box-body">
       ${renderJobsHtml(experience)}
     </div>

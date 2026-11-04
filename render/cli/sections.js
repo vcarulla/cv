@@ -162,7 +162,7 @@ const page = (cv, boxes, host, lang, currentPath) =>
   [
     ...boxes,
     box(
-      c.pink(cv.labels?.sections?.legend || "$help"),
+      c.pink(cv.labels?.sections?.legend || "$ help"),
       legend(host, cv.labels, lang, currentPath),
       BOX_W,
     ),
@@ -183,15 +183,15 @@ export function renderHome({ host, lang = "en" }) {
   return page(
     cv,
     [
-      box(c.pink(s.whoami || "$whoami"), whoami, BOX_W),
-      box(c.pink(s.skills || "$./skills"), renderSkillsCompact(cv), BOX_W),
+      box(c.pink(s.whoami || "$ whoami"), whoami, BOX_W),
+      box(c.pink(s.skills || "$ echo $SKILLS"), renderSkillsCompact(cv), BOX_W),
       box(
-        c.pink(s.experience || "$jobs"),
+        c.pink(s.experience || "$ jobs --limit 4"),
         renderJobs(cv.experience || []),
         BOX_W,
       ),
       box(
-        c.pink(s.education || "$cv | grep education"),
+        c.pink(s.education || "$ grep -E 'edu|cert' ."),
         renderEducation(cv),
         BOX_W,
       ),
@@ -206,7 +206,7 @@ export function renderHelp({ host, lang = "en" }) {
   const cv = data.cv(lang);
   return (
     box(
-      c.pink(cv.labels?.sections?.legend || "$help"),
+      c.pink(cv.labels?.sections?.legend || "$ help"),
       legendLines(host, cv.labels, lang, { showUsage: true }),
       BOX_W,
     ) + "\n"
@@ -242,7 +242,7 @@ export function renderExperience({ host, lang = "en" } = {}) {
     cv,
     [
       box(
-        c.pink(s.experienceFull || "$jobs --all"),
+        c.pink(s.experienceFull || "$ jobs --all"),
         renderJobs(experience),
         BOX_W,
       ),
