@@ -69,14 +69,16 @@ function shell(
   <meta property="og:description" content="${esc(desc)}"/>
   <meta property="og:url" content="${esc(canonical)}"/>
   <meta property="og:site_name" content="${esc(host)}"/>
-  <meta property="og:image" content="https://${esc(host)}/assets/img/og-image.svg"/>
+  <meta property="og:image" content="https://${esc(host)}/assets/img/og-image.png"/>
+  <meta property="og:image:type" content="image/png"/>
   <meta property="og:image:width" content="1200"/>
   <meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="${esc(`${cv.identity.name} — ${cv.identity.title}`)}"/>
 
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="${esc(title)}"/>
   <meta name="twitter:description" content="${esc(desc)}"/>
-  <meta name="twitter:image" content="https://${esc(host)}/assets/img/og-image.svg"/>
+  <meta name="twitter:image" content="https://${esc(host)}/assets/img/og-image.png"/>
 
   <link rel="preload" href="/assets/css/styles.min.css" as="style">
   <link rel="stylesheet" href="/assets/css/styles.min.css">
