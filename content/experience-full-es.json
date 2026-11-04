@@ -5,12 +5,14 @@
       "role": "DevOps Engineer | SRE",
       "period": "Mar 2024 – Presente",
       "highlights": [
-        "Modernización y estandarización de flujos de CI/CD mediante el diseño de pipelines parametrizados y controlados, incrementando la confiabilidad de los despliegues y habilitando modelos self-service entre equipos.",
-        "Fortalecimiento de la orquestación de contenedores y de la estabilidad de la plataforma en entornos productivos.",
-        "Implementación de prácticas centralizadas de gestión de secretos en sistemas distribuidos.",
-        "Reorganización y fortalecimiento de la observabilidad mediante soluciones de visibilidad rápida, normalización de métricas a través de una capa de servicio interna e integración de alertas basadas en umbrales en sistemas centralizados, promoviendo su adopción técnica en los equipos."
+        "Diseño e implementación de una plataforma de contenedores híbrida on-prem/AWS (Docker Swarm, Traefik, Harbor, Vault, Consul), impulsando la migración desde un swarm legacy Linux/Windows.",
+        "Estandarización de CI/CD con pipelines parametrizados en Jenkins y GitLab CI, habilitando despliegues self-service entre equipos.",
+        "Análisis de causa raíz de incidentes productivos en un entorno bancario: memoria/GC de la JVM, compatibilidad TLS/JVM, failover de SQL Server, MTU de redes overlay y conectividad con terceros.",
+        "Operación de clusters AKS productivos: actualizaciones de versión, ajuste de probes/recursos y troubleshooting de balanceadores.",
+        "Gestión centralizada de secretos con Vault y hardening de seguridad: ciclo de vida de certificados y campañas de parcheo de vulnerabilidades.",
+        "Reconstrucción de la observabilidad con Grafana/Loki, Prometheus, Zabbix y Kuma, con alertas por umbrales adoptadas por los equipos."
       ],
-      "technologies": "Azure · Kubernetes (AKS, k3s) · Helm · GitLab CI · Jenkins · Elastic Stack · Zabbix · Kuma · Vault · Consul · Harbor · Proxmox · Docker Swarm"
+      "technologies": "Azure · AWS · Kubernetes (AKS) · Helm · Docker Swarm · Traefik · Harbor · Jenkins · GitLab CI · Vault · Consul · Elastic Stack · Grafana/Loki · Prometheus · Zabbix · Kuma · Kafka"
     },
     {
       "company": "Fpay",
