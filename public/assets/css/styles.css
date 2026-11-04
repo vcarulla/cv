@@ -79,7 +79,7 @@ ul.bullets li { padding-left: 8px; }
 .job-header { margin-bottom: 4px; }
 .tech { color: var(--purple); padding-left: 8px; margin-top: 4px; }
 .skills-list { padding-left: 8px; }
-.lang { padding-left: 8px; margin: 2px 0; }
+.lang { padding-left: 8px; margin: 2px 0; white-space: pre-wrap; }
 .cert { margin-bottom: 10px; }
 .skip-link {
   position: absolute;

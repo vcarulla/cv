@@ -158,4 +158,14 @@ describe("worker routing", () => {
       assert.ok(out.includes("$ cat contact"), ua);
     }
   });
+  it("aligns language levels even when names differ in length", async () => {
+    const out = await (await get("/es", { ua: "curl/8.0" })).text();
+    const cols = out
+      .replace(/\x1b\[[0-9;]*m/g, "")
+      .split("\n")
+      .filter((l) => /ESPAÑOL|INGLÉS/.test(l))
+      .map((l) => l.search(/Nativo|Competencia/));
+    assert.equal(cols.length, 2);
+    assert.equal(cols[0], cols[1]);
+  });
 });

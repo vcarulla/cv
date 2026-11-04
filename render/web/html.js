@@ -186,6 +186,9 @@ export function htmlHome(host, lang = "en") {
   const ui = cv.labels?.ui || {};
   const descs = cv.labels?.descriptions || {};
   const { experience = [] } = cv;
+  const langs = cv.languages || [];
+  // Mismo ancho que en la CLI: niveles alineados aunque los nombres difieran
+  const langW = Math.max(0, ...langs.map((l) => l.name.length));
 
   return shell(
     {
@@ -219,10 +222,10 @@ export function htmlHome(host, lang = "en") {
       <p class="skills-list">${(cv.skills?.areas || []).map(esc).join(" · ")}</p>
       <div class="spacer"></div>
       <p class="purple bold">${esc(ui.languages || "LANGUAGES")}</p>
-      ${(cv.languages || [])
+      ${langs
         .map(
           (l) =>
-            `<p class="lang"><span class="bold">${esc(l.name.toUpperCase())}</span>  ${esc(l.level)}</p>`,
+            `<p class="lang"><span class="bold">${esc(l.name.toUpperCase().padEnd(langW))}</span>  ${esc(l.level)}</p>`,
         )
         .join("\n      ")}
     </div>

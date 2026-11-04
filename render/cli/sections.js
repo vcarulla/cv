@@ -105,6 +105,8 @@ function renderSkillsCompact(cv) {
   const areas = cv.skills?.areas || [];
   const langs = cv.languages || [];
   const ui = cv.labels?.ui || {};
+  // Nombres al mismo ancho para que los niveles queden alineados (INGLÉS < ESPAÑOL)
+  const nameW = Math.max(0, ...langs.map((l) => l.name.length));
 
   const areaLines = [];
   let line = "";
@@ -125,7 +127,9 @@ function renderSkillsCompact(cv) {
     ...areaLines,
     "",
     c.purple(ui.languages || "LANGUAGES"),
-    ...langs.map((l) => `  ${c.bold(l.name.toUpperCase())}  ${l.level}`),
+    ...langs.map(
+      (l) => `  ${c.bold(l.name.toUpperCase().padEnd(nameW))}  ${l.level}`,
+    ),
   ];
 }
 
