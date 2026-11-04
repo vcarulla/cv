@@ -8,13 +8,15 @@
     "deploy": "wrangler deploy",
     "test": "node --test test/*.test.js",
     "lint": "biome check .",
-    "lint:fix": "biome check --write ."
+    "lint:fix": "biome check --write .",
+    "build:css": "esbuild public/assets/css/styles.css --minify --outfile=public/assets/css/styles.min.css --log-level=warning"
   },
   "engines": {
     "node": ">=22"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.4",
+    "esbuild": "^0.28.2",
     "wrangler": "^4.156.0"
   }
 }

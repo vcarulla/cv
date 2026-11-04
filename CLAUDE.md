@@ -16,6 +16,8 @@ CV "curl-first": la misma URL responde **texto ANSI** a `curl`/`wget`/`httpie` y
 - `npm run deploy` — deploy a Cloudflare.
 - `npm test` — corre la suite de `test/`.
 - `npm run lint` / `npm run lint:fix` — Biome (check / auto-fix).
+- `npm run build:css` — regenera `public/assets/css/styles.min.css` desde `styles.css`
+  (esbuild). Un test falla si el minificado quedó desactualizado.
 
 ## Reglas del proyecto
 - **Probar local antes de deploy o commit.** `npm test` + lint en verde, y mirar la
@@ -40,7 +42,10 @@ CV "curl-first": la misma URL responde **texto ANSI** a `curl`/`wget`/`httpie` y
     tocás el cálculo de ancho, corré los tests de `box`/render (cubren zero-width y ANSI).
 - **`render/web/html.js`** — render HTML. **Todo lo que viene de datos pasa por `esc()`**
   (anti-XSS). La CSP del Worker usa hashes `sha256` de los `<script>` inline: si cambiás
-  un script inline, hay que recalcular su hash en `src/index.js`.
+  un script inline, hay que recalcular su hash en `src/index.js` (`test/assets.test.js`
+  falla y muestra el hash que falta).
+- **URLs canónicas**: inglés sin prefijo (`/skills`), español con `/es` (`/es/skills`).
+  Canonical, hreflang y sitemap usan la misma; el 404 va con `noindex` y sin canonical.
 
 ## Automatizaciones locales (`.claude/`, no commiteadas)
 - Hooks `PostToolUse`: Biome auto-fix al editar; `node --test` al tocar `render/`, `src/`
